@@ -35,17 +35,17 @@ public class Folder extends DomainEntity {
 	}
 	
 	//Relationships
-	private Actor actor;
+	private Chorbi chorbi;
 
 
 	@Valid
 	@NotNull
 	@ManyToOne()
 //	@NotFound(action = NotFoundAction.IGNORE)
-	public Actor getActor() {
-		return actor;
+	public Chorbi getChorbi() {
+		return chorbi;
 	}
-	public void setActor(Actor actor) {
-		this.actor = actor;
+	public void setChorbi(Chorbi chorbi) {
+		this.chorbi = chorbi;
 	}
 }
