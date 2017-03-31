@@ -14,15 +14,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import domain.Actor;
+import domain.CreditCard;
 
 @Repository
-public interface ActorRepository extends JpaRepository<Actor, Integer> {
+public interface CreditCardRepository extends JpaRepository<CreditCard, Integer> {
 
-	@Query("select a from Actor a where a.userAccount.id = ?1")
-	Actor findByUserAccount(int id);
-
-	@Query("select a from Actor a where a.id = ?1")
-	Actor findOne(int id);
+	@Query("select c from CreditCard c where c.chorbi.id = ?1")
+	CreditCard findByChorbiId(int chorbiId);
 
 }
