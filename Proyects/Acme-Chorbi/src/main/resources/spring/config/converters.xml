@@ -43,9 +43,6 @@
 		<bean class="converters.LikeToStringConverter" />
 		<bean class="converters.StringToLikeConverter" />
 		
-		<bean class="converters.MessageToStringConverter" />
-		<bean class="converters.StringToMessageConverter" />
-		
 		<bean class="converters.SearchTemplateToStringConverter" />
 		<bean class="converters.StringToSearchTemplateConverter" />
 		

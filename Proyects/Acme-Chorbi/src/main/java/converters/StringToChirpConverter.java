@@ -6,9 +6,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.MessageRepository;
-import domain.Chorbi;
-import domain.Message;
+import repositories.ChirpRepository;
+import domain.Chirp;
 
 @Component
 @Transactional
@@ -20,7 +19,7 @@ public class StringToChirpConverter implements Converter<String, Chirp> {
 
 	@Override
 	public Chirp convert(final String text) {
-		Chorbi result;
+		Chirp result;
 		int id;
 
 		try {
@@ -32,7 +31,5 @@ public class StringToChirpConverter implements Converter<String, Chirp> {
 
 		return result;
 	}
-
-}
 
 }

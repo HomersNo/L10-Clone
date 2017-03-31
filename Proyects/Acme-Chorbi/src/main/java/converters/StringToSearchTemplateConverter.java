@@ -6,9 +6,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.MessageRepository;
-import domain.Chorbi;
-import domain.Message;
+import repositories.SearchTemplateRepository;
+import domain.SearchTemplate;
 
 @Component
 @Transactional
@@ -32,7 +31,5 @@ public class StringToSearchTemplateConverter implements Converter<String, Search
 
 		return result;
 	}
-
-}
 
 }

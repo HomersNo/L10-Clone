@@ -6,7 +6,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Folder;
+import repositories.LikeRepository;
+import domain.Like;
 
 @Component
 @Transactional
@@ -18,7 +19,7 @@ public class StringToLikeConverter implements Converter<String, Like> {
 
 	@Override
 	public Like convert(final String text) {
-		Folder result;
+		Like result;
 		int id;
 
 		try {

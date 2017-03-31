@@ -6,9 +6,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.MessageRepository;
+import repositories.ChorbiRepository;
 import domain.Chorbi;
-import domain.Message;
 
 @Component
 @Transactional
@@ -32,7 +31,5 @@ public class StringToChorbiConverter implements Converter<String, Chorbi> {
 
 		return result;
 	}
-
-}
 
 }
