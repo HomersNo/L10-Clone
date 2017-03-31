@@ -5,20 +5,20 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Message;
+import domain.SearchTemplate;
 
 @Component
 @Transactional
-public class MessageToStringConverter implements Converter<Message, String> {
+public class SearchTemplateToStringConverter implements Converter<SearchTemplate, String> {
 
 	@Override
-	public String convert(Message message) {
+	public String convert(final SearchTemplate st) {
 		String result;
 
-		if (message == null)
+		if (st == null)
 			result = null;
 		else
-			result = String.valueOf(message.getId());
+			result = String.valueOf(st.getId());
 
 		return result;
 	}

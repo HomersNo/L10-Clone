@@ -6,26 +6,26 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.MessageRepository;
-import domain.Message;
+import repositories.CreditCardRepository;
+import domain.CreditCard;
 
 @Component
 @Transactional
-public class StringToMessageConverter implements Converter<String, Message> {
+public class StringToCreditCardConverter implements Converter<String, CreditCard> {
 
 	@Autowired
-	MessageRepository	messageRepository;
+	CreditCardRepository	creditCardRepository;
 
 
 	@Override
-	public Message convert(String text) {
-		Message result;
+	public CreditCard convert(final String text) {
+		CreditCard result;
 		int id;
 
 		try {
 			id = Integer.valueOf(text);
-			result = messageRepository.findOne(id);
-		} catch (Throwable oops) {
+			result = this.creditCardRepository.findOne(id);
+		} catch (final Throwable oops) {
 			throw new IllegalArgumentException(oops);
 		}
 

@@ -7,6 +7,8 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -17,31 +19,30 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Message extends DomainEntity {
+public class Chirp extends DomainEntity {
 
-	// Constructor
+	// Constructors -----------------------------------------------------------
 
-	public Message() {
+	public Chirp() {
 		super();
 	}
 
 
-	// Attributes
+	// Attributes -------------------------------------------------------------
 
-	private String	title;
+	private String	subject;
 	private String	text;
+	private String	attachments;
 	private Date	moment;
-	private String	attachment;
 
 
 	@NotBlank
-	public String getTitle() {
-		return this.title;
+	public String getSubject() {
+		return this.subject;
 	}
-	public void setTitle(final String title) {
-		this.title = title;
+	public void setSubject(final String subject) {
+		this.subject = subject;
 	}
-
 	@NotBlank
 	public String getText() {
 		return this.text;
@@ -50,8 +51,16 @@ public class Message extends DomainEntity {
 		this.text = text;
 	}
 
+	@URL
+	public String getAttachments() {
+		return this.attachments;
+	}
+	public void setAttachments(final String attachments) {
+		this.attachments = attachments;
+	}
+
 	@Past
-	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getMoment() {
 		return this.moment;
@@ -60,16 +69,8 @@ public class Message extends DomainEntity {
 		this.moment = moment;
 	}
 
-	@URL
-	public String getAttachment() {
-		return this.attachment;
-	}
-	public void setAttachment(final String attachment) {
-		this.attachment = attachment;
-	}
 
-
-	// Relationships
+	// Relationships ----------------------------------------------------------
 
 	private Folder	folder;
 	private Actor	sender;
