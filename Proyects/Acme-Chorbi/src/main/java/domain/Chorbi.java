@@ -18,93 +18,95 @@ public class Chorbi extends Actor {
 
 	// Constructors -----------------------------------------------------------
 
-		public Chorbi() {
-			super();
-		}
+	public Chorbi() {
+		super();
+	}
 
-		// Attributes -------------------------------------------------------------
-		
-		private String picture;
-		private String description;
-		private String relationshipType;
-		private Date bithDate;
-		private String genre;
-		private Boolean banned;
-		private String country;
-		private String state;
-		private String province;
-		private String city;
-		
-		@NotBlank
-		@URL
-		public String getPicture() {
-			return picture;
-		}
-		public void setPicture(String picture) {
-			this.picture = picture;
-		}
-		@NotBlank
-		public String getDescription() {
-			return description;
-		}
-		public void setDescription(String description) {
-			this.description = description;
-		}
-		@NotBlank
-		@Pattern(regexp = "^ACTIVITIES|FRIENDSHIP|LOVE$")
-		public String getRelationshipType() {
-			return relationshipType;
-		}
-		public void setRelationshipType(String relationshipType) {
-			this.relationshipType = relationshipType;
-		}
-		@Past
-		public Date getBithDate() {
-			return bithDate;
-		}
-		public void setBithDate(Date bithDate) {
-			this.bithDate = bithDate;
-		}
-		@NotBlank
-		@Pattern(regexp = "^MAN|WOMAN$")
-		public String getGenre() {
-			return genre;
-		}
-		public void setGenre(String genre) {
-			this.genre = genre;
-		}
-		public Boolean getBanned() {
-			return banned;
-		}
-		public void setBanned(Boolean banned) {
-			this.banned = banned;
-		}
-		public String getCountry() {
-			return country;
-		}
-		public void setCountry(String country) {
-			this.country = country;
-		}
-		public String getState() {
-			return state;
-		}
-		public void setState(String state) {
-			this.state = state;
-		}
-		public String getProvince() {
-			return province;
-		}
-		public void setProvince(String province) {
-			this.province = province;
-		}
-		@NotBlank
-		public String getCity() {
-			return city;
-		}
-		public void setCity(String city) {
-			this.city = city;
-		}
 
-		// Relationships ----------------------------------------------------------
+	// Attributes -------------------------------------------------------------
+
+	private String	picture;
+	private String	description;
+	private String	relationshipType;
+	private Date	birthDate;
+	private String	genre;
+	private Boolean	banned;
+	private String	country;
+	private String	state;
+	private String	province;
+	private String	city;
+
+
+	@NotBlank
+	@URL
+	public String getPicture() {
+		return this.picture;
+	}
+	public void setPicture(final String picture) {
+		this.picture = picture;
+	}
+	@NotBlank
+	public String getDescription() {
+		return this.description;
+	}
+	public void setDescription(final String description) {
+		this.description = description;
+	}
+	@NotBlank
+	@Pattern(regexp = "^ACTIVITIES|FRIENDSHIP|LOVE$")
+	public String getRelationshipType() {
+		return this.relationshipType;
+	}
+	public void setRelationshipType(final String relationshipType) {
+		this.relationshipType = relationshipType;
+	}
+	@Past
+	public Date getBirthDate() {
+		return this.birthDate;
+	}
+	public void setBirthDate(final Date birthDate) {
+		this.birthDate = birthDate;
+	}
+	@NotBlank
+	@Pattern(regexp = "^MAN|WOMAN$")
+	public String getGenre() {
+		return this.genre;
+	}
+	public void setGenre(final String genre) {
+		this.genre = genre;
+	}
+	public Boolean getBanned() {
+		return this.banned;
+	}
+	public void setBanned(final Boolean banned) {
+		this.banned = banned;
+	}
+	public String getCountry() {
+		return this.country;
+	}
+	public void setCountry(final String country) {
+		this.country = country;
+	}
+	public String getState() {
+		return this.state;
+	}
+	public void setState(final String state) {
+		this.state = state;
+	}
+	public String getProvince() {
+		return this.province;
+	}
+	public void setProvince(final String province) {
+		this.province = province;
+	}
+	@NotBlank
+	public String getCity() {
+		return this.city;
+	}
+	public void setCity(final String city) {
+		this.city = city;
+	}
+
+	// Relationships ----------------------------------------------------------
 
 }

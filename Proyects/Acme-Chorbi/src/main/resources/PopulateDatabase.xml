@@ -110,7 +110,44 @@
 		<property name="userAccount" ref="userAccount2" />
 	</bean>
 	
-	<!-- CUSTOMER -->
+	<!-- CREDITCARD -->
+	<bean id="creditCard1" class="domain.CreditCard">
+		<property name="holderName" value="Edurne"/>
+		<property name="brandName" value="VISA"/>
+		<property name="creditCardNumber" value="4532896667885495"/>
+		<property name="expirationMonth" value="12"/>
+		<property name="expirationYear" value="19"/>
+		<property name="CVV" value="842"/>
+	</bean>
+	
+	<bean id="creditCard2" class="domain.CreditCard">
+		<property name="holderName" value="Nefasto"/>
+		<property name="brandName" value="VISA"/>
+		<property name="creditCardNumber" value="5497733952520638"/>
+		<property name="expirationMonth" value="7"/>
+		<property name="expirationYear" value="18"/>
+		<property name="CVV" value="842"/>
+	</bean>
+	
+	<bean id="creditCard3" class="domain.CreditCard">
+		<property name="holderName" value="Francisco"/>
+		<property name="brandName" value="VISA"/>
+		<property name="creditCardNumber" value="6011989537619189"/>
+		<property name="expirationMonth" value="4"/>
+		<property name="expirationYear" value="22"/>
+		<property name="CVV" value="122"/>
+	</bean>
+	
+	<bean id="creditCard4" class="domain.CreditCard">
+		<property name="holderName" value="Talia"/>
+		<property name="brandName" value="VISA"/>
+		<property name="creditCardNumber" value="377409719476986"/>
+		<property name="expirationMonth" value="1"/>
+		<property name="expirationYear" value="20"/>
+		<property name="CVV" value="487"/>
+	</bean>
+	
+	<!-- CHORBI -->
 	<bean id="chorbi1" class="domain.Chorbi">
 		<property name="name" value="Edurne" />
 		<property name="surname" value="Almagro" />
@@ -128,6 +165,7 @@
 		<property name="province" value="Alicante"/>
 		<property name="city" value="Alicante"/>
 		
+		<property name="creditCard" ref="creditCard1"/>
 		<property name="userAccount" ref="userAccount3" />
 	</bean>
 	
@@ -148,6 +186,7 @@
 		<property name="province" value="Sevilla"/>
 		<property name="city" value="El zaudín"/>
 
+		<property name="creditCard" ref="creditCard2"/>
 		<property name="userAccount" ref="userAccount4" />
 	</bean>
 	
@@ -168,6 +207,7 @@
 		<property name="province" value="Sevilla"/>
 		<property name="city" value="Camas"/>
 
+		<property name="creditCard" ref="creditCard3"/>
 		<property name="userAccount" ref="userAccount5" />
 	</bean>
 	
@@ -188,6 +228,7 @@
 		<property name="province" value="Wyandotte"/>
 		<property name="city" value="Kansas City"/>
 
+		<property name="creditCard" ref="creditCard4"/>
 		<property name="userAccount" ref="userAccount6" />
 	</bean>
 	
@@ -377,14 +418,36 @@
 	</bean>
 	
 	<!-- LIKES -->
+	<bean id="like1" class="domain.Like">
+		<property name="comment" value="Guapi"/>
+		<property name="moment" value="2017/03/25 13:45" />
+		<property name="liked" ref="chorbi3" />
+		<property name="chorbi" ref="chorbi4" />
+	</bean>
 	
+	<bean id="like2" class="domain.Like">
+		<property name="comment" value="Un dark souls?"/>
+		<property name="moment" value="2017/03/30 21:43" />
+		<property name="liked" ref="chorbi3" />
+		<property name="chorbi" ref="chorbi1" />
+	</bean>
+	
+	<bean id="like3" class="domain.Like">
+		<property name="comment" value="De SeBihllYaaA??¿?"/>
+		<property name="moment" value="2017/03/31 12:00" />
+		<property name="liked" ref="chorbi4" />
+		<property name="chorbi" ref="chorbi2" />
+	</bean>
+	
+	
+	<!-- SYSTEM CONFIGURATION -->
 	<bean id="systemConfiguration" class="domain.SystemConfiguration">
 		<property name="banners"/>
 			<list>
 				<value>http://2.bp.blogspot.com/-8TFZxUDrFCg/UEx8iJXnZPI/AAAAAAAAARw/RgR7KVxC42g/s1600/Absolutely-Random-banner.jpg</value>
 				<value>http://www.google.es/</value>
 			</list>
-		<property name="cacheTime" value="2017/03/30"/>
+		<property name="cacheTime" value="2017/03/31 12:00"/>
 	</bean>
 	
 </beans>
