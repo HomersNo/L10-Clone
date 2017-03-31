@@ -1,83 +1,70 @@
-
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
-
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Chorbi extends Actor {
+public class SearchTemplate extends DomainEntity{
 
 	// Constructors -----------------------------------------------------------
 
-		public Chorbi() {
+		public SearchTemplate() {
 			super();
 		}
 
 		// Attributes -------------------------------------------------------------
 		
-		private String picture;
-		private String description;
 		private String relationshipType;
-		private Date bithDate;
+		private Integer age;
 		private String genre;
-		private Boolean banned;
+		private String keyWord;
+		private Date moment;
 		private String country;
 		private String state;
-		private String province;
-		private String city;
 		
-		@NotBlank
-		@URL
-		public String getPicture() {
-			return picture;
-		}
-		public void setPicture(String picture) {
-			this.picture = picture;
-		}
-		@NotBlank
-		public String getDescription() {
-			return description;
-		}
-		public void setDescription(String description) {
-			this.description = description;
-		}
-		@NotBlank
-		@Pattern(regexp = "^ACTIVITIES|FRIENDSHIP|LOVE$")
+		
 		public String getRelationshipType() {
 			return relationshipType;
 		}
 		public void setRelationshipType(String relationshipType) {
 			this.relationshipType = relationshipType;
 		}
-		@Past
-		public Date getBithDate() {
-			return bithDate;
+		public Integer getAge() {
+			return age;
 		}
-		public void setBithDate(Date bithDate) {
-			this.bithDate = bithDate;
+		public void setAge(Integer age) {
+			this.age = age;
 		}
-		@NotBlank
-		@Pattern(regexp = "^MAN|WOMAN$")
 		public String getGenre() {
 			return genre;
 		}
 		public void setGenre(String genre) {
 			this.genre = genre;
 		}
-		public Boolean getBanned() {
-			return banned;
+		public String getKeyWord() {
+			return keyWord;
 		}
-		public void setBanned(Boolean banned) {
-			this.banned = banned;
+		public void setKeyWord(String keyWord) {
+			this.keyWord = keyWord;
+		}
+		@Past
+		public Date getMoment() {
+			return moment;
+		}
+		public void setMoment(Date moment) {
+			this.moment = moment;
 		}
 		public String getCountry() {
 			return country;
@@ -97,7 +84,6 @@ public class Chorbi extends Actor {
 		public void setProvince(String province) {
 			this.province = province;
 		}
-		@NotBlank
 		public String getCity() {
 			return city;
 		}
@@ -105,6 +91,30 @@ public class Chorbi extends Actor {
 			this.city = city;
 		}
 
+		private String province;
+		private String city;
+
 		// Relationships ----------------------------------------------------------
+		private Collection<Chorbi> chorbies;
+		private Chorbi chorbi;
+
+		@Valid
+		@NotNull
+		@ManyToMany(cascade = CascadeType.ALL)
+		public Collection<Chorbi> getChorbies() {
+			return chorbies;
+		}
+		public void setChorbies(Collection<Chorbi> chorbies) {
+			this.chorbies = chorbies;
+		}
+		
+		@Valid
+		@OneToOne(optional = false)
+		public Chorbi getChorbi() {
+			return chorbi;
+		}
+		public void setChorbi(Chorbi chorbi) {
+			this.chorbi = chorbi;
+		}
 
 }
