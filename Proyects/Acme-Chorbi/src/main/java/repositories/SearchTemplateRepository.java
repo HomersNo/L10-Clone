@@ -14,15 +14,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import domain.Actor;
-
 @Repository
-public interface ActorRepository extends JpaRepository<Actor, Integer> {
+public interface SearchTemplateRepository extends JpaRepository<SearchTemplate, Integer> {
 
-	@Query("select a from Actor a where a.userAccount.id = ?1")
-	Actor findByUserAccount(int id);
-
-	@Query("select a from Actor a where a.id = ?1")
-	Actor findOne(int id);
+	@Query("select st from SearchTemplate st where st.chorbi.id = ?1")
+	SearchTemplate findByChorbiId(int chorbiId);
 
 }
