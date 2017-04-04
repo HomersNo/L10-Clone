@@ -10,6 +10,8 @@
 
 package repositories;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -24,5 +26,8 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	
 	@Query("Select c from Chorbi c where c.userAccount.id = ?1")
 	Chorbi findByUserAccountId(int userAccountId);
+
+	@Query("Select c from Chorbi c where c.banned = false")
+	Collection<Chorbi> findAllNotBanned();
 
 }

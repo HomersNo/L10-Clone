@@ -36,7 +36,7 @@ public class SearchTemplate extends DomainEntity {
 	private String	relationshipType;
 	private Integer	age;
 	private String	genre;
-	private String	keyWord;
+	private String	keyword;
 	private Date	moment;
 	private String	country;
 	private String	state;
@@ -66,11 +66,11 @@ public class SearchTemplate extends DomainEntity {
 	public void setGenre(final String genre) {
 		this.genre = genre;
 	}
-	public String getKeyWord() {
-		return this.keyWord;
+	public String getKeyword() {
+		return this.keyword;
 	}
-	public void setKeyWord(final String keyWord) {
-		this.keyWord = keyWord;
+	public void setKeyword(final String keyword) {
+		this.keyword = keyword;
 	}
 	@Past
 	@Temporal(TemporalType.TIMESTAMP)
