@@ -24,7 +24,7 @@ public interface ChirpRepository extends JpaRepository<Chirp, Integer> {
 	@Query("select c from Chirp c where c.folder.id = ?1")
 	Collection<Chirp> findByFolderId(int folderId);
 
-	@Query("select c from Chirp c where c.chorbi.id = ?1")
+	@Query("select c from Chirp c where c.recipient.id = ?1")
 	Collection<Chirp> findAllByChorbiId(int chorbiId);
 
 }
