@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 
 import repositories.FolderRepository;
 import domain.Actor;
+import domain.Chorbi;
 import domain.Folder;
 
 @Service
@@ -31,14 +32,14 @@ public class FolderService {
 	//Auxiliary Services
 
 	@Autowired
-	private ActorService		actorService;
+	private ChorbiService		actorService;
 
 
 	//CRUD
 
-	public Folder create(final Actor actor) {
+	public Folder create(final Chorbi actor) {
 		final Folder result = new Folder();
-		result.setActor(actor);
+		result.setChorbi(actor);
 		return result;
 	}
 
@@ -56,16 +57,16 @@ public class FolderService {
 	}
 
 	public Collection<Folder> findAllByPrincipal() {
-		Actor actor;
+		Chorbi actor;
 		Collection<Folder> result;
 		actor = this.actorService.findByPrincipal();
-		result = this.folderRepository.findAllByActor(actor.getId());
+		result = this.folderRepository.findAllByChorbi(actor.getId());
 		return result;
 	}
 
 	//Business Methods
 
-	public Collection<Folder> initFolders(final Actor actor) {
+	public Collection<Folder> initFolders(final Chorbi actor) {
 		Collection<Folder> result = new ArrayList<Folder>();
 		final Collection<Folder> aux = new ArrayList<Folder>();
 		Folder inbox;
@@ -83,8 +84,8 @@ public class FolderService {
 	}
 
 	public void checkPrincipal(final Folder folder) {
-		final Actor actor = this.actorService.findByPrincipal();
-		Assert.isTrue(actor.equals(folder.getActor()), "Dear User, you can't edit a folder that doesn't belong to you");
+		final Chorbi actor = this.actorService.findByPrincipal();
+		Assert.isTrue(actor.equals(folder.getChorbi()), "Dear User, you can't edit a folder that doesn't belong to you");
 	}
 
 	public void checkPrincipal(final int folderId) {
