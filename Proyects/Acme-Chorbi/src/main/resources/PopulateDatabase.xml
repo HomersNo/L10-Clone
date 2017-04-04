@@ -94,7 +94,7 @@
 	<!-- Other domain beans come here -->	
 	
 	<!-- ADMIN -->
-	<bean id="admin1" class="domain.Administrator">
+	<bean id="admin" class="domain.Administrator">
 		<property name="name" value="Administrador" />
 		<property name="surname" value="1" />
 		<property name="email" value="admin1@gmail.com" />
@@ -108,43 +108,6 @@
 		<property name="email" value="admin2@gmail.com" />
 		<property name="phoneNumber" value="2345" />
 		<property name="userAccount" ref="userAccount2" />
-	</bean>
-	
-	<!-- CREDITCARD -->
-	<bean id="creditCard1" class="domain.CreditCard">
-		<property name="holderName" value="Edurne"/>
-		<property name="brandName" value="VISA"/>
-		<property name="creditCardNumber" value="4532896667885495"/>
-		<property name="expirationMonth" value="12"/>
-		<property name="expirationYear" value="19"/>
-		<property name="CVV" value="842"/>
-	</bean>
-	
-	<bean id="creditCard2" class="domain.CreditCard">
-		<property name="holderName" value="Nefasto"/>
-		<property name="brandName" value="VISA"/>
-		<property name="creditCardNumber" value="5497733952520638"/>
-		<property name="expirationMonth" value="7"/>
-		<property name="expirationYear" value="18"/>
-		<property name="CVV" value="842"/>
-	</bean>
-	
-	<bean id="creditCard3" class="domain.CreditCard">
-		<property name="holderName" value="Francisco"/>
-		<property name="brandName" value="VISA"/>
-		<property name="creditCardNumber" value="6011989537619189"/>
-		<property name="expirationMonth" value="4"/>
-		<property name="expirationYear" value="22"/>
-		<property name="CVV" value="122"/>
-	</bean>
-	
-	<bean id="creditCard4" class="domain.CreditCard">
-		<property name="holderName" value="Talia"/>
-		<property name="brandName" value="VISA"/>
-		<property name="creditCardNumber" value="377409719476986"/>
-		<property name="expirationMonth" value="1"/>
-		<property name="expirationYear" value="20"/>
-		<property name="CVV" value="487"/>
 	</bean>
 	
 	<!-- CHORBI -->
@@ -165,7 +128,6 @@
 		<property name="province" value="Alicante"/>
 		<property name="city" value="Alicante"/>
 		
-		<property name="creditCard" ref="creditCard1"/>
 		<property name="userAccount" ref="userAccount3" />
 	</bean>
 	
@@ -186,7 +148,6 @@
 		<property name="province" value="Sevilla"/>
 		<property name="city" value="El zaudín"/>
 
-		<property name="creditCard" ref="creditCard2"/>
 		<property name="userAccount" ref="userAccount4" />
 	</bean>
 	
@@ -207,7 +168,6 @@
 		<property name="province" value="Sevilla"/>
 		<property name="city" value="Camas"/>
 
-		<property name="creditCard" ref="creditCard3"/>
 		<property name="userAccount" ref="userAccount5" />
 	</bean>
 	
@@ -228,69 +188,79 @@
 		<property name="province" value="Wyandotte"/>
 		<property name="city" value="Kansas City"/>
 
-		<property name="creditCard" ref="creditCard4"/>
 		<property name="userAccount" ref="userAccount6" />
+	</bean>
+	
+	<!-- CREDITCARD -->
+	<bean id="creditCard1" class="domain.CreditCard">
+		<property name="holderName" value="Edurne"/>
+		<property name="brandName" value="VISA"/>
+		<property name="creditCardNumber" value="4532896667885495"/>
+		<property name="expirationMonth" value="12"/>
+		<property name="expirationYear" value="19"/>
+		<property name="CVV" value="842"/>
+		<property name="chorbi" ref="chorbi1"/>
+	</bean>
+	
+	<bean id="creditCard2" class="domain.CreditCard">
+		<property name="holderName" value="Nefasto"/>
+		<property name="brandName" value="VISA"/>
+		<property name="creditCardNumber" value="5497733952520638"/>
+		<property name="expirationMonth" value="7"/>
+		<property name="expirationYear" value="18"/>
+		<property name="CVV" value="842"/>
+		<property name="chorbi" ref="chorbi2"/>
+	</bean>
+	
+	<bean id="creditCard3" class="domain.CreditCard">
+		<property name="holderName" value="Francisco"/>
+		<property name="brandName" value="VISA"/>
+		<property name="creditCardNumber" value="6011989537619189"/>
+		<property name="expirationMonth" value="4"/>
+		<property name="expirationYear" value="22"/>
+		<property name="CVV" value="122"/>
+		<property name="chorbi" ref="chorbi3"/>
 	</bean>
 	
 	<!-- FOLDER -->
 	<bean id="sent1" class="domain.Folder">
 		<property name="name" value="Sent" />
-		<property name="actor" ref="admin" />
+		<property name="chorbi" ref="chorbi1" />
 	</bean>
 	
 	<bean id="received1" class="domain.Folder">
 		<property name="name" value="Received" />
-		<property name="actor" ref="admin" />
+		<property name="chorbi" ref="chorbi1" />
 	</bean>
 	
-	<bean id="sent2" class="domain.Folder">
+		<bean id="sent2" class="domain.Folder">
 		<property name="name" value="Sent" />
-		<property name="actor" ref="admin2" />
+		<property name="chorbi" ref="chorbi2" />
 	</bean>
 	
 	<bean id="received2" class="domain.Folder">
 		<property name="name" value="Received" />
-		<property name="actor" ref="admin2" />
+		<property name="chorbi" ref="chorbi2" />
 	</bean>
 	
-	<bean id="sent3" class="domain.Folder">
+		<bean id="sent3" class="domain.Folder">
 		<property name="name" value="Sent" />
-		<property name="actor" ref="chorbi1" />
+		<property name="chorbi" ref="chorbi3" />
 	</bean>
 	
 	<bean id="received3" class="domain.Folder">
 		<property name="name" value="Received" />
-		<property name="actor" ref="chorbi1" />
+		<property name="chorbi" ref="chorbi3" />
 	</bean>
 	
 		<bean id="sent4" class="domain.Folder">
 		<property name="name" value="Sent" />
-		<property name="actor" ref="chorbi2" />
+		<property name="chorbi" ref="chorbi4" />
 	</bean>
 	
 	<bean id="received4" class="domain.Folder">
 		<property name="name" value="Received" />
-		<property name="actor" ref="chorbi2" />
-	</bean>
-	
-		<bean id="sent5" class="domain.Folder">
-		<property name="name" value="Sent" />
-		<property name="actor" ref="chorbi3" />
-	</bean>
-	
-	<bean id="received5" class="domain.Folder">
-		<property name="name" value="Received" />
-		<property name="actor" ref="chorbi3" />
-	</bean>
-	
-		<bean id="sent6" class="domain.Folder">
-		<property name="name" value="Sent" />
-		<property name="actor" ref="chorbi4" />
-	</bean>
-	
-	<bean id="received6" class="domain.Folder">
-		<property name="name" value="Received" />
-		<property name="actor" ref="chorbi4" />
+		<property name="chorbi" ref="chorbi4" />
 	</bean>
 	
 	<!-- MESSAGE -->
@@ -299,9 +269,9 @@
 		<property name="subject" value="Hola" />
 		<property name="text" value="Estoy jugando a la Play" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachment" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
-		<property name="recipient" ref="admin" />
-		<property name="sender" ref="admin2" />
+		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+		<property name="recipient" ref="chorbi1" />
+		<property name="sender" ref="chorbi2" />
 		<property name="folder" ref="received2" />
 	</bean>
 	
@@ -309,9 +279,9 @@
 		<property name="subject" value="Hola" />
 		<property name="text" value="Estoy jugando a la Play" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachment" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
-		<property name="recipient" ref="admin" />
-		<property name="sender" ref="admin2" />
+		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+		<property name="recipient" ref="chorbi1" />
+		<property name="sender" ref="chorbi2" />
 		<property name="folder" ref="received1" />
 	</bean>
 	
@@ -319,20 +289,20 @@
 		<property name="subject" value="Hola" />
 		<property name="text" value="¿Te vienes a cultura?" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachment" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
 		<property name="recipient" ref="chorbi2" />
 		<property name="sender" ref="chorbi1" />
-		<property name="folder" ref="sent3" />
+		<property name="folder" ref="sent1" />
 	</bean>
 	
 	<bean id="chirp4" class="domain.Chirp">
 		<property name="subject" value="Hola" />
 		<property name="text" value="¿Te vienes a cultura?" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachment" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
 		<property name="recipient" ref="chorbi2" />
 		<property name="sender" ref="chorbi1" />
-		<property name="folder" ref="received4" />
+		<property name="folder" ref="received2" />
 	</bean>
 	
 	
@@ -340,40 +310,40 @@
 		<property name="subject" value="Illo" />
 		<property name="text" value="La Switch mola" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachment" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
 		<property name="recipient" ref="chorbi3" />
 		<property name="sender" ref="chorbi4" />
-		<property name="folder" ref="received6" />
+		<property name="folder" ref="received3" />
 	</bean>
 	
 	<bean id="chirp6" class="domain.Chirp">
 		<property name="subject" value="Illo" />
 		<property name="text" value="La Switch mola" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachment" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
 		<property name="recipient" ref="chorbi3" />
 		<property name="sender" ref="chorbi4" />
-		<property name="folder" ref="sent5" />
+		<property name="folder" ref="sent4" />
 	</bean>
 	
 	<bean id="chirp7" class="domain.Chirp">
 		<property name="subject" value="¿Estás interesado en esto?" />
 		<property name="text" value="Era una broma" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachment" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
 		<property name="recipient" ref="chorbi3" />
 		<property name="sender" ref="chorbi4" />
-		<property name="folder" ref="sent6" />
+		<property name="folder" ref="sent4" />
 	</bean>
 	
 	<bean id="chirp8" class="domain.Chirp">
 		<property name="subject" value="¿Estás interesado en esto?" />
 		<property name="text" value="Era una broma" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachment" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
 		<property name="recipient" ref="chorbi3" />
 		<property name="sender" ref="chorbi4" />
-		<property name="folder" ref="received5" />
+		<property name="folder" ref="received3" />
 	</bean>
 	
 	<!-- SEARCH ENGINE -->
@@ -389,10 +359,16 @@
 		<property name="province" value="Sevilla" />
 		<property name="city" value="Sevilla" />
 		<property name="chorbi" ref="chorbi1" />
+		<property name="chorbies">
+			<list>
+				<ref bean="chorbi2"></ref>
+				<ref bean="chorbi3"></ref>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="searchTemplate2" class="domain.SearchTemplate">
-		<property name="relationshipType" value="ACtIVITIES" />
+		<property name="relationshipType" value="ACTIVITIES" />
 		<property name="age" value="25" />
 		<property name="genre" value="MAN" />
 		<property name="keyword" value="ball" />
@@ -402,6 +378,11 @@
 		<property name="province" value="Alicante" />
 		<property name="city" value="Alicante" />
 		<property name="chorbi" ref="chorbi2" />
+		<property name="chorbies">
+			<list>
+				<ref bean="chorbi4"></ref>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="searchTemplate3" class="domain.SearchTemplate">
@@ -415,24 +396,28 @@
 		<property name="province" value="Sevilla" />
 		<property name="city" value="Sevilla" />
 		<property name="chorbi" ref="chorbi4" />
+		<property name="chorbies">
+			<list>
+			</list>
+		</property>
 	</bean>
 	
 	<!-- LIKES -->
-	<bean id="like1" class="domain.Like">
+	<bean id="likes1" class="domain.Likes">
 		<property name="comment" value="Guapi"/>
 		<property name="moment" value="2017/03/25 13:45" />
 		<property name="liked" ref="chorbi3" />
 		<property name="chorbi" ref="chorbi4" />
 	</bean>
 	
-	<bean id="like2" class="domain.Like">
+	<bean id="likes2" class="domain.Likes">
 		<property name="comment" value="Un dark souls?"/>
 		<property name="moment" value="2017/03/30 21:43" />
 		<property name="liked" ref="chorbi3" />
 		<property name="chorbi" ref="chorbi1" />
 	</bean>
 	
-	<bean id="like3" class="domain.Like">
+	<bean id="likes3" class="domain.Likes">
 		<property name="comment" value="De SeBihllYaaA??¿?"/>
 		<property name="moment" value="2017/03/31 12:00" />
 		<property name="liked" ref="chorbi4" />
@@ -442,11 +427,12 @@
 	
 	<!-- SYSTEM CONFIGURATION -->
 	<bean id="systemConfiguration" class="domain.SystemConfiguration">
-		<property name="banners"/>
+		<property name="banners">
 			<list>
 				<value>http://2.bp.blogspot.com/-8TFZxUDrFCg/UEx8iJXnZPI/AAAAAAAAARw/RgR7KVxC42g/s1600/Absolutely-Random-banner.jpg</value>
 				<value>http://www.google.es/</value>
 			</list>
+		</property>
 		<property name="cacheTime" value="2017/03/31 12:00"/>
 	</bean>
 	

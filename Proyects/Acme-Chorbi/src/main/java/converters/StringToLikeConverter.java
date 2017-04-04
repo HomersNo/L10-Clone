@@ -7,19 +7,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import repositories.LikeRepository;
-import domain.Like;
+import domain.Likes;
 
 @Component
 @Transactional
-public class StringToLikeConverter implements Converter<String, Like> {
+public class StringToLikeConverter implements Converter<String, Likes> {
 
 	@Autowired
 	LikeRepository	likeRepository;
 
 
 	@Override
-	public Like convert(final String text) {
-		Like result;
+	public Likes convert(final String text) {
+		Likes result;
 		int id;
 
 		try {

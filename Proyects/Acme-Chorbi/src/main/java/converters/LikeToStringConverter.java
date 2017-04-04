@@ -5,14 +5,14 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Like;
+import domain.Likes;
 
 @Component
 @Transactional
-public class LikeToStringConverter implements Converter<Like, String> {
+public class LikeToStringConverter implements Converter<Likes, String> {
 
 	@Override
-	public String convert(final Like like) {
+	public String convert(final Likes like) {
 		String result;
 
 		if (like == null)

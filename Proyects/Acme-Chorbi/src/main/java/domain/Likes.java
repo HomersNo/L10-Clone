@@ -17,11 +17,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Like extends DomainEntity {
+public class Likes extends DomainEntity {
 
 	// Constructors -----------------------------------------------------------
 
-	public Like() {
+	public Likes() {
 		super();
 	}
 
