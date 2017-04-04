@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import repositories.SystemConfigurationRepository;
-import domain.Actor;
 import domain.SystemConfiguration;
 
 @Service
@@ -26,7 +25,7 @@ public class SystemConfigurationService {
 	private AdministratorService			adminService;
 
 	@Autowired
-	private MessageService					messageService;
+	private ChirpService					messageService;
 
 
 	//Basic CRUD methods --------------------
@@ -73,43 +72,4 @@ public class SystemConfigurationService {
 		return res;
 	}
 
-	public Double findAvgReceivedMessagesPerActor() {
-		final Double result = this.messageService.findAvgReceivedMessagesPerActor();
-		return result;
-	}
-
-	public Double findMinReceivedMessagesPerActor() {
-		final Double result = this.messageService.findMinReceivedMessagesPerActor();
-		return result;
-	}
-
-	public Double findMaxReceivedMessagesPerActor() {
-		final Double result = this.messageService.findMaxReceivedMessagesPerActor();
-		return result;
-	}
-
-	public Double findAvgSentMessagesPerActor() {
-		final Double result = this.messageService.findAvgSentMessagesPerActor();
-		return result;
-	}
-
-	public Double findMinSentMessagesPerActor() {
-		final Double result = this.messageService.findMinSentMessagesPerActor();
-		return result;
-	}
-
-	public Double findMaxSentMessagesPerActor() {
-		final Double result = this.messageService.findMaxSentMessagesPerActor();
-		return result;
-	}
-
-	public Collection<Actor> findActorWithMoreSentMessages() {
-		final Collection<Actor> result = this.messageService.findActorWithMoreSentMessages();
-		return result;
-	}
-
-	public Collection<Actor> findActorWithMoreReceivedMessages() {
-		final Collection<Actor> result = this.messageService.findActorWithMoreReceivedMessages();
-		return result;
-	}
 }

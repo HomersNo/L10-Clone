@@ -4,7 +4,6 @@ package services;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -12,90 +11,91 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.Chorbi;
-import forms.RegisterChorbi;
 import repositories.ChorbiRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Chorbi;
+import forms.RegisterChorbi;
 
 public class ChorbiService {
-	
+
 	@Autowired
-	private ChorbiRepository chorbiRepository;
-	
+	private ChorbiRepository		chorbiRepository;
+
 	@Autowired
-	private AdministratorService administratorService;
-	
+	private AdministratorService	administratorService;
+
 	@Autowired
-	private Validator validator;
-	
-	public ChorbiService(){
+	private Validator				validator;
+
+
+	public ChorbiService() {
 		super();
 	}
-	
-	public Chorbi create(){
+
+	public Chorbi create() {
 		Chorbi result;
-		
+
 		result = new Chorbi();
 		final UserAccount userAccount = new UserAccount();
 		final Authority authority = new Authority();
 		final Collection<Authority> authorities = new ArrayList<Authority>();
-		
-		authority.setAuthority(Authority.CUSTOMER);
+
+		authority.setAuthority(Authority.CHORBI);
 		authorities.add(authority);
 		userAccount.setAuthorities(authorities);
 		userAccount.setEnabled(true);
-		
+
 		result.setBanned(false);
 		result.setUserAccount(userAccount);
-		
+
 		return result;
 	}
 
 	public Chorbi save(final Chorbi chorbi) {
-		if (chorbi.getId()==0){
-			final Calendar calendar = GregorianCalendar.getInstance();
-			calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR-18));
+		if (chorbi.getId() == 0) {
+			final Calendar calendar = Calendar.getInstance();
+			calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR - 18));
 			Assert.isTrue(calendar.getTime().after(chorbi.getBirthDate()), "Dear user, you must be over 18 to register");
 		}
 		Chorbi result;
-		
+
 		result = this.chorbiRepository.save(chorbi);
-		
+
 		return result;
 	}
-	
-	public Chorbi findOne(final int id){
+
+	public Chorbi findOne(final int id) {
 		Chorbi chorbi;
-		chorbi = chorbiRepository.findOne(id);
+		chorbi = this.chorbiRepository.findOne(id);
 		return chorbi;
 	}
-	
-	public Chorbi findOneToEdit(final int chorbiId){
-		Assert.isTrue(checkPrincipal(chorbiId));
+
+	public Chorbi findOneToEdit(final int chorbiId) {
+		Assert.isTrue(this.checkPrincipal(chorbiId));
 		Chorbi chorbi;
-		chorbi = chorbiRepository.findOne(chorbiId);
+		chorbi = this.chorbiRepository.findOne(chorbiId);
 		return chorbi;
 	}
-	
-	public Collection<Chorbi> findAll(){
+
+	public Collection<Chorbi> findAll() {
 		Collection<Chorbi> result;
-		result = chorbiRepository.findAll();
+		result = this.chorbiRepository.findAll();
 		return result;
 	}
-	
-	public Collection<Chorbi> findAllNotBanned(){
+
+	public Collection<Chorbi> findAllNotBanned() {
 		Collection<Chorbi> result;
-		result = chorbiRepository.findAllNotBanned();
+		result = this.chorbiRepository.findAllNotBanned();
 		return result;
 	}
-	
-	public Chorbi reconstruct(RegisterChorbi registerChorbi, BindingResult binding){
+
+	public Chorbi reconstruct(final RegisterChorbi registerChorbi, final BindingResult binding) {
 		Chorbi result;
 		Assert.isTrue(registerChorbi.isAccept());
 		result = this.create();
-		
+
 		result.setBirthDate(registerChorbi.getBirthDate());
 		result.setCity(registerChorbi.getCity());
 		result.setCountry(registerChorbi.getCountry());
@@ -108,14 +108,14 @@ public class ChorbiService {
 		result.setProvince(registerChorbi.getProvince());
 		result.setRelationshipType(registerChorbi.getRelationshipType());
 		result.setState(registerChorbi.getState());
-		result.setSurname(registerChorbi.getSurname());		
-		
+		result.setSurname(registerChorbi.getSurname());
+
 		result.getUserAccount().setUsername(registerChorbi.getUsername());
 		result.getUserAccount().setPassword(registerChorbi.getPassword());
-		
+
 		return result;
 	}
-	
+
 	public Chorbi reconstruct(final Chorbi chorbi, final BindingResult binding) {
 		Chorbi result;
 
@@ -138,25 +138,25 @@ public class ChorbiService {
 			result.setState(chorbi.getState());
 			result.setSurname(chorbi.getSurname());
 
-			validator.validate(result, binding);
+			this.validator.validate(result, binding);
 		}
 
 		return result;
 	}
-	
-	public Chorbi findByPrincipal(){
+
+	public Chorbi findByPrincipal() {
 		Chorbi result;
-		result = chorbiRepository.findByUserAccountId(LoginService.getPrincipal().getId());
+		result = this.chorbiRepository.findByUserAccountId(LoginService.getPrincipal().getId());
 		return result;
 	}
-	
-	public boolean checkPrincipal(final int chorbiId){
+
+	public boolean checkPrincipal(final int chorbiId) {
 		Chorbi result;
 		final UserAccount userAccount = LoginService.getPrincipal();
-		result = chorbiRepository.findByUserAccountId(userAccount.getId());
+		result = this.chorbiRepository.findByUserAccountId(userAccount.getId());
 		return result.getId() == chorbiId;
 	}
-	
+
 	public Chorbi register(final Chorbi chorbi) {
 		Assert.isTrue(this.findByPrincipal().getId() == chorbi.getId());
 		Chorbi result;
@@ -171,19 +171,19 @@ public class ChorbiService {
 
 		return result;
 	}
-	
-	public void banChorbi(final int chorbiId){
-		administratorService.checkAdministrator();
+
+	public void banChorbi(final int chorbiId) {
+		this.administratorService.checkAdministrator();
 		Chorbi chorbi;
-		chorbi = chorbiRepository.findOne(chorbiId);
-		if(chorbi.getBanned()){
+		chorbi = this.chorbiRepository.findOne(chorbiId);
+		if (chorbi.getBanned()) {
 			chorbi.setBanned(false);
 			chorbi.getUserAccount().setEnabled(true);
-		}else{
+		} else {
 			chorbi.setBanned(true);
 			chorbi.getUserAccount().setEnabled(false);
 		}
-		chorbiRepository.save(chorbi);
+		this.chorbiRepository.save(chorbi);
 	}
 
 }

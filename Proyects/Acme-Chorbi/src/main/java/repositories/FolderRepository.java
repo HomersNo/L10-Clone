@@ -12,10 +12,10 @@ import domain.Folder;
 @Repository
 public interface FolderRepository extends JpaRepository<Folder, Integer> {
 
-	@Query("select f from Folder f where f.actor.id = ?1")
-	Collection<Folder> findAllByActor(int id);
+	@Query("select f from Folder f where f.chorbi.id = ?1")
+	Collection<Folder> findAllByChorbi(int id);
 
-	@Query("select f from Folder f where f.actor.id = ?1 and f.name = ?2")
+	@Query("select f from Folder f where f.chorbi.id = ?1 and f.name = ?2")
 	Folder findSystemFolder(int id, String name);
 
 }
