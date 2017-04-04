@@ -10,12 +10,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -70,6 +73,8 @@ public class SearchTemplate extends DomainEntity {
 		this.keyWord = keyWord;
 	}
 	@Past
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getMoment() {
 		return this.moment;
 	}
@@ -104,27 +109,27 @@ public class SearchTemplate extends DomainEntity {
 
 
 	// Relationships ----------------------------------------------------------
-	private Collection<Chorbi>	chorbies;
+	private Collection<Chorbi>	cache;
 	private Chorbi				chorbi;
 
 
 	@Valid
 	@NotNull
 	@ManyToMany(cascade = CascadeType.ALL)
-	public Collection<Chorbi> getChorbies() {
-		return this.chorbies;
-	}
-	public void setChorbies(final Collection<Chorbi> chorbies) {
-		this.chorbies = chorbies;
-	}
-
-	@Valid
-	@OneToOne(optional = false)
 	public Chorbi getChorbi() {
 		return this.chorbi;
 	}
 	public void setChorbi(final Chorbi chorbi) {
 		this.chorbi = chorbi;
+	}
+
+	@Valid
+	@OneToOne(optional = false)
+	public Collection<Chorbi> getCache() {
+		return this.cache;
+	}
+	public void setCache(final Collection<Chorbi> cache) {
+		this.cache = cache;
 	}
 
 }
