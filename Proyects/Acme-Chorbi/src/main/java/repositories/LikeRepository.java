@@ -21,7 +21,7 @@ import domain.Likes;
 @Repository
 public interface LikeRepository extends JpaRepository<Likes, Integer> {
 
-	@Query("select l from Like l where l.chorbi.id = ?1")
+	@Query("select l from Likes l where l.chorbi.id = ?1")
 	Collection<Likes> findAllByChorbiId(int chorbiId);
 
 }

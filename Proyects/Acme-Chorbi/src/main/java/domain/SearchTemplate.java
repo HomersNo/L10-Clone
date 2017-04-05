@@ -109,13 +109,13 @@ public class SearchTemplate extends DomainEntity {
 
 
 	// Relationships ----------------------------------------------------------
-	private Collection<Chorbi>	cache;
+	private Collection<Chorbi>	chorbies;
 	private Chorbi				chorbi;
 
 
 	@Valid
 	@NotNull
-	@ManyToMany(cascade = CascadeType.ALL)
+	@OneToOne(optional = false)
 	public Chorbi getChorbi() {
 		return this.chorbi;
 	}
@@ -124,12 +124,12 @@ public class SearchTemplate extends DomainEntity {
 	}
 
 	@Valid
-	@OneToOne(optional = false)
-	public Collection<Chorbi> getCache() {
-		return this.cache;
+	@ManyToMany(cascade = CascadeType.ALL)
+	public Collection<Chorbi> getChorbies() {
+		return this.chorbies;
 	}
-	public void setCache(final Collection<Chorbi> cache) {
-		this.cache = cache;
+	public void setChorbies(final Collection<Chorbi> cache) {
+		this.chorbies = cache;
 	}
 
 }

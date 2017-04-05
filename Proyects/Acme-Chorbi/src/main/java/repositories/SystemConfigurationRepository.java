@@ -13,7 +13,4 @@ public interface SystemConfigurationRepository extends JpaRepository<SystemConfi
 	@Query("select sc from SystemConfiguration sc")
 	SystemConfiguration findMain();
 
-	@Query("select sc.banner from SystemConfiguration sc")
-	String getBanner();
-
 }
