@@ -192,7 +192,6 @@ public class SearchTemplateService {
 			Boolean age;
 			Boolean genre;
 			Boolean keyword;
-			Boolean moment;
 			Boolean country;
 			Boolean state;
 			Boolean province;
