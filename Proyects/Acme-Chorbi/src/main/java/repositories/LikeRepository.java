@@ -16,12 +16,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import domain.Like;
+import domain.Likes;
 
 @Repository
-public interface LikeRepository extends JpaRepository<Like, Integer> {
+public interface LikeRepository extends JpaRepository<Likes, Integer> {
 
 	@Query("select l from Like l where l.chorbi.id = ?1")
-	Collection<Like> findAllByChorbiId(int chorbiId);
+	Collection<Likes> findAllByChorbiId(int chorbiId);
 
 }

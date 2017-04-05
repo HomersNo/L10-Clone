@@ -1,0 +1,58 @@
+<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+
+<%@taglib prefix="acme"	tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="jstl"	uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+
+<form:form modelAttribute="finder" action="finder/tenant/edit.do">
+
+	<form:hidden path="id" />
+	<form:hidden path="version" />
+	<form:hidden path="cache" />
+	<form:hidden path="chorbi" />
+	<form:hidden path="moment" />
+	
+  <acme:textarea code="searchTemplate.age" path="age"/>
+  <br/>
+  <acme:textarea code="searchTemplate.country" path="country"/>
+  <br/>
+  <acme:textarea code="searchTemplate.state" path="state"/>
+  <br/>
+  <acme:textarea code="searchTemplate.keyword" path="keyword"/>
+  <br/>
+  <acme:textarea code="searchTemplate.province" path="province"/>
+  <br/>
+  <acme:textarea code="searchTemplate.city" path="city"/>
+  
+  <br/>
+  
+  <form:label path="relationshipType">
+		<spring:message code="searchTemplate.relationshipType" />:
+	</form:label>
+	<form:select path="relationshipType">
+                <form:option value="ACTIVITIES"><spring:message code="searchTemplate.grams" /></form:option>
+                <form:option value="FRIENDSHIP"><spring:message code="searchTemplate.kilograms" /></form:option>
+                <form:option value="LOVE"><spring:message code="searchTemplate.ounces" /></form:option>
+            </form:select>
+	<form:errors cssClass="error" path="relationshipType" />
+		
+	<br/>
+  
+  <form:label path="genre">
+		<spring:message code="searchTemplate.genre" />:
+	</form:label>
+	<form:select path="genre">
+                <form:option value="MAN"><spring:message code="searchTemplate.man" /></form:option>
+                <form:option value="WOMAN"><spring:message code="searchTemplate.woman" /></form:option>
+            </form:select>
+	<form:errors cssClass="error" path="genre" />
+		
+	<br/>
+  
+  <acme:submit name="save" code="searchTemplate.save" />
+  <acme:cancel url="welcome/index.do" code="searchTemplate.cancel" />
+
+</form:form>
