@@ -1,6 +1,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.SearchTemplateRepository;
 import security.LoginService;
@@ -31,6 +34,9 @@ public class SearchTemplateService {
 	
 	@Autowired
 	private ChorbiService 				chorbiService;
+	
+	@Autowired
+	private Validator					validator;
 
 
 	// Constructors -----------------------------------------------------------
@@ -88,32 +94,32 @@ public class SearchTemplateService {
 		filtered.addAll(chorbiService.findAll());
 		
 		if(searchTemplate.getRelationshipType()!= ""){
-			//query 
+			filtered.retainAll(chorbiService.findByRelationshipType(searchTemplate.getRelationshipType()));
 		}
 		
 		if(searchTemplate.getAge() != null){
-			//query
+			filtered.retainAll(chorbiService.findByAge(searchTemplate.getAge()));
 		}
 		
-		//query genre
+		filtered.retainAll(chorbiService.findByGenre(searchTemplate.getGenre()));
 		
-		if(searchTemplate.getKeyWord() != ""){
-			//query KeyWord
+		if(searchTemplate.getKeyword() != ""){
+			filtered.retainAll(chorbiService.findByKeyword(searchTemplate.getKeyword()));
 		}
 		
 		if(searchTemplate.getCountry() != ""){
-			//query country
+			filtered.retainAll(chorbiService.findByCountry(searchTemplate.getCountry()));
 		}
 		
 		if(searchTemplate.getState() != ""){
-			//query state
+			filtered.retainAll(chorbiService.findByState(searchTemplate.getState()));
 		}
 		
 		if(searchTemplate.getProvince() != ""){
-			//query province
+			filtered.retainAll(chorbiService.findByProvince(searchTemplate.getProvince()));
 		}
 		
-		//query city
+		filtered.retainAll(chorbiService.findByCity(searchTemplate.getCity()));
 		
 		searchTemplate.setCache(filtered);
 		
@@ -133,6 +139,119 @@ public class SearchTemplateService {
 			result = true;
 		}
 		return result;
+	}
+	
+	/**
+	 * @param searchTemplate
+	 * @param binding
+	 * @return
+	 */
+	public SearchTemplate reconstruct(SearchTemplate searchTemplate, BindingResult binding) {
+		SearchTemplate result;
+
+		if (searchTemplate.getId() == 0) {
+			result = searchTemplate;
+		} else {
+			result = searchTemplateRepository.findOne(searchTemplate.getId());
+
+			result.setCache(searchTemplate.getCache());
+			result.setAge(searchTemplate.getAge());
+			result.setKeyword(searchTemplate.getKeyword());
+			result.setChorbi(searchTemplate.getChorbi());
+			result.setCity(searchTemplate.getCity());
+			result.setCountry(searchTemplate.getCountry());
+			result.setGenre(searchTemplate.getGenre());
+			result.setMoment(searchTemplate.getMoment());
+			result.setProvince(searchTemplate.getProvince());
+			result.setRelationshipType(searchTemplate.getRelationshipType());
+			result.setState(searchTemplate.getState());
+
+			validator.validate(result, binding);
+		}
+
+		return result;
+	}
+	
+	public Boolean checkCache(SearchTemplate searchTemplate) {
+
+		Boolean res = true;
+
+		Calendar cal = Calendar.getInstance();
+		Calendar last = Calendar.getInstance();
+		Date now;
+		now = new Date(System.currentTimeMillis() - 3600 * 1000);
+		cal.setTime(now);
+		last.setTime(searchTemplate.getMoment());
+		Date lastUpdateTime = last.getTime();
+		cal.add(Calendar.HOUR, -12);
+		Date dateOneHourBack = cal.getTime();
+		Chorbi principal = chorbiService.findByPrincipal();
+		SearchTemplate chorbiTemplate = chorbiService.findSearchTemplateByChorbi(principal);
+		if (chorbiTemplate != null) {
+			Boolean relationshipType;
+			Boolean age;
+			Boolean genre;
+			Boolean keyword;
+			Boolean moment;
+			Boolean country;
+			Boolean state;
+			Boolean province;
+			Boolean city;
+
+			relationshipType = true;
+			age = true;
+			genre = true;
+			keyword = true;
+			country = true;
+			state = true;
+			province = true;
+			city = true;
+
+			if (searchTemplate.getRelationshipType()  != "") {
+				relationshipType = chorbiTemplate.getRelationshipType().equals(searchTemplate.getRelationshipType());
+			}
+
+			if (searchTemplate.getAge()  != null) {
+				age = chorbiTemplate.getAge().equals(searchTemplate.getAge());
+			}
+
+			if (searchTemplate.getGenre()  != "") {
+				genre = chorbiTemplate.getGenre().equals(searchTemplate.getGenre());
+			}
+
+			if (searchTemplate.getKeyword() != "") {
+				keyword = chorbiTemplate.getKeyword().equals(searchTemplate.getKeyword());
+			}
+			
+			if (searchTemplate.getCountry()  != "") {
+				country = chorbiTemplate.getCountry().equals(searchTemplate.getCountry());
+			}
+			
+			if (searchTemplate.getState()  != "") {
+				state = chorbiTemplate.getState().equals(searchTemplate.getState());
+			}
+			
+			if (searchTemplate.getProvince()  != "") {
+				province = chorbiTemplate.getProvince().equals(searchTemplate.getProvince());
+			}
+			
+			if (searchTemplate.getCity()  != "") {
+				city = chorbiTemplate.getCity().equals(searchTemplate.getCity());
+			}
+
+			Boolean isEqual = relationshipType && age && genre && keyword && country && state && province && city;
+
+			if (dateOneHourBack.getTime() - lastUpdateTime.getTime() <= 3600000*12 && isEqual) {
+				res = true;
+			} else {
+				res = false;
+			}
+		} 
+		else {
+			res = false;
+		}
+
+		return res;
 	}
 
 	// Other business methods -------------------------------------------------
