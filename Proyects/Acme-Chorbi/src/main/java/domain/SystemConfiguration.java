@@ -12,6 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -32,6 +33,7 @@ public class SystemConfiguration extends DomainEntity {
 
 
 	@ElementCollection
+	@NotEmpty
 	public Collection<String> getBanners() {
 		return this.banners;
 	}

@@ -67,9 +67,4 @@ public class SystemConfigurationService {
 		return systemConfiguration;
 	}
 
-	public String getBanner() {
-		final String res = this.systemConfigurationRepository.getBanner();
-		return res;
-	}
-
 }
