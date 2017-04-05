@@ -36,7 +36,7 @@
 	<!-- Attributes -->
 	
 	<spring:message code="message.title" var="titleHeader" />
-	<display:column property="title" title="${titleHeader}" sortable="true" />
+	<display:column property="subject" title="${titleHeader}" sortable="true" />
 
 	<spring:message code="message.moment" var="momentHeader" />
 	<display:column property="moment" title="${momentHeader}" sortable="true" format="{0,date,dd/MM/yyyy HH:mm}" />
@@ -46,7 +46,7 @@
 	
 	<spring:message code="message.attachment" var="attachmentHeader"/>
 	<display:column title="${attachmentHeader}">
-		<a href="${row.attachment}">${row.attachment}</a>
+		<a href="${row.attachments}">${row.attachments}</a>
 	</display:column> 
 	
 	
@@ -63,10 +63,10 @@
 	</display:column> 
 	
 	<jstl:if test="${folder.name eq 'Sent'}">
-		<spring:message code="message.resend" var="resendHeader"/>
+		<spring:message code="chirp.resend" var="resendHeader"/>
 		<display:column title="${resendHeader}">
 			<form:form action="chirp/chorbi/resend.do"
-				modelAttribute="resendChirp">
+				modelAttribute="resendChirp" >
 
 				<form:hidden path="chirpId" value="${row.id}" />
 
@@ -75,7 +75,7 @@
 				</form:label>
 				<form:select id="chorbies" path="recipientId">
 					<form:option value="0" label="----" />
-					<form:options items="${chorbies}" itemValue="id" itemLabel="surname" />
+					<form:options items="${chorbies}" itemValue="id" itemLabel="completeName" />
 				</form:select>
 				<form:errors cssClass="error" path="recipientId" />
 				<input type="submit" name="save"
