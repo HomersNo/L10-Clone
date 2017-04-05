@@ -15,7 +15,7 @@ import controllers.AbstractController;
 import domain.SystemConfiguration;
 
 @Controller
-@RequestMapping("/message/chirp/chorbi")
+@RequestMapping("/systemConfiguration/administrator")
 public class SystemConfigurationAdministratorController extends AbstractController {
 
 	//Services
@@ -69,9 +69,9 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 	protected ModelAndView createEditModelAndView(final SystemConfiguration system, final String message) {
 		ModelAndView result;
 
-		final String requestURI = "chorbi/chorbi/edit.do";
+		final String requestURI = "systemConfiguration/administrator/edit.do";
 
-		result = new ModelAndView("chorbi/edit");
+		result = new ModelAndView("systemConfiguration/edit");
 		result.addObject("system", system);
 		result.addObject("message", message);
 		result.addObject("requestURI", requestURI);
