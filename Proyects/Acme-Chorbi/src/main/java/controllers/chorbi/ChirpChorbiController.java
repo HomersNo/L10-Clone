@@ -19,10 +19,11 @@ import services.FolderService;
 import controllers.AbstractController;
 import domain.Chirp;
 import domain.Chorbi;
+import domain.Folder;
 import forms.ResendChirp;
 
 @Controller
-@RequestMapping("/message/chirp/chorbi")
+@RequestMapping("/chirp/chorbi")
 public class ChirpChorbiController extends AbstractController {
 
 	//Services
@@ -50,6 +51,14 @@ public class ChirpChorbiController extends AbstractController {
 
 		ModelAndView result;
 		Collection<Chirp> messages;
+		Folder folder;
+		ResendChirp resendChirp;
+		Collection<Chorbi> chorbies;
+
+		chorbies = this.actorService.findAll();
+		resendChirp = new ResendChirp();
+
+		folder = this.folderService.findOne(folderId);
 		final String requestURI = "message/actor/list.do?folderId=" + folderId;
 
 		try {
@@ -57,6 +66,9 @@ public class ChirpChorbiController extends AbstractController {
 			result = new ModelAndView("message/list");
 			result.addObject("messages", messages);
 			result.addObject("requestURI", requestURI);
+			result.addObject("folder", folder);
+			result.addObject("resendChirp", resendChirp);
+			result.addObject("chorbies", chorbies);
 		} catch (final Throwable oops) {
 
 			result = new ModelAndView("redirect:/folder/actor/list.do");
@@ -118,7 +130,7 @@ public class ChirpChorbiController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/resend", method = RequestMethod.POST, params = "save")
-	public ModelAndView resend(@RequestParam final ResendChirp resendChirp, final BindingResult binding) {
+	public ModelAndView resend(@Valid final ResendChirp resendChirp, final BindingResult binding) {
 		Chorbi principal;
 		ModelAndView result;
 		Chirp sent;

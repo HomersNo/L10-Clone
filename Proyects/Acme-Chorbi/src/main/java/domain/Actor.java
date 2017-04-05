@@ -6,6 +6,7 @@ import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -32,6 +33,7 @@ public class Actor extends DomainEntity {
 	private String	surname;
 	private String	email;
 	private String	phoneNumber;
+	private String	completeName;
 
 
 	@NotBlank
@@ -65,6 +67,12 @@ public class Actor extends DomainEntity {
 	}
 	public void setPhoneNumber(final String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	@Transient
+	public String getCompleteName() {
+
+		return this.name + " " + this.surname;
 	}
 
 
