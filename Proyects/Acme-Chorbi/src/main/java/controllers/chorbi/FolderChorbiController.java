@@ -1,5 +1,5 @@
 
-package controllers.actor;
+package controllers.chorbi;
 
 import java.util.Collection;
 
@@ -15,8 +15,8 @@ import controllers.AbstractController;
 import domain.Folder;
 
 @Controller
-@RequestMapping("/folder/actor")
-public class FolderActorController extends AbstractController {
+@RequestMapping("/folder/chorbi")
+public class FolderChorbiController extends AbstractController {
 
 	//Services
 
@@ -26,19 +26,19 @@ public class FolderActorController extends AbstractController {
 
 	//Constructor
 
-	public FolderActorController() {
+	public FolderChorbiController() {
 		super();
 	}
 
 	//Listing
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) String errorMessage) {
+	public ModelAndView list(@RequestParam(required = false) final String errorMessage) {
 		ModelAndView result;
 
 		Collection<Folder> folders;
 
-		folders = folderService.findAllByPrincipal();
+		folders = this.folderService.findAllByPrincipal();
 
 		result = new ModelAndView("folder/list");
 		result.addObject("folders", folders);

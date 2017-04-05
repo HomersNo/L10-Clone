@@ -10,12 +10,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -33,7 +36,7 @@ public class SearchTemplate extends DomainEntity {
 	private String	relationshipType;
 	private Integer	age;
 	private String	genre;
-	private String	keyWord;
+	private String	keyword;
 	private Date	moment;
 	private String	country;
 	private String	state;
@@ -63,13 +66,15 @@ public class SearchTemplate extends DomainEntity {
 	public void setGenre(final String genre) {
 		this.genre = genre;
 	}
-	public String getKeyWord() {
-		return this.keyWord;
+	public String getKeyword() {
+		return this.keyword;
 	}
-	public void setKeyWord(final String keyWord) {
-		this.keyWord = keyWord;
+	public void setKeyword(final String keyword) {
+		this.keyword = keyword;
 	}
 	@Past
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getMoment() {
 		return this.moment;
 	}
@@ -110,21 +115,21 @@ public class SearchTemplate extends DomainEntity {
 
 	@Valid
 	@NotNull
-	@ManyToMany(cascade = CascadeType.ALL)
-	public Collection<Chorbi> getChorbies() {
-		return this.chorbies;
-	}
-	public void setChorbies(final Collection<Chorbi> chorbies) {
-		this.chorbies = chorbies;
-	}
-
-	@Valid
 	@OneToOne(optional = false)
 	public Chorbi getChorbi() {
 		return this.chorbi;
 	}
 	public void setChorbi(final Chorbi chorbi) {
 		this.chorbi = chorbi;
+	}
+
+	@Valid
+	@ManyToMany(cascade = CascadeType.ALL)
+	public Collection<Chorbi> getChorbies() {
+		return this.chorbies;
+	}
+	public void setChorbies(final Collection<Chorbi> cache) {
+		this.chorbies = cache;
 	}
 
 }

@@ -1,5 +1,5 @@
 
-package controllers.actor;
+package controllers.chorbi;
 
 import java.util.Collection;
 
@@ -13,32 +13,34 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
+import services.ChirpService;
+import services.ChorbiService;
 import services.FolderService;
-import services.MessageService;
 import controllers.AbstractController;
-import domain.Actor;
-import domain.Message;
+import domain.Chirp;
+import domain.Chorbi;
+import domain.Folder;
+import forms.ResendChirp;
 
 @Controller
-@RequestMapping("/message/actor")
-public class MessageActorController extends AbstractController {
+@RequestMapping("/chirp/chorbi")
+public class ChirpChorbiController extends AbstractController {
 
 	//Services
 
 	@Autowired
-	private MessageService	messageService;
+	private ChirpService	messageService;
 
 	@Autowired
 	private FolderService	folderService;
 
 	@Autowired
-	private ActorService	actorService;
+	private ChorbiService	actorService;
 
 
 	//Contructor
 
-	public MessageActorController() {
+	public ChirpChorbiController() {
 		super();
 	}
 
@@ -48,7 +50,15 @@ public class MessageActorController extends AbstractController {
 	public ModelAndView list(@RequestParam final int folderId) {
 
 		ModelAndView result;
-		Collection<Message> messages;
+		Collection<Chirp> messages;
+		Folder folder;
+		ResendChirp resendChirp;
+		Collection<Chorbi> chorbies;
+
+		chorbies = this.actorService.findAll();
+		resendChirp = new ResendChirp();
+
+		folder = this.folderService.findOne(folderId);
 		final String requestURI = "message/actor/list.do?folderId=" + folderId;
 
 		try {
@@ -56,10 +66,13 @@ public class MessageActorController extends AbstractController {
 			result = new ModelAndView("message/list");
 			result.addObject("messages", messages);
 			result.addObject("requestURI", requestURI);
+			result.addObject("folder", folder);
+			result.addObject("resendChirp", resendChirp);
+			result.addObject("chorbies", chorbies);
 		} catch (final Throwable oops) {
 
 			result = new ModelAndView("redirect:/folder/actor/list.do");
-			result.addObject("errorMessage", "message.folder.wrong");
+			result.addObject("errorChirp", "message.folder.wrong");
 
 		}
 
@@ -70,7 +83,7 @@ public class MessageActorController extends AbstractController {
 	public ModelAndView create() {
 
 		ModelAndView result;
-		final Message message = this.messageService.create();
+		final Chirp message = this.messageService.create();
 
 		result = this.createEditModelAndView(message);
 
@@ -78,10 +91,10 @@ public class MessageActorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Message message, final BindingResult binding) {
-		Actor principal;
+	public ModelAndView save(@Valid final Chirp message, final BindingResult binding) {
+		Chorbi principal;
 		ModelAndView result;
-		Message sent;
+		Chirp sent;
 
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(message);
@@ -102,7 +115,7 @@ public class MessageActorController extends AbstractController {
 	public ModelAndView delete(@RequestParam final int messageId) {
 		ModelAndView result;
 
-		Message message;
+		Chirp message;
 
 		try {
 			message = this.messageService.findOne(messageId);
@@ -110,17 +123,50 @@ public class MessageActorController extends AbstractController {
 			result = new ModelAndView("redirect:/message/actor/list.do?folderId=" + message.getFolder().getId());
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/welcome/index.do");
-			result.addObject("errorMessage", "message.commit.error");
+			result.addObject("errorChirp", "message.commit.error");
 		}
 
 		return result;
 	}
 
+	@RequestMapping(value = "/resend", method = RequestMethod.POST, params = "save")
+	public ModelAndView resend(@Valid final ResendChirp resendChirp, final BindingResult binding) {
+		Chorbi principal;
+		ModelAndView result;
+		Chirp sent;
+		final Chorbi recipient;
+
+		if (binding.hasErrors())
+			result = new ModelAndView("redirect:/welcome/index.do");
+		else
+			try {
+				recipient = this.actorService.findOne(resendChirp.getRecipientId());
+				sent = this.messageService.findOne(resendChirp.getChirpId());
+				sent = this.messageService.reSend(sent, recipient);
+				principal = this.actorService.findByPrincipal();
+				result = new ModelAndView("redirect:/message/actor/list.do?folderId=" + this.folderService.findSystemFolder(principal, "Outbox").getId());
+			} catch (final Throwable oops) {
+				result = new ModelAndView("redirect:/welcome/index.do");
+			}
+
+		return result;
+	}
+	@RequestMapping(value = "/reply", method = RequestMethod.GET)
+	public ModelAndView reply(@RequestParam final int chirpId) {
+		ModelAndView result;
+		final Chirp chirp = this.messageService.findOne(chirpId);
+		final Chirp reply = this.messageService.reply(chirp);
+
+		result = this.createEditModelAndView(reply);
+
+		return result;
+
+	}
 	//TODO lo mismo que arriba
 
 	// Ancillary methods ------------------------------------------------------
 
-	protected ModelAndView createEditModelAndView(final Message message) {
+	protected ModelAndView createEditModelAndView(final Chirp message) {
 		ModelAndView result;
 
 		result = this.createEditModelAndView(message, null);
@@ -128,14 +174,14 @@ public class MessageActorController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Message message, final String errorMessage) {
+	protected ModelAndView createEditModelAndView(final Chirp message, final String errorChirp) {
 		ModelAndView result;
-		Collection<Actor> actors;
+		Collection<Chorbi> actors;
 
 		actors = this.actorService.findAll();
 
 		result = new ModelAndView("message/edit");
-		result.addObject("errorMessage", errorMessage);
+		result.addObject("errorChirp", errorChirp);
 		result.addObject("message", message);
 		result.addObject("actors", actors);
 
