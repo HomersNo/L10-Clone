@@ -76,7 +76,7 @@ public class CreditCardService {
 
 		last4 = creditCard.getCreditCardNumber().substring(12);
 		result = "************";
-		result.concat(last4);
+		result += last4;
 
 		return result;
 	}

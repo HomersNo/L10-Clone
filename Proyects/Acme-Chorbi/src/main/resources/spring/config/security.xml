@@ -64,6 +64,10 @@
 		<!-- ACTOR --> 
 		<security:intercept-url pattern="/actor/actor/display.do**" access="isAuthenticated()" /> 
 	
+		<!-- CREDIT CARD -->
+		<security:intercept-url pattern="/creditCard/chorbi/**" access="hasRole('CHORBI')" /> 
+		
+		
 		<security:intercept-url pattern="/searchTemplate/chorbi/**" access="hasRole('CHORBI')" /> 
 		<security:intercept-url pattern="/searchTemplate/chorbi/**.do**" access="hasRole('CHORBI')" />
 		
