@@ -28,24 +28,19 @@ public class ChorbiActorController {
 			super();
 		}
 
-		//Listing
-		
-		@RequestMapping(value = "/list", method = RequestMethod.GET)
-		public ModelAndView list(@RequestParam(required = false) String errorMessage) {
+		//Display		
+		@RequestMapping(value = "/display", method = RequestMethod.GET)
+		public ModelAndView display(@RequestParam final int chorbiId) {
 			ModelAndView result;
 
-			Collection<Chorbi> chorbis;
+			Chorbi chorbi;
 
-			chorbis = chorbiService.findAllNotBanned();
+			chorbi = chorbiService.findOne(chorbiId);
 
-			result = new ModelAndView("chorbi/list");
-			result.addObject("chorbis", chorbis);
-			result.addObject("errorMessage", errorMessage);
+			result = new ModelAndView("chorbi/display");
+			result.addObject("chorbi", chorbi);
 
 			return result;
-		}
-		
-		// Ancillary methods
-		
+		}		
 		
 }
