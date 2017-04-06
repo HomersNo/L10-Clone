@@ -52,7 +52,7 @@ public class ChirpService {
 		final Chirp result = new Chirp();
 		Chorbi sender;
 		sender = this.chorbiService.findByPrincipal();
-		final Folder senderFolder = this.folderService.findSystemFolder(sender, "Outbox");
+		final Folder senderFolder = this.folderService.findSystemFolder(sender, "Sent");
 		result.setFolder(senderFolder);
 		result.setMoment(new Date());
 		result.setSender(sender);
@@ -151,7 +151,10 @@ public class ChirpService {
 	public Chirp reSend(final Chirp chirp, final Chorbi chorbi) {
 
 		Chirp result;
-		result = chirp;
+		result = this.create();
+		result.setAttachments(chirp.getAttachments());
+		result.setSubject(chirp.getSubject());
+		result.setText(chirp.getText());
 		result.setRecipient(chorbi);
 		this.send(result);
 
