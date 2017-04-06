@@ -6,7 +6,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import repositories.LikeRepository;
+import repositories.LikesRepository;
 import domain.Likes;
 
 @Component
@@ -14,7 +14,7 @@ import domain.Likes;
 public class StringToLikeConverter implements Converter<String, Likes> {
 
 	@Autowired
-	LikeRepository	likeRepository;
+	LikesRepository	likeRepository;
 
 
 	@Override
