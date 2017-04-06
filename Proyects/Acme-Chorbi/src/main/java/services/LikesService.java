@@ -20,12 +20,6 @@ public class LikesService {
 
 	//supporting services-------------------
 	@Autowired
-	private ActorService			actorService;
-
-	@Autowired
-	private AdministratorService	adminService;
-
-	@Autowired
 	private ChorbiService			chorbiService;
 
 
@@ -85,5 +79,12 @@ public class LikesService {
 	public void flush() {
 		this.likesRepository.flush();
 
+	}
+
+	public Collection<Likes> findAllByPrincipal() {
+		Collection<Likes> result;
+		final Chorbi chorbi = chorbiService.findByPrincipal();
+		result = likesRepository.findAllByChorbiId(chorbi.getId());
+		return result;
 	}
 }

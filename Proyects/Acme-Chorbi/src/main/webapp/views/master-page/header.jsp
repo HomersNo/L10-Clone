@@ -35,7 +35,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="chorbi/chorbi/edit.do"><spring:message code="master.page.chorbi.edit" /></a></li>
-					<li><a href="customer/action-2.do"><spring:message code="master.page.customer.action.2" /></a></li>					
+					<li><a href="creditCard/chorbi/edit.do"><spring:message code="master.page.creditCard.edit" /></a></li>					
 				</ul>
 			</li>
 		</security:authorize>
