@@ -60,6 +60,7 @@ public class ChorbiService {
 	}
 
 	public Chorbi save(final Chorbi chorbi) {
+		Assert.notNull(chorbi);
 		if (chorbi.getId() == 0) {
 			final Calendar calendar = Calendar.getInstance();
 			calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR - 18));
@@ -72,13 +73,15 @@ public class ChorbiService {
 		return result;
 	}
 
-	public Chorbi findOne(final int id) {
+	public Chorbi findOne(final int chorbiId) {
+		Assert.isTrue(chorbiId != 0);
 		Chorbi chorbi;
-		chorbi = this.chorbiRepository.findOne(id);
+		chorbi = this.chorbiRepository.findOne(chorbiId);
 		return chorbi;
 	}
 
 	public Chorbi findOneToEdit(final int chorbiId) {
+		Assert.isTrue(chorbiId != 0);
 		Assert.isTrue(this.checkPrincipal(chorbiId));
 		Chorbi chorbi;
 		chorbi = this.chorbiRepository.findOne(chorbiId);
@@ -144,6 +147,8 @@ public class ChorbiService {
 			result.setState(chorbi.getState());
 			result.setSurname(chorbi.getSurname());
 
+			result.getUserAccount().setPassword(chorbi.getUserAccount().getPassword());
+
 			this.validator.validate(result, binding);
 		}
 
@@ -164,7 +169,9 @@ public class ChorbiService {
 	}
 
 	public Chorbi register(final Chorbi chorbi) {
-		Assert.isTrue(this.findByPrincipal().getId() == chorbi.getId());
+		if(chorbi.getId()!=0){
+			Assert.isTrue(this.findByPrincipal().getId() == chorbi.getId());
+		}
 		Chorbi result;
 
 		final Md5PasswordEncoder encoder = new Md5PasswordEncoder();

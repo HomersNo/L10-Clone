@@ -44,7 +44,7 @@ public class ActorActorController extends AbstractController {
 			actor = this.actorService.findOne(actorId);
 
 		if (actor instanceof Chorbi)
-			result = new ModelAndView("redirect:/customer/actor/display.do?customerId=" + actor.getId());
+			result = new ModelAndView("redirect:/chorbi/actor/display.do?chorbiId=" + actor.getId());
 		else if (actor instanceof Administrator)
 			result = new ModelAndView("redirect:/folder/actor/list.do");
 		return result;

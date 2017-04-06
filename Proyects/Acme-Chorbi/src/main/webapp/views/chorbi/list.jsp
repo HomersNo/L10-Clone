@@ -20,6 +20,24 @@
 
 <display:table pagesize="5" class="displaytag" keepStatus="true"
 	name="chorbis" requestURI="${requestURI}" id="row">
+	
+	
+	<security:authorize access="hasRole('ADMIN')">
+	<spring:message code="chorbi.bans" var="banHeader" />
+	<display:column title="${banHeader}">
+		<a href="chorbi/administrator/ban.do?chorbiId=${row.id}">
+		<jstl:choose>
+			<jstl:when test="${row.banned}">
+				<spring:message code="chorbi.unban" />
+			</jstl:when>
+			<jstl:otherwise>
+				<spring:message code="chorbi.ban" />
+			</jstl:otherwise>
+		</jstl:choose>
+		</a>
+	</display:column>
+		
+</security:authorize>
 
 	<!-- Attributes -->
 	<spring:message code="chorbi.name" var="nameHeader" />
@@ -29,26 +47,32 @@
 	<display:column property="surname" title="${chorbiHeader}" sortable="true" />
 	
 	<spring:message code="chorbi.description" var="descriptionHeader" />
-	<display:column property="stars" title="${starsHeader}" sortable="true" />
+	<display:column property="description" title="${descriptionHeader}" sortable="true" />
 
-	<spring:message code="chorbi.actor" var="actorHeader" />
-	<display:column title="${actorHeader}">
-		<a href="chorbi/actor/display.do?actorId=${row.actor.id}">${row.actor.name} ${row.actor.surname }</a>
+	<spring:message code="chorbi" var="chorbiHeader" />
+	<display:column title="${chorbiHeader}">
+		<a href="actor/actor/display.do?actorId=${row.id}">${row.name} ${row.surname }</a>
 	</display:column>
 	
+	<security:authorize access="hasAnyRole('CHORBI')">
+		<spring:message code="chorbi.like" var="likeHeader" />
+		<display:column title="${likeHeader}">
+		<jstl:forEach items="${likes}" var="likes">
+			<jstl:choose>
+				<jstl:when test="${row.id == likes.liked.id}">
+					<a href="likes/chorbi/delete.do?likesId=${likes.id}">
+		 			<spring:message code="chorbi.dislike" />
+		 			</a>
+				</jstl:when>
+				<jstl:otherwise>
+					<a href="likes/chorbi/create.do?likedId=${row.id}">
+		 			<spring:message code="chorbi.like" />
+		 			</a>
+				</jstl:otherwise>
+			</jstl:choose>
+		</jstl:forEach>
+		</display:column>
+	</security:authorize>
+	
 </display:table>
-
-
-<security:authorize access="hasAnyRole('LESSOR','TENANT')">
-	<div>
-		<a href="comment/actor/create.do?commentableId=${commentable.id}"> <spring:message
-				code="comment.create" />
-		</a>
-	</div>
-</security:authorize>
 <br/>
-
-<input type="button" name="back"
-		value="<spring:message code="comment.back" />"
-		onclick="location.href = 'actor/list.do';" />&nbsp;
-	<br />
