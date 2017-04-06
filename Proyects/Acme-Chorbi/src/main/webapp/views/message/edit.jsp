@@ -36,7 +36,7 @@
 		<spring:message code="message.title" />:
 	</form:label>
 	<form:input path="subject" />
-	<form:errors cssClass="error" path="title" />
+	<form:errors cssClass="error" path="subject" />
 	<br />
 	
 	<form:label path="text">
@@ -67,16 +67,11 @@
 	<br />
 	</jstl:if>
 	
-	<acme:textbox code="message.attachment" path="attachment"/>
+	<acme:textbox code="message.attachment" path="attachments"/>
 
 
 	<input type="submit" name="save"
 		value="<spring:message code="message.save" />" />&nbsp; 
-	<jstl:if test="${message.id != 0}">
-		<input type="submit" name="delete"
-			value="<spring:message code="message.delete" />"
-			onclick="return confirm('<spring:message code="message.confirm.delete" />')" />&nbsp;
-	</jstl:if>
 	<input type="button" name="cancel"
 		value="<spring:message code="message.cancel" />"
 		onclick="location.href = ('folder/actor/list.do');" />

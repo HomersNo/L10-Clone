@@ -59,7 +59,7 @@ public class ChirpChorbiController extends AbstractController {
 		resendChirp = new ResendChirp();
 
 		folder = this.folderService.findOne(folderId);
-		final String requestURI = "message/actor/list.do?folderId=" + folderId;
+		final String requestURI = "chirp/chorbi/list.do?folderId=" + folderId;
 
 		try {
 			messages = this.messageService.findAllByFolder(folderId);
@@ -102,7 +102,7 @@ public class ChirpChorbiController extends AbstractController {
 			try {
 				sent = this.messageService.send(message);
 				principal = this.actorService.findByPrincipal();
-				result = new ModelAndView("redirect:/message/actor/list.do?folderId=" + this.folderService.findSystemFolder(principal, "Outbox").getId());
+				result = new ModelAndView("redirect:/chirp/chorbi/list.do?folderId=" + this.folderService.findSystemFolder(principal, "Sent").getId());
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(message, "message.commit.error");
 			}
@@ -144,7 +144,7 @@ public class ChirpChorbiController extends AbstractController {
 				sent = this.messageService.findOne(resendChirp.getChirpId());
 				sent = this.messageService.reSend(sent, recipient);
 				principal = this.actorService.findByPrincipal();
-				result = new ModelAndView("redirect:/message/actor/list.do?folderId=" + this.folderService.findSystemFolder(principal, "Outbox").getId());
+				result = new ModelAndView("redirect:/chirp/chorbi/list.do?folderId=" + this.folderService.findSystemFolder(principal, "Sent").getId());
 			} catch (final Throwable oops) {
 				result = new ModelAndView("redirect:/welcome/index.do");
 			}
@@ -174,15 +174,15 @@ public class ChirpChorbiController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Chirp message, final String errorChirp) {
+	protected ModelAndView createEditModelAndView(final Chirp message, final String errorMessage) {
 		ModelAndView result;
 		Collection<Chorbi> actors;
 
 		actors = this.actorService.findAll();
 
 		result = new ModelAndView("message/edit");
-		result.addObject("errorChirp", errorChirp);
-		result.addObject("message", message);
+		result.addObject("chirp", message);
+		result.addObject("message", errorMessage);
 		result.addObject("actors", actors);
 
 		return result;
