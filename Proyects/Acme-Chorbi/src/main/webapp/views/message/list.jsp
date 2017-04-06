@@ -84,7 +84,7 @@
 		</display:column>
 	</jstl:if>
 	<jstl:if test="${folder.name eq 'Received' }">
-		<spring:message code="message.reply" var="replyHeader"/>
+		<spring:message code="chirp.reply" var="replyHeader"/>
 		<display:column title="${replyHeader}">
 			<a href="chirp/chorbi/reply.do?chirpId=${row.id }"><spring:message code="chirp.reply"/></a>
 		</display:column>

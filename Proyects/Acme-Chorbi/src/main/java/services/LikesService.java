@@ -2,80 +2,88 @@
 package services;
 
 import java.util.Collection;
-
-import javax.transaction.Transactional;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
+import repositories.LikesRepository;
 import domain.Chorbi;
 import domain.Likes;
-import repositories.LikesRepository;
 
 @Service
-@Transactional
 public class LikesService {
-	
+
+	//managed repository-------------------
 	@Autowired
-	private LikesRepository likesRepository;
-	
+	private LikesRepository			likesRepository;
+
+	//supporting services-------------------
 	@Autowired
-	private ChorbiService chorbiService;
-	
-	public LikesService(){
-		super();
-	}
-	
-	public Likes create(final int chorbiId) {
-		Likes result;
-		final Chorbi chorbi = chorbiService.findByPrincipal();
-		final Chorbi liked = chorbiService.findOne(chorbiId);
-		Assert.isNull(likesRepository.findOneByChorbiAndLiked(chorbi.getId(), liked.getId()));
-		result = new Likes();
-		result.setChorbi(chorbi);
-		result.setLiked(liked);
+	private ActorService			actorService;
 
-		return result;
-	}
+	@Autowired
+	private AdministratorService	adminService;
 
-	public Likes findOne(int likesId) {
-		Assert.isTrue(likesId != 0);
+	@Autowired
+	private ChorbiService			chorbiService;
 
-		Likes result;
 
-		result = likesRepository.findOne(likesId);
-		Assert.notNull(result);
+	//Basic CRUD methods-------------------
 
-		return result;
+	public Likes create(final Chorbi chorbi) {
+
+		Likes created;
+		created = new Likes();
+		final Date moment = new Date(System.currentTimeMillis() - 100);
+		final Chorbi principal = this.chorbiService.findByPrincipal();
+		created.setChorbi(principal);
+		created.setMoment(moment);
+		created.setLiked(chorbi);
+		return created;
 	}
 
-	public Likes save(Likes likes) {
-		Assert.notNull(likes);
-		Likes result;
-		
-		result = likesRepository.save(likes);
-		
-		return result;
+	public Likes findOne(final int commentId) {
+
+		Likes retrieved;
+		retrieved = this.likesRepository.findOne(commentId);
+		return retrieved;
 	}
 
-	public void delete(Likes likes) {
-		Assert.notNull(likes);
-		Assert.isTrue(likes.getId() != 0);
-		Assert.isTrue(likesRepository.exists(likes.getId()));
+	public Collection<Likes> findAllByLikesableId(final int chorbiId) {
 
-		likesRepository.delete(likes);
-	}
-	
-	public Collection<Likes> findAllByPrincipal(){
 		Collection<Likes> result;
-		final Chorbi chorbi = chorbiService.findByPrincipal();
-		if(chorbi==null){
-			result = null;
-		}else{
-			result = likesRepository.findAllByChorbiId(chorbi.getId());
-		}
+		result = this.likesRepository.findAllByChorbiId(chorbiId);
 		return result;
 	}
 
+	public Collection<Likes> findAll() {
+
+		return this.likesRepository.findAll();
+	}
+
+	public Likes save(final Likes comment) {
+
+		Likes saved;
+		final Date moment = new Date(System.currentTimeMillis() - 100);
+		comment.setMoment(moment);
+		saved = this.likesRepository.save(comment);
+		return saved;
+
+	}
+
+	public void delete(final Likes comment) {
+
+		this.likesRepository.delete(comment);
+
+	}
+
+	//Auxiliary methods
+
+	//Our other bussiness methods
+
+	public void flush() {
+		this.likesRepository.flush();
+
+	}
 }
