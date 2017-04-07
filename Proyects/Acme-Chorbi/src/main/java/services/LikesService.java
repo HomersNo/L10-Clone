@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import repositories.LikesRepository;
 import domain.Chorbi;
@@ -37,10 +38,17 @@ public class LikesService {
 		return created;
 	}
 
-	public Likes findOne(final int commentId) {
+	public Likes findOne(final int likesId) {
 
 		Likes retrieved;
-		retrieved = this.likesRepository.findOne(commentId);
+		retrieved = this.likesRepository.findOne(likesId);
+		return retrieved;
+	}
+	
+	public Likes findByOneToEdit(int likesId) {
+		Likes retrieved;
+		retrieved = this.likesRepository.findOne(likesId);
+		Assert.isTrue(retrieved.getChorbi().getId()==chorbiService.findByPrincipal().getId());
 		return retrieved;
 	}
 
@@ -87,4 +95,6 @@ public class LikesService {
 		result = likesRepository.findAllByChorbiId(chorbi.getId());
 		return result;
 	}
+
+	
 }
