@@ -34,10 +34,12 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
+	<form:hidden path="userAccount.authorities" />
+	<form:hidden path="userAccount.username" />
 	
-	<acme:textbox code="chorbi.useraccount.username" path="username"/>
-	
-    <acme:password code="chorbi.useraccount.password" path="password"/>
+	<p><spring:message code="chorbi.useraccount.username"/>: <jstl:out value="${chorbi.userAccount.username}" /></p> 
+
+    <acme:password code="chorbi.useraccount.password" path="userAccount.password"/>
     
 	<acme:textbox code="chorbi.name" path="name"/>
 	
@@ -52,7 +54,7 @@
 	<acme:textbox code="chorbi.description" path="description"/>
 	
 	<form:select path="relationshipType">
-		<option value="ACTIVITIES">
+		<option value="ACTIVITIES" <jstl:if test="${chorbi.relationshipType == 'ACTIVITIES'}">selected = "selected"</jstl:if>>
 			<jstl:choose>
 				<jstl:when test="${inEnglish}">
 					ACTIVITIES
@@ -62,9 +64,9 @@
 				</jstl:otherwise>
 			</jstl:choose>
 		</option>
-		<option value="FRIENDSHIP">
+		<option value="FRIENDSHIP" <jstl:if test="${chorbi.relationshipType == 'FRIENDSHIP'}">selected = "selected"</jstl:if>>
 			<jstl:choose>
-				<jstl:when test="${inEnglish}">
+				<jstl:when test="${inEnglish}" >
 					FRIENDSHIP
 				</jstl:when>
 				<jstl:otherwise>
@@ -72,9 +74,9 @@
 				</jstl:otherwise>
 			</jstl:choose>
 		</option>
-		<option value="LOVE">
+		<option value="LOVE" <jstl:if test="${chorbi.relationshipType == 'LOVE'}">selected = "selected"</jstl:if>>
 			<jstl:choose>
-				<jstl:when test="${inEnglish}">
+				<jstl:when test="${inEnglish}" >
 					LOVE
 				</jstl:when>
 				<jstl:otherwise>
@@ -87,7 +89,7 @@
 	<acme:textbox code="chorbi.birthDate" path="birthDate"/>
 	
 	<form:select path="genre">
-		<option value="MAN">
+		<option value="MAN" <jstl:if test="${chorbi.genre == 'MAN'}">selected = "selected"</jstl:if>>
 			<jstl:choose>
 				<jstl:when test="${inEnglish}">
 					MAN
@@ -97,7 +99,7 @@
 				</jstl:otherwise>
 			</jstl:choose>
 		</option>
-		<option value="WOMAN">
+		<option value="WOMAN" <jstl:if test="${chorbi.genre == 'WOMAN'}">selected = "selected"</jstl:if>>
 			<jstl:choose>
 				<jstl:when test="${inEnglish}">
 					WOMAN
@@ -119,7 +121,7 @@
 	
 	<br/>
 	
-	<button type="submit" name="save" class="btn btn-primary" id="save" disabled onload="javascript: toggleSubmit()">
+	<button type="submit" name="save" class="btn btn-primary" id="save">
 		<spring:message code="chorbi.save" />
 	</button>
 	

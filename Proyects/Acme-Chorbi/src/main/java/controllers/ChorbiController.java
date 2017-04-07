@@ -55,6 +55,7 @@ public class ChorbiController {
 					chorbi = chorbiService.register(chorbi);
 					result = new ModelAndView("redirect:/welcome/index.do");
 				} catch (Throwable oops) {
+					registerChorbi.setAccept(false);
 					result = createEditModelAndView(registerChorbi, "chorbi.commit.error");
 				}
 			}
