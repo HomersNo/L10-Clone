@@ -275,7 +275,13 @@
 		<property name="subject" value="Hola" />
 		<property name="text" value="Estoy jugando a la Play" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+		<property name="attachments">
+			<list>
+				<bean class="domain.Urrl">
+					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
+				</bean>
+			</list>
+		</property>
 		<property name="recipient" ref="chorbi1" />
 		<property name="sender" ref="chorbi2" />
 		<property name="folder" ref="received2" />
@@ -285,7 +291,13 @@
 		<property name="subject" value="Hola" />
 		<property name="text" value="Estoy jugando a la Play" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+		<property name="attachments">
+			<list>
+				<bean class="domain.Urrl">
+					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
+				</bean>
+			</list>
+		</property>
 		<property name="recipient" ref="chorbi1" />
 		<property name="sender" ref="chorbi2" />
 		<property name="folder" ref="received1" />
@@ -295,7 +307,13 @@
 		<property name="subject" value="Hola" />
 		<property name="text" value="¿Te vienes a cultura?" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+		<property name="attachments">
+			<list>
+				<bean class="domain.Urrl">
+					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
+				</bean>
+			</list>
+		</property>
 		<property name="recipient" ref="chorbi2" />
 		<property name="sender" ref="chorbi1" />
 		<property name="folder" ref="sent1" />
@@ -305,7 +323,13 @@
 		<property name="subject" value="Hola" />
 		<property name="text" value="¿Te vienes a cultura?" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+				<property name="attachments">
+			<list>
+				<bean class="domain.Urrl">
+					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
+				</bean>
+			</list>
+		</property>
 		<property name="recipient" ref="chorbi2" />
 		<property name="sender" ref="chorbi1" />
 		<property name="folder" ref="received2" />
@@ -316,7 +340,13 @@
 		<property name="subject" value="Illo" />
 		<property name="text" value="La Switch mola" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+		<property name="attachments">
+			<list>
+				<bean class="domain.Urrl">
+					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
+				</bean>
+			</list>
+		</property>
 		<property name="recipient" ref="chorbi3" />
 		<property name="sender" ref="chorbi4" />
 		<property name="folder" ref="received3" />
@@ -326,7 +356,13 @@
 		<property name="subject" value="Illo" />
 		<property name="text" value="La Switch mola" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+		<property name="attachments">
+			<list>
+				<bean class="domain.Urrl">
+					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
+				</bean>
+			</list>
+		</property>
 		<property name="recipient" ref="chorbi3" />
 		<property name="sender" ref="chorbi4" />
 		<property name="folder" ref="sent4" />
@@ -336,7 +372,13 @@
 		<property name="subject" value="¿Estás interesado en esto?" />
 		<property name="text" value="Era una broma" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+		<property name="attachments">
+			<list>
+				<bean class="domain.Urrl">
+					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
+				</bean>
+			</list>
+		</property>
 		<property name="recipient" ref="chorbi3" />
 		<property name="sender" ref="chorbi4" />
 		<property name="folder" ref="sent4" />
@@ -346,7 +388,13 @@
 		<property name="subject" value="¿Estás interesado en esto?" />
 		<property name="text" value="Era una broma" />
 		<property name="moment" value="03/03/2017 23:49" />
-		<property name="attachments" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png" />
+<property name="attachments">
+			<list>
+				<bean class="domain.Urrl">
+					<property name="link" value="http://www.bouncepen.com/wp-content/themes/twentyfifteen/uploads/user-photo/dummy-image.png"/>
+				</bean>
+			</list>
+		</property>
 		<property name="recipient" ref="chorbi3" />
 		<property name="sender" ref="chorbi4" />
 		<property name="folder" ref="received3" />
@@ -435,8 +483,12 @@
 	<bean id="systemConfiguration" class="domain.SystemConfiguration">
 		<property name="banners">
 			<list>
-				<value>http://2.bp.blogspot.com/-8TFZxUDrFCg/UEx8iJXnZPI/AAAAAAAAARw/RgR7KVxC42g/s1600/Absolutely-Random-banner.jpg</value>
-				<value>http://www.google.es/</value>
+				<bean class="domain.Urrl">
+					<property name="link" value="http://2.bp.blogspot.com/-8TFZxUDrFCg/UEx8iJXnZPI/AAAAAAAAARw/RgR7KVxC42g/s1600/Absolutely-Random-banner.jpg"/>
+				</bean>
+				<bean class="domain.Urrl">
+					<property name="link" value="http://www.google.es/"/>
+				</bean>
 			</list>
 		</property>
 		<property name="cacheTime" value="2017/03/31 12:00"/>
