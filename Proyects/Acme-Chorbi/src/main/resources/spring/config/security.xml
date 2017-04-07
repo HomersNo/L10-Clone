@@ -67,6 +67,8 @@
 		<!-- CREDIT CARD -->
 		<security:intercept-url pattern="/creditCard/chorbi/**" access="hasRole('CHORBI')" /> 
 		
+		<!-- LIKES -->
+		<security:intercept-url pattern="/likes/chorbi/**" access="hasRole('CHORBI')" /> 
 		
 		<security:intercept-url pattern="/searchTemplate/chorbi/**" access="hasRole('CHORBI')" /> 
 		<security:intercept-url pattern="/searchTemplate/chorbi/**.do**" access="hasRole('CHORBI')" />

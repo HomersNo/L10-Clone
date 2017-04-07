@@ -51,7 +51,7 @@
 
 	<spring:message code="chorbi" var="chorbiHeader" />
 	<display:column title="${chorbiHeader}">
-		<a href="actor/actor/display.do?actorId=${row.id}">${row.name} ${row.surname }</a>
+		<a href="actor/actor/display.do?actorId=${row.id}"><jstl:out value="${row.name}" /> <jstl:out value="${row.surname }" /> </a>
 	</display:column>
 	
 	<security:authorize access="hasAnyRole('CHORBI')">

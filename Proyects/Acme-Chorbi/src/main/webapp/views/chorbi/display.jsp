@@ -17,7 +17,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <security:authentication property="principal" var ="loggedactor"/>
-<jstl:set var="chorbi" value="${chorbi}"/> 
+<jstl:set var="likes" value="${chorbi}"/> 
 
 <h2><spring:message code="chorbi" /></h2>
 <p><spring:message code="chorbi.name"/>: <jstl:out value="${chorbi.name}" /></p> 
@@ -59,4 +59,5 @@
 </security:authorize>
 
 <br/>
+
 
