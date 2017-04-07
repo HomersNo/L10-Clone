@@ -117,7 +117,11 @@ public class ChirpChorbiController extends AbstractController {
 
 		Chirp message;
 
-		message = this.messageService.findOne(chirpAttach.getChirpId());
+		message = this.messageService.create();
+		message.setRecipient(chirpAttach.getRecipient());
+		message.setSubject(chirpAttach.getSubject());
+		message.setText(chirpAttach.getText());
+		message.setAttachments(chirpAttach.getAttachments());
 
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(message);
