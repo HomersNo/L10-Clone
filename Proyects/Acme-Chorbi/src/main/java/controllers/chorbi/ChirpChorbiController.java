@@ -20,6 +20,7 @@ import controllers.AbstractController;
 import domain.Chirp;
 import domain.Chorbi;
 import domain.Folder;
+import forms.ChirpAttach;
 import forms.ResendChirp;
 
 @Controller
@@ -110,6 +111,33 @@ public class ChirpChorbiController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/attach", method = RequestMethod.POST, params = "attach")
+	public ModelAndView attach(@Valid final ChirpAttach chirpAttach, final BindingResult binding) {
+		ModelAndView result;
+
+		Chirp message;
+
+		message = this.messageService.create();
+		message.setRecipient(chirpAttach.getRecipient());
+		message.setSubject(chirpAttach.getSubject());
+		message.setText(chirpAttach.getText());
+		message.setAttachments(chirpAttach.getAttachments());
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(message);
+		else
+			try {
+				final String attachment = chirpAttach.getAttachment();
+				this.messageService.addAttachment(message, attachment);
+				result = this.createEditModelAndView(message);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(message, "message.commit.error");
+			}
+
+		result = this.createEditModelAndView(message);
+
+		return result;
+	}
 	//TODO Cuando lanza la excepción a dónde lo mando?
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam final int messageId) {
@@ -177,6 +205,7 @@ public class ChirpChorbiController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Chirp message, final String errorMessage) {
 		ModelAndView result;
 		Collection<Chorbi> actors;
+		final ChirpAttach chirpAttach = new ChirpAttach();
 
 		actors = this.actorService.findAll();
 
@@ -184,6 +213,7 @@ public class ChirpChorbiController extends AbstractController {
 		result.addObject("chirp", message);
 		result.addObject("message", errorMessage);
 		result.addObject("actors", actors);
+		result.addObject("chirpAttach", chirpAttach);
 
 		return result;
 	}

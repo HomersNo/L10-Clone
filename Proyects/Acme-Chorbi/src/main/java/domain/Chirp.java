@@ -1,10 +1,12 @@
 
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -14,7 +16,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -30,10 +31,10 @@ public class Chirp extends DomainEntity {
 
 	// Attributes -------------------------------------------------------------
 
-	private String	subject;
-	private String	text;
-	private String	attachments;
-	private Date	moment;
+	private String				subject;
+	private String				text;
+	private Collection<Urrl>	attachments;
+	private Date				moment;
 
 
 	@NotBlank
@@ -51,11 +52,12 @@ public class Chirp extends DomainEntity {
 		this.text = text;
 	}
 
-	@URL
-	public String getAttachments() {
+	@ElementCollection
+	@Valid
+	public Collection<Urrl> getAttachments() {
 		return this.attachments;
 	}
-	public void setAttachments(final String attachments) {
+	public void setAttachments(final Collection<Urrl> attachments) {
 		this.attachments = attachments;
 	}
 
