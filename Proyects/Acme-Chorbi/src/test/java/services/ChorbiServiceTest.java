@@ -28,15 +28,6 @@ public class ChorbiServiceTest extends AbstractTest {
 
 	// The SUT -------------------------------------------------------------
 	@Autowired
-	private ChirpService	chirpService;
-
-	@Autowired
-	private ActorService	actorService;
-
-	@Autowired
-	private FolderService	folderService;
-
-	@Autowired
 	private ChorbiService	chorbiService;
 
 
@@ -101,13 +92,13 @@ public class ChorbiServiceTest extends AbstractTest {
 	public void driverDisplaying() {
 		final Object testingData[][] = {
 			{		// Display correcto de un Customer ya creado y logueado como tal. 
-				"customer1", 83, null
+				"chorbi1", 47, null
 			}, {	// Display correcto de un Customer distinto al que está logueado.
-				"customer1", 84, null
+				"chorbi1", 48, null
 			}, {	// Display erróneo de un Customer que no existe con uno logueado.
-				"customer1", 100, IllegalArgumentException.class
+				"chorbi1", 100, IllegalArgumentException.class
 			}, {	// Display correcto de un Customer, sin estar logueado en el sistema.
-				null, 83, null
+				null, 49, null
 			}, {	// Display erróneo de un Customer que no existe sin estar logueado.
 				null, 100, IllegalArgumentException.class
 			}
