@@ -235,4 +235,8 @@ public class ChorbiService {
 		return this.chorbiRepository.findSearchTemplateByChorbi(chorbi);
 	}
 
+	public void flush() {
+		this.chorbiRepository.flush();
+	}
+
 }
