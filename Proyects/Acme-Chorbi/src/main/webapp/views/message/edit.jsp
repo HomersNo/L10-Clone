@@ -98,6 +98,7 @@
 	<ul>
 	<jstl:forEach var="row" varStatus="i" items="${chirp.attachments}">
 	
-		<li><a href="${ row[i].link}"><jstl:out value="${ row[i].link}" /></a>
+		<li><a href="${ row.link}"><jstl:out value="${ row.link}" /></a>
 	
     </jstl:forEach>
+    </ul>
