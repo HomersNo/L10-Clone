@@ -54,6 +54,7 @@ public class Chirp extends DomainEntity {
 
 	@ElementCollection
 	@Valid
+	@NotNull
 	public Collection<Urrl> getAttachments() {
 		return this.attachments;
 	}
