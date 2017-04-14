@@ -30,6 +30,10 @@ public class ChorbiServiceTest extends AbstractTest {
 	@Autowired
 	private ChorbiService	chorbiService;
 
+	long					fechaValida	= Long.valueOf("610408800000");
+
+	long					fechaFutura	= Long.valueOf("1588716000000");
+
 
 	// Teoria pagina 107 y 108
 	// Tests ---------------------------------------------------------------
@@ -37,49 +41,49 @@ public class ChorbiServiceTest extends AbstractTest {
 	public void driverCreation() {
 		final Object testingData[][] = {
 			{		// Creación correcta de un Customer.
-				"correcto", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", null
+				"correcto", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city", null
 			}, {	// Creación errónea de un Customer: username vacío.
-				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: password vacío.
-				"correcto", "", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"correcto", "", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: name vacío.
-				"correcto", "correcto", "", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"correcto", "correcto", "", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: surname vacío.
-				"correcto", "correcto", "correcto", "", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"correcto", "correcto", "correcto", "", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: email vacío.
-				"correcto", "correcto", "correcto", "correcto", "", "1234", "http://www.edurne.com", "descripcion", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"correcto", "correcto", "correcto", "correcto", "", "1234", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: phoneNumber vacío.
-				"correcto", "correcto", "correcto", "correcto", "correcto@bien.com", "", "http://www.edurne.com", "descripcion", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"correcto", "correcto", "correcto", "correcto", "correcto@bien.com", "", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: username con pocos carácteres.
-				"cor", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"cor", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: password con pocos carácteres.
-				"correcto", "cor", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"correcto", "cor", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: email incorrecto.
-				"correcto", "correcto", "correcto", "correcto", "correctobien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"correcto", "correcto", "correcto", "correcto", "correctobien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city",
+				ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: phoneNumber incorrecto.
-				"correcto", "correcto", "correcto", "correcto", "correcto@bien.com", "A", "http://www.edurne.com", "descripcion", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"correcto", "correcto", "correcto", "correcto", "correcto@bien.com", "A", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city",
+				ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: picture vacío.
-				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "", "descripcion", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "", "descripcion", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: picture incorrecto.
-				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", ".edurne.com", "descripcion", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", ".edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: description vacío.
-				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: relationship vacío.
-				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: relationship incorrecto.
-				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: fecha vacía.
-				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", "", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", null, "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: fecha futura.
-				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", "06/05/2020", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
-			}, {	// Creación errónea de un Customer: fecha incorrecta.
-				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", "06/051989", "WOMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaFutura), "WOMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: genre vacío.
-				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", "06/05/1989", "", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: genre incorrecto.
-				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", "06/05/1989", "WMAN", "false", "Country", "state", "province", "city", ConstraintViolationException.class
+				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "WMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: ciudad vacía.
-				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", "06/05/1989", "WOMAN", "false", "Country", "state", "province", "", ConstraintViolationException.class
+				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", new Date(this.fechaValida), "WOMAN", false, "Country", "state", "province", "", ConstraintViolationException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
@@ -87,7 +91,6 @@ public class ChorbiServiceTest extends AbstractTest {
 				(String) testingData[i][7], (String) testingData[i][8], (Date) testingData[i][9], (String) testingData[i][10], (Boolean) testingData[i][11], (String) testingData[i][12], (String) testingData[i][13], (String) testingData[i][14],
 				(String) testingData[i][15], (Class<?>) testingData[i][16]);
 	}
-
 	@Test
 	public void driverDisplaying() {
 		final Object testingData[][] = {
