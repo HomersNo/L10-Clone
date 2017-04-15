@@ -17,11 +17,11 @@ public class LikesService {
 
 	//managed repository-------------------
 	@Autowired
-	private LikesRepository			likesRepository;
+	private LikesRepository	likesRepository;
 
 	//supporting services-------------------
 	@Autowired
-	private ChorbiService			chorbiService;
+	private ChorbiService	chorbiService;
 
 
 	//Basic CRUD methods-------------------
@@ -44,11 +44,11 @@ public class LikesService {
 		retrieved = this.likesRepository.findOne(likesId);
 		return retrieved;
 	}
-	
-	public Likes findByOneToEdit(int likesId) {
+
+	public Likes findByOneToEdit(final int likesId) {
 		Likes retrieved;
 		retrieved = this.likesRepository.findOne(likesId);
-		Assert.isTrue(retrieved.getChorbi().getId()==chorbiService.findByPrincipal().getId());
+		Assert.isTrue(retrieved.getChorbi().getId() == this.chorbiService.findByPrincipal().getId());
 		return retrieved;
 	}
 
@@ -65,7 +65,7 @@ public class LikesService {
 	}
 
 	public Likes save(final Likes comment) {
-
+		Assert.isTrue(!comment.getLiked().equals(comment.getChorbi()));
 		Likes saved;
 		final Date moment = new Date(System.currentTimeMillis() - 100);
 		comment.setMoment(moment);
@@ -75,7 +75,7 @@ public class LikesService {
 	}
 
 	public void delete(final Likes comment) {
-
+		Assert.isTrue(comment.getChorbi().equals(this.chorbiService.findByPrincipal()));
 		this.likesRepository.delete(comment);
 
 	}
@@ -91,10 +91,9 @@ public class LikesService {
 
 	public Collection<Likes> findAllByPrincipal() {
 		Collection<Likes> result;
-		final Chorbi chorbi = chorbiService.findByPrincipal();
-		result = likesRepository.findAllByChorbiId(chorbi.getId());
+		final Chorbi chorbi = this.chorbiService.findByPrincipal();
+		result = this.likesRepository.findAllByChorbiId(chorbi.getId());
 		return result;
 	}
 
-	
 }

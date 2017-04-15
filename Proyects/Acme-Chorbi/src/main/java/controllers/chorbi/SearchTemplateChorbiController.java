@@ -47,7 +47,7 @@ public class SearchTemplateChorbiController extends AbstractController {
 	public ModelAndView edit() {
 
 		final Chorbi principal = this.chorbiService.findByPrincipal();
-		final SearchTemplate searchTemplate = this.chorbiService.findSearchTemplateByChorbi(principal);
+		final SearchTemplate searchTemplate = this.searchTemplateService.findSearchTemplateByChorbi(principal);
 		ModelAndView result;
 		if (searchTemplate == null)
 			result = new ModelAndView("redirect:/searchTemplate/chorbi/create.do");

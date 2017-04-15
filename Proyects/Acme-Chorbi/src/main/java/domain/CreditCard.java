@@ -1,3 +1,4 @@
+
 package domain;
 
 import javax.persistence.Access;
@@ -7,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.NotBlank;
@@ -35,19 +37,20 @@ public class CreditCard extends DomainEntity {
 
 	@NotBlank
 	public String getHolderName() {
-		return holderName;
+		return this.holderName;
 	}
 
-	public void setHolderName(String holderName) {
+	public void setHolderName(final String holderName) {
 		this.holderName = holderName;
 	}
 
 	@NotBlank
+	@Pattern(regexp = "^VISA|MASTERCARD|DISCOVER|DINNERS|AMEX$")
 	public String getBrandName() {
-		return brandName;
+		return this.brandName;
 	}
 
-	public void setBrandName(String brandName) {
+	public void setBrandName(final String brandName) {
 		this.brandName = brandName;
 	}
 
@@ -55,53 +58,55 @@ public class CreditCard extends DomainEntity {
 	@Column(length = 16)
 	@NotBlank
 	public String getCreditCardNumber() {
-		return creditCardNumber;
+		return this.creditCardNumber;
 	}
 
-	public void setCreditCardNumber(String creditCardNumber) {
+	public void setCreditCardNumber(final String creditCardNumber) {
 		this.creditCardNumber = creditCardNumber;
 	}
 
 	@NotNull
 	@Range(min = 1, max = 12)
 	public int getExpirationMonth() {
-		return expirationMonth;
+		return this.expirationMonth;
 	}
 
-	public void setExpirationMonth(int expirationMonth) {
+	public void setExpirationMonth(final int expirationMonth) {
 		this.expirationMonth = expirationMonth;
 	}
 
 	@NotNull
 	@Range(min = 0, max = 99)
 	public int getExpirationYear() {
-		return expirationYear;
+		return this.expirationYear;
 	}
 
-	public void setExpirationYear(int expirationYear) {
+	public void setExpirationYear(final int expirationYear) {
 		this.expirationYear = expirationYear;
 	}
 
 	@NotNull
 	@Range(min = 100, max = 999)
 	public int getCVV() {
-		return CVV;
+		return this.CVV;
 	}
 
-	public void setCVV(int cVV) {
-		CVV = cVV;
+	public void setCVV(final int cVV) {
+		this.CVV = cVV;
 	}
+
 
 	// Relationships ----------------------------------------------------------
-	private Chorbi chorbi;
-	
+	private Chorbi	chorbi;
+
+
 	@Valid
 	@NotNull
 	@OneToOne(optional = false)
 	public Chorbi getChorbi() {
-		return chorbi;
+		return this.chorbi;
 	}
-	public void setChorbi(Chorbi chorbi) {
+	public void setChorbi(final Chorbi chorbi) {
 		this.chorbi = chorbi;
 	}
 }
