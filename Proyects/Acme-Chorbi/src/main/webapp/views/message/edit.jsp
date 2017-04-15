@@ -29,6 +29,7 @@
 	<jstl:if test="${chirp.id!=0}">
 		<form:hidden path="recipient"/>
 	</jstl:if>
+	<form:hidden path="attachments"/>
 	
 	
 
@@ -98,7 +99,7 @@
 	<ul>
 	<jstl:forEach var="row" varStatus="i" items="${chirp.attachments}">
 	
-		<li><a href="${ row.link}"><jstl:out value="${ row.link}" /></a>
+		<li><a href="${row.link}"><jstl:out value="${row.link}" /></a>
 	
     </jstl:forEach>
     </ul>

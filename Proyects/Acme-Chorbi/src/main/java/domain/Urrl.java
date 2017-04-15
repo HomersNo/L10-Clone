@@ -5,9 +5,6 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Embeddable;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.URL;
-
 @Embeddable
 @Access(AccessType.PROPERTY)
 public class Urrl {
@@ -24,8 +21,6 @@ public class Urrl {
 	private String	link;
 
 
-	@NotBlank
-	@URL
 	public String getLink() {
 		return this.link;
 	}

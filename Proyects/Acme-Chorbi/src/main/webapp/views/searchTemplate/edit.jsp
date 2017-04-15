@@ -7,11 +7,11 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<form:form modelAttribute="finder" action="finder/tenant/edit.do">
+<form:form modelAttribute="searchTemplate" action="searchTemplate/chorbi/edit.do">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	<form:hidden path="cache" />
+	<form:hidden path="chorbies" />
 	<form:hidden path="chorbi" />
 	<form:hidden path="moment" />
 	
@@ -33,9 +33,9 @@
 		<spring:message code="searchTemplate.relationshipType" />:
 	</form:label>
 	<form:select path="relationshipType">
-                <form:option value="ACTIVITIES"><spring:message code="searchTemplate.grams" /></form:option>
-                <form:option value="FRIENDSHIP"><spring:message code="searchTemplate.kilograms" /></form:option>
-                <form:option value="LOVE"><spring:message code="searchTemplate.ounces" /></form:option>
+                <form:option value="ACTIVITIES"><spring:message code="searchTemplate.activities" /></form:option>
+                <form:option value="FRIENDSHIP"><spring:message code="searchTemplate.friendship" /></form:option>
+                <form:option value="LOVE"><spring:message code="searchTemplate.love" /></form:option>
             </form:select>
 	<form:errors cssClass="error" path="relationshipType" />
 		
