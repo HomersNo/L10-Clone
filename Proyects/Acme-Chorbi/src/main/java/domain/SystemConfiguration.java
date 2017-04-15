@@ -10,6 +10,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -28,16 +29,17 @@ public class SystemConfiguration extends DomainEntity {
 
 	//Attributes
 
-	private Collection<String>	banners;
+	private Collection<Urrl>	banners;
 	private Date				cacheTime;
 
 
 	@ElementCollection
+	@Valid
 	@NotEmpty
-	public Collection<String> getBanners() {
+	public Collection<Urrl> getBanners() {
 		return this.banners;
 	}
-	public void setBanners(final Collection<String> banners) {
+	public void setBanners(final Collection<Urrl> banners) {
 		this.banners = banners;
 	}
 

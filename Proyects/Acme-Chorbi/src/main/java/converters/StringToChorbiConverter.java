@@ -22,12 +22,15 @@ public class StringToChorbiConverter implements Converter<String, Chorbi> {
 		Chorbi result;
 		int id;
 
-		try {
-			id = Integer.valueOf(text);
-			result = this.chorbiRepository.findOne(id);
-		} catch (final Throwable oops) {
-			throw new IllegalArgumentException(oops);
-		}
+		if (text == "")
+			result = null;
+		else
+			try {
+				id = Integer.valueOf(text);
+				result = this.chorbiRepository.findOne(id);
+			} catch (final Throwable oops) {
+				throw new IllegalArgumentException(oops);
+			}
 
 		return result;
 	}
