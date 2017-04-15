@@ -68,11 +68,11 @@ public class SearchTemplateChorbiController extends AbstractController {
 				if (binding.hasErrors())
 					result = this.createEditModelAndView(searchTemplate);
 				if (this.searchTemplateService.checkCache(searchTemplate)) {
-					result = new ModelAndView("redirect:/chorbi/listFound.do?searchTemplateId=" + searchTemplate.getId());
+					result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?searchTemplateId=" + searchTemplate.getId());
 					result.addObject("message", "searchTemplate.commit.ok");
 				} else {
 					this.searchTemplateService.save(searchTemplate);
-					result = new ModelAndView("redirect:/chorbi/listFound.do?chorbiId=" + searchTemplate.getId());
+					result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?chorbiId=" + searchTemplate.getId());
 					result.addObject("message", "searchTemplate.commit.ok");
 				}
 

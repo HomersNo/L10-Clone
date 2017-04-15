@@ -33,6 +33,9 @@ public class ChorbiService {
 	private AdministratorService	administratorService;
 
 	@Autowired
+	private SearchTemplateService	searchTemplateService;
+
+	@Autowired
 	private Validator				validator;
 
 
@@ -169,9 +172,8 @@ public class ChorbiService {
 	}
 
 	public Chorbi register(final Chorbi chorbi) {
-		if(chorbi.getId()!=0){
+		if (chorbi.getId() != 0)
 			Assert.isTrue(this.findByPrincipal().getId() == chorbi.getId());
-		}
 		Chorbi result;
 
 		final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
@@ -239,4 +241,14 @@ public class ChorbiService {
 		this.chorbiRepository.flush();
 	}
 
+	public Collection<Chorbi> findAllFound(final int searchTemplateId) {
+
+		Collection<Chorbi> filtered;
+		final SearchTemplate st = this.searchTemplateService.findOne(searchTemplateId);
+
+		filtered = st.getChorbies();
+
+		return filtered;
+
+	}
 }
