@@ -17,6 +17,7 @@ import repositories.SearchTemplateRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Chorbi;
+import domain.CreditCard;
 import domain.SearchTemplate;
 
 @Service
@@ -51,6 +52,7 @@ public class SearchTemplateService {
 	public SearchTemplate create() {
 
 		SearchTemplate created;
+		final Collection<Chorbi> chorbies = new ArrayList<Chorbi>();
 		created = new SearchTemplate();
 		final Chorbi principal = this.chorbiService.findByPrincipal();
 		Assert.notNull(principal);
@@ -60,6 +62,7 @@ public class SearchTemplateService {
 		Date now;
 		now = new Date(System.currentTimeMillis() - 1);
 		created.setMoment(now);
+		created.setChorbies(chorbies);
 
 		return created;
 	}
@@ -89,7 +92,9 @@ public class SearchTemplateService {
 		SearchTemplate saved;
 		Assert.notNull(searchTemplate);
 		Assert.isTrue(this.checkPrincipal(searchTemplate));
-
+		final CreditCard creditCard = this.creditCardService.findByPrincipal();
+		Assert.notNull(creditCard);
+		Assert.isTrue(this.creditCardService.checkCCNumber(creditCard.getCreditCardNumber()) && this.creditCardService.expirationDate(creditCard));
 		Collection<Chorbi> filtered;
 		filtered = new ArrayList<Chorbi>();
 		filtered.addAll(this.chorbiService.findAll());
@@ -180,7 +185,7 @@ public class SearchTemplateService {
 		cal.add(Calendar.HOUR, -12);
 		final Date dateOneHourBack = cal.getTime();
 		final Chorbi principal = this.chorbiService.findByPrincipal();
-		final SearchTemplate chorbiTemplate = this.chorbiService.findSearchTemplateByChorbi(principal);
+		final SearchTemplate chorbiTemplate = this.findSearchTemplateByChorbi(principal);
 		if (chorbiTemplate != null) {
 			Boolean relationshipType;
 			Boolean age;
@@ -200,28 +205,28 @@ public class SearchTemplateService {
 			province = true;
 			city = true;
 
-			if (searchTemplate.getRelationshipType() != "")
+			if (searchTemplate.getRelationshipType() != "" && searchTemplate.getRelationshipType() != null)
 				relationshipType = chorbiTemplate.getRelationshipType().equals(searchTemplate.getRelationshipType());
 
 			if (searchTemplate.getAge() != null)
 				age = chorbiTemplate.getAge().equals(searchTemplate.getAge());
 
-			if (searchTemplate.getGenre() != "")
+			if (searchTemplate.getGenre() != "" && searchTemplate.getGenre() != null)
 				genre = chorbiTemplate.getGenre().equals(searchTemplate.getGenre());
 
-			if (searchTemplate.getKeyword() != "")
+			if (searchTemplate.getKeyword() != "" && searchTemplate.getKeyword() != null)
 				keyword = chorbiTemplate.getKeyword().equals(searchTemplate.getKeyword());
 
-			if (searchTemplate.getCountry() != "")
+			if (searchTemplate.getCountry() != "" && searchTemplate.getCountry() != null)
 				country = chorbiTemplate.getCountry().equals(searchTemplate.getCountry());
 
-			if (searchTemplate.getState() != "")
+			if (searchTemplate.getState() != "" && searchTemplate.getState() != null)
 				state = chorbiTemplate.getState().equals(searchTemplate.getState());
 
-			if (searchTemplate.getProvince() != "")
+			if (searchTemplate.getProvince() != "" && searchTemplate.getProvince() != null)
 				province = chorbiTemplate.getProvince().equals(searchTemplate.getProvince());
 
-			if (searchTemplate.getCity() != "")
+			if (searchTemplate.getCity() != "" && searchTemplate.getCity() != null)
 				city = chorbiTemplate.getCity().equals(searchTemplate.getCity());
 
 			final Boolean isEqual = relationshipType && age && genre && keyword && country && state && province && city;
@@ -234,6 +239,15 @@ public class SearchTemplateService {
 			res = false;
 
 		return res;
+	}
+
+	public SearchTemplate findSearchTemplateByChorbi(final Chorbi principal) {
+		final SearchTemplate result = this.searchTemplateRepository.findByChorbiId(principal.getId());
+		return result;
+	}
+
+	public void flush() {
+		this.searchTemplateRepository.flush();
 	}
 
 	// Other business methods -------------------------------------------------
