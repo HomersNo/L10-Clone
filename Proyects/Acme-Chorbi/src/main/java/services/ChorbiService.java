@@ -32,6 +32,9 @@ public class ChorbiService {
 	private AdministratorService	administratorService;
 
 	@Autowired
+	private SearchTemplateService	searchTemplateService;
+
+	@Autowired
 	private Validator				validator;
 
 
@@ -233,4 +236,14 @@ public class ChorbiService {
 		this.chorbiRepository.flush();
 	}
 
+	public Collection<Chorbi> findAllFound(final int searchTemplateId) {
+
+		Collection<Chorbi> filtered;
+		final SearchTemplate st = this.searchTemplateService.findOne(searchTemplateId);
+
+		filtered = st.getChorbies();
+
+		return filtered;
+
+	}
 }

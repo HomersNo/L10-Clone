@@ -4,6 +4,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -136,8 +137,8 @@ public class ChirpService {
 		url.setLink(attachment);
 
 		if (chirp.getAttachments() == null) {
-			final Collection<Urrl> attachments = new ArrayList<Urrl>();
-			attachments.add(new Urrl());
+			final Collection<Urrl> attachments = new HashSet<Urrl>();
+			attachments.add(url);
 			chirp.setAttachments(attachments);
 		} else
 			chirp.getAttachments().add(url);
