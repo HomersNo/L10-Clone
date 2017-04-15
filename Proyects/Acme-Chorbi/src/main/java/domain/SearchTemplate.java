@@ -13,11 +13,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -44,7 +44,6 @@ public class SearchTemplate extends DomainEntity {
 	private String	city;
 
 
-	@NotBlank
 	@Pattern(regexp = "^ACTIVITIES|FRIENDSHIP|LOVE$")
 	public String getRelationshipType() {
 		return this.relationshipType;
@@ -52,13 +51,14 @@ public class SearchTemplate extends DomainEntity {
 	public void setRelationshipType(final String relationshipType) {
 		this.relationshipType = relationshipType;
 	}
+	@Min(18)
 	public Integer getAge() {
 		return this.age;
 	}
 	public void setAge(final Integer age) {
 		this.age = age;
 	}
-	@NotBlank
+
 	@Pattern(regexp = "^MAN|WOMAN$")
 	public String getGenre() {
 		return this.genre;
@@ -99,7 +99,7 @@ public class SearchTemplate extends DomainEntity {
 	public void setProvince(final String province) {
 		this.province = province;
 	}
-	@NotBlank
+
 	public String getCity() {
 		return this.city;
 	}
@@ -125,6 +125,7 @@ public class SearchTemplate extends DomainEntity {
 
 	@Valid
 	@ManyToMany(cascade = CascadeType.ALL)
+	@NotNull
 	public Collection<Chorbi> getChorbies() {
 		return this.chorbies;
 	}

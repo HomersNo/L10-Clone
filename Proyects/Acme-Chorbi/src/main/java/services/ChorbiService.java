@@ -19,7 +19,6 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Chorbi;
-import domain.SearchTemplate;
 import forms.RegisterChorbi;
 
 @Service
@@ -169,9 +168,8 @@ public class ChorbiService {
 	}
 
 	public Chorbi register(final Chorbi chorbi) {
-		if(chorbi.getId()!=0){
+		if (chorbi.getId() != 0)
 			Assert.isTrue(this.findByPrincipal().getId() == chorbi.getId());
-		}
 		Chorbi result;
 
 		final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
@@ -229,10 +227,6 @@ public class ChorbiService {
 
 	public Collection<Chorbi> findByCity(final String city) {
 		return this.chorbiRepository.findByCity(city);
-	}
-
-	public SearchTemplate findSearchTemplateByChorbi(final Chorbi chorbi) {
-		return this.chorbiRepository.findSearchTemplateByChorbi(chorbi);
 	}
 
 	public void flush() {

@@ -163,7 +163,7 @@ public class ChirpServiceTest extends AbstractTest {
 			this.authenticate(username);
 			final Actor actor = this.actorService.findByPrincipal();
 			final Folder folder = this.folderService.findSystemFolder(actor, folderName);
-
+			this.chirpService.findAllByFolder(folder.getId());
 			this.unauthenticate();
 
 			this.chirpService.flush();

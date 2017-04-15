@@ -52,7 +52,7 @@ public class CreditCardService {
 	public CreditCard save(final CreditCard creditCard) {
 		Assert.notNull(creditCard);
 		CreditCard result;
-		Assert.isTrue(CreditCardService.checkCCNumber(creditCard.getCreditCardNumber()));
+		Assert.isTrue(this.checkCCNumber(creditCard.getCreditCardNumber()));
 		Assert.isTrue(this.expirationDate(creditCard));
 
 		result = this.creditCardRepository.save(creditCard);
@@ -82,7 +82,7 @@ public class CreditCardService {
 	}
 
 	//Luhn's Algorithm
-	public static boolean checkCCNumber(final String ccNumber) {
+	public boolean checkCCNumber(final String ccNumber) {
 		int sum = 0;
 		boolean alternate = false;
 		for (int i = ccNumber.length() - 1; i >= 0; i--) {
@@ -98,16 +98,16 @@ public class CreditCardService {
 		return (sum % 10 == 0);
 	}
 
-	private boolean expirationDate(final CreditCard creditCard) {
+	public boolean expirationDate(final CreditCard creditCard) {
 		boolean res = false;
 		final Calendar moment = new GregorianCalendar();
-		if (creditCard.getExpirationYear() == moment.get(Calendar.YEAR)) {
+		if ((2000 + creditCard.getExpirationYear()) == moment.get(Calendar.YEAR)) {
 			if (creditCard.getExpirationMonth() > moment.get(Calendar.MONTH))
 				res = true;
 			else if (creditCard.getExpirationMonth() == moment.get(Calendar.MONTH))
 				if (moment.get(Calendar.DAY_OF_MONTH) < 21)
 					res = true;
-		} else if (creditCard.getExpirationYear() > moment.get(Calendar.YEAR))
+		} else if ((2000 + creditCard.getExpirationYear()) > moment.get(Calendar.YEAR))
 			res = true;
 		return res;
 	}
