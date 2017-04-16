@@ -124,8 +124,18 @@ public class UserAccount extends DomainEntity implements UserDetails {
 	public boolean isEnabled() {
 		return this.isEnabled;
 	}
-	
-	public void setEnabled(boolean isEnabled) {
+
+	public void setEnabled(final boolean isEnabled) {
+		this.isEnabled = isEnabled;
+	}
+
+	public boolean getIsEnabled() {
+
+		return this.isEnabled;
+	}
+
+	public void setIsEnabled(final boolean isEnabled) {
+
 		this.isEnabled = isEnabled;
 	}
 

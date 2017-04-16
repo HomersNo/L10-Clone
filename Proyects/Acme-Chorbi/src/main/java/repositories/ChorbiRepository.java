@@ -24,31 +24,31 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 
 	@Query("Select c from Chorbi c where c.userAccount.id = ?1")
 	Chorbi findByUserAccountId(int userAccountId);
-	
+
 	@Query("Select c from Chorbi c where c.relationshipType = ?1")
 	Collection<Chorbi> findByRelationshipType(String relationshipType);
-	
-	@Query("Select c from Chorbi c, SearchTemplate s where YEAR(NOW) - YEAR(c.birthDate) = ?1")
+
+	@Query("Select c from Chorbi c, SearchTemplate s where YEAR(CURRENT_DATE) - YEAR(c.birthDate) = ?1")
 	Collection<Chorbi> findByAge(Integer age);
-	
+
 	@Query("Select c from Chorbi c where c.name like %?1% OR c.surname like %?1%")
 	Collection<Chorbi> findByKeyword(String keyword);
-	
+
 	@Query("Select c from Chorbi c where c.country = ?1")
 	Collection<Chorbi> findByCountry(String country);
-	
+
 	@Query("Select c from Chorbi c where c.genre = ?1")
 	Collection<Chorbi> findByGenre(String genre);
-	
+
 	@Query("Select c from Chorbi c where c.state = ?1")
 	Collection<Chorbi> findByState(String state);
-	
+
 	@Query("Select c from Chorbi c where c.province = ?1")
 	Collection<Chorbi> findByProvince(String province);
-	
+
 	@Query("Select c from Chorbi c where c.city = ?1")
 	Collection<Chorbi> findByCity(String city);
-	
+
 	@Query("Select s from SearchTemplate s where s.chorbi = ?1")
 	SearchTemplate findSearchTemplateByChorbi(Chorbi chorbi);
 

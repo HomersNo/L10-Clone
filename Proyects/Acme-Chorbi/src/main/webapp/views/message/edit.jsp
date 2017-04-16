@@ -29,6 +29,7 @@
 	<jstl:if test="${chirp.id!=0}">
 		<form:hidden path="recipient"/>
 	</jstl:if>
+	<form:hidden path="attachments"/>
 	
 	
 
@@ -36,7 +37,7 @@
 		<spring:message code="message.title" />:
 	</form:label>
 	<form:input path="subject" />
-	<form:errors cssClass="error" path="title" />
+	<form:errors cssClass="error" path="subject" />
 	<br />
 	
 	<form:label path="text">
@@ -67,16 +68,11 @@
 	<br />
 	</jstl:if>
 	
-	<acme:textbox code="message.attachment" path="attachment"/>
-
+	
+	</ul>
 
 	<input type="submit" name="save"
 		value="<spring:message code="message.save" />" />&nbsp; 
-	<jstl:if test="${message.id != 0}">
-		<input type="submit" name="delete"
-			value="<spring:message code="message.delete" />"
-			onclick="return confirm('<spring:message code="message.confirm.delete" />')" />&nbsp;
-	</jstl:if>
 	<input type="button" name="cancel"
 		value="<spring:message code="message.cancel" />"
 		onclick="location.href = ('folder/actor/list.do');" />
@@ -85,3 +81,25 @@
 	
 
 </form:form>
+
+	<form:form action="chirp/chorbi/attach.do" modelAttribute="chirpAttach">
+		
+		<form:hidden path="text" value="${chirp.text}" />
+		<form:hidden path="subject" value="${chirp.subject}" />
+		<form:hidden path="attachments" value="${chirp.attachments}" />
+		<form:hidden path="recipient" value="${chirp.recipient}" />
+	
+		<acme:textbox  code="chirp.attachment.add" path="attachment"/>
+		
+		<input type="submit" name="attach"
+		value="<spring:message code="chirp.attachment.add" />" />&nbsp; 
+	   
+	</form:form>
+	
+	<ul>
+	<jstl:forEach var="row" varStatus="i" items="${chirp.attachments}">
+	
+		<li><a href="${row.link}"><jstl:out value="${row.link}" /></a>
+	
+    </jstl:forEach>
+    </ul>

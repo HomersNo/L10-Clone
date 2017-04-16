@@ -1,8 +1,10 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import domain.Actor;
 import domain.Chirp;
 import domain.Chorbi;
 import domain.Folder;
+import domain.Urrl;
 
 @Service
 @Transactional
@@ -51,11 +54,13 @@ public class ChirpService {
 	public Chirp create() {
 		final Chirp result = new Chirp();
 		Chorbi sender;
+		final Collection<Urrl> attachments = new ArrayList<Urrl>();
 		sender = this.chorbiService.findByPrincipal();
-		final Folder senderFolder = this.folderService.findSystemFolder(sender, "Outbox");
+		final Folder senderFolder = this.folderService.findSystemFolder(sender, "Sent");
 		result.setFolder(senderFolder);
 		result.setMoment(new Date());
 		result.setSender(sender);
+		result.setAttachments(attachments);
 		return result;
 	}
 
@@ -125,6 +130,20 @@ public class ChirpService {
 
 		return message;
 	}
+
+	public void addAttachment(final Chirp chirp, final String attachment) {
+
+		final Urrl url = new Urrl();
+		url.setLink(attachment);
+
+		if (chirp.getAttachments() == null) {
+			final Collection<Urrl> attachments = new HashSet<Urrl>();
+			attachments.add(url);
+			chirp.setAttachments(attachments);
+		} else
+			chirp.getAttachments().add(url);
+
+	}
 	public Chirp move(final Chirp message, final Folder folder) {
 		Chirp result;
 		this.checkPrincipal(message);
@@ -151,7 +170,10 @@ public class ChirpService {
 	public Chirp reSend(final Chirp chirp, final Chorbi chorbi) {
 
 		Chirp result;
-		result = chirp;
+		result = this.create();
+		result.setAttachments(chirp.getAttachments());
+		result.setSubject(chirp.getSubject());
+		result.setText(chirp.getText());
 		result.setRecipient(chorbi);
 		this.send(result);
 

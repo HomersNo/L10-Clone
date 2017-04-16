@@ -19,10 +19,12 @@ import services.FolderService;
 import controllers.AbstractController;
 import domain.Chirp;
 import domain.Chorbi;
+import domain.Folder;
+import forms.ChirpAttach;
 import forms.ResendChirp;
 
 @Controller
-@RequestMapping("/message/chirp/chorbi")
+@RequestMapping("/chirp/chorbi")
 public class ChirpChorbiController extends AbstractController {
 
 	//Services
@@ -50,13 +52,24 @@ public class ChirpChorbiController extends AbstractController {
 
 		ModelAndView result;
 		Collection<Chirp> messages;
-		final String requestURI = "message/actor/list.do?folderId=" + folderId;
+		Folder folder;
+		ResendChirp resendChirp;
+		Collection<Chorbi> chorbies;
+
+		chorbies = this.actorService.findAll();
+		resendChirp = new ResendChirp();
+
+		folder = this.folderService.findOne(folderId);
+		final String requestURI = "chirp/chorbi/list.do?folderId=" + folderId;
 
 		try {
 			messages = this.messageService.findAllByFolder(folderId);
 			result = new ModelAndView("message/list");
 			result.addObject("messages", messages);
 			result.addObject("requestURI", requestURI);
+			result.addObject("folder", folder);
+			result.addObject("resendChirp", resendChirp);
+			result.addObject("chorbies", chorbies);
 		} catch (final Throwable oops) {
 
 			result = new ModelAndView("redirect:/folder/actor/list.do");
@@ -90,7 +103,7 @@ public class ChirpChorbiController extends AbstractController {
 			try {
 				sent = this.messageService.send(message);
 				principal = this.actorService.findByPrincipal();
-				result = new ModelAndView("redirect:/message/actor/list.do?folderId=" + this.folderService.findSystemFolder(principal, "Outbox").getId());
+				result = new ModelAndView("redirect:/chirp/chorbi/list.do?folderId=" + this.folderService.findSystemFolder(principal, "Sent").getId());
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(message, "message.commit.error");
 			}
@@ -98,6 +111,33 @@ public class ChirpChorbiController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/attach", method = RequestMethod.POST, params = "attach")
+	public ModelAndView attach(@Valid final ChirpAttach chirpAttach, final BindingResult binding) {
+		ModelAndView result;
+
+		Chirp message;
+
+		message = this.messageService.create();
+		message.setRecipient(chirpAttach.getRecipient());
+		message.setSubject(chirpAttach.getSubject());
+		message.setText(chirpAttach.getText());
+		message.setAttachments(chirpAttach.getAttachments());
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(message);
+		else
+			try {
+				final String attachment = chirpAttach.getAttachment();
+				this.messageService.addAttachment(message, attachment);
+				result = this.createEditModelAndView(message);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(message, "message.commit.error");
+			}
+
+		result = this.createEditModelAndView(message);
+
+		return result;
+	}
 	//TODO Cuando lanza la excepción a dónde lo mando?
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView delete(@RequestParam final int messageId) {
@@ -118,7 +158,7 @@ public class ChirpChorbiController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/resend", method = RequestMethod.POST, params = "save")
-	public ModelAndView resend(@RequestParam final ResendChirp resendChirp, final BindingResult binding) {
+	public ModelAndView resend(@Valid final ResendChirp resendChirp, final BindingResult binding) {
 		Chorbi principal;
 		ModelAndView result;
 		Chirp sent;
@@ -132,7 +172,7 @@ public class ChirpChorbiController extends AbstractController {
 				sent = this.messageService.findOne(resendChirp.getChirpId());
 				sent = this.messageService.reSend(sent, recipient);
 				principal = this.actorService.findByPrincipal();
-				result = new ModelAndView("redirect:/message/actor/list.do?folderId=" + this.folderService.findSystemFolder(principal, "Outbox").getId());
+				result = new ModelAndView("redirect:/chirp/chorbi/list.do?folderId=" + this.folderService.findSystemFolder(principal, "Sent").getId());
 			} catch (final Throwable oops) {
 				result = new ModelAndView("redirect:/welcome/index.do");
 			}
@@ -162,16 +202,18 @@ public class ChirpChorbiController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Chirp message, final String errorChirp) {
+	protected ModelAndView createEditModelAndView(final Chirp message, final String errorMessage) {
 		ModelAndView result;
 		Collection<Chorbi> actors;
+		final ChirpAttach chirpAttach = new ChirpAttach();
 
 		actors = this.actorService.findAll();
 
 		result = new ModelAndView("message/edit");
-		result.addObject("errorChirp", errorChirp);
-		result.addObject("message", message);
+		result.addObject("chirp", message);
+		result.addObject("message", errorMessage);
 		result.addObject("actors", actors);
+		result.addObject("chirpAttach", chirpAttach);
 
 		return result;
 	}
