@@ -61,14 +61,14 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 		return result;
 	}
 
-	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public ModelAndView dashboard() {
-		ModelAndView result;
-
-		result = new ModelAndView("systemConfiguration/dashboard");
-
-		return result;
-	}
+	//	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	//	public ModelAndView dashboard() {
+	//		ModelAndView result;
+	//
+	//		result = new ModelAndView("systemConfiguration/dashboard");
+	//
+	//		return result;
+	//	}
 
 	// Ancillary methods
 

@@ -58,10 +58,10 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	@Query("Select c from Chorbi c group by c.city, c.country")
 	Collection<Chorbi> chorbiesPerCityAndCountry();
 
-	@Query("select sum(floor(datediff(Current_date, c.birthDate)/365))*1.0/(select count(c)*1.0 from Chorbi c) from Chorbi c;")
+	@Query("select sum(floor(datediff(Current_date, c.birthDate)/365))*1.0/(select count(c)*1.0 from Chorbi c) from Chorbi c")
 	Double[] findAvgChorbiesAge();
 
-	@Query("select floor(datediff(Current_date, c.birthDate)/365) as result from Chorbi c order by result asc;")
+	@Query("select floor(datediff(Current_date, c.birthDate)/365) as result from Chorbi c order by result asc")
 	Double[] findListAgesOrderAsc();
 
 	@Query("select count(c)*1.0/(select count(c)*1.0 from Chorbi c) from Chorbi c where c.relationshipType = 'ACTIVITIES'")
@@ -78,4 +78,7 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 
 	@Query("select c from Likes l right join l.liked c group by c order by count(l) ASC")
 	Collection<Chorbi> findChorbiesOrderByLikes();
+
+	@Query("select l.chorbi from Likes l where l.liked.id=?1")
+	Collection<Chorbi> findAllLiking(int chorbiID);
 }
