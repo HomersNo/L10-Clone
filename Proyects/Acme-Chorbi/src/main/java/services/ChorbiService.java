@@ -233,6 +233,11 @@ public class ChorbiService {
 		return this.chorbiRepository.findByCity(city);
 	}
 
+	public Collection<Chorbi> chorbiesPerCityAndCountry() {
+		final Collection<Chorbi> result = this.chorbiesPerCityAndCountry();
+		return result;
+	}
+
 	public void flush() {
 		this.chorbiRepository.flush();
 	}

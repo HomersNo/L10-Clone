@@ -13,4 +13,7 @@ public interface SystemConfigurationRepository extends JpaRepository<SystemConfi
 	@Query("select sc from SystemConfiguration sc")
 	SystemConfiguration findMain();
 
+	@Query("select count(cc)*1.0/(select count(c)*1.0 from Chorbi c) from CreditCard cc")
+	Double findRatioChorbiesWithoutCreditCard();
+
 }
