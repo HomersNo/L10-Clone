@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ChorbiService;
 import services.SystemConfigurationService;
 import controllers.AbstractController;
 import domain.SystemConfiguration;
@@ -22,6 +23,9 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 
 	@Autowired
 	private SystemConfigurationService	scService;
+
+	@Autowired
+	private ChorbiService				chorbiService;
 
 
 	//Contructor
@@ -56,6 +60,15 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 			}
 		return result;
 	}
+
+	//	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	//	public ModelAndView dashboard() {
+	//		ModelAndView result;
+	//
+	//		result = new ModelAndView("systemConfiguration/dashboard");
+	//
+	//		return result;
+	//	}
 
 	// Ancillary methods
 

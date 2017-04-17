@@ -17,6 +17,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib uri="/WEB-INF/tags/functions" prefix="mask" %>
 
 <display:table pagesize="5" class="displaytag" keepStatus="true"
 	name="chorbis" requestURI="${requestURI}" id="row">
@@ -41,17 +42,23 @@
 
 	<!-- Attributes -->
 	<spring:message code="chorbi.name" var="nameHeader" />
-	<display:column property="name" title="${nameHeader}" sortable="true" />
+	<display:column title="${nameHeader}" sortable="true" >
+		${mask:mask(row.name) }
+	</display:column>
 
 	<spring:message code="chorbi.surname" var="chorbiHeader" />
-	<display:column property="surname" title="${chorbiHeader}" sortable="true" />
+	<display:column title="${chorbiHeader}" sortable="true">
+		${mask:mask(row.surname) }
+	</display:column>
 	
 	<spring:message code="chorbi.description" var="descriptionHeader" />
-	<display:column property="description" title="${descriptionHeader}" sortable="true" />
+	<display:column title="${descriptionHeader}" sortable="true">
+		${mask:mask(row.description) }
+	</display:column>
 
 	<spring:message code="chorbi" var="chorbiHeader" />
 	<display:column title="${chorbiHeader}">
-		<a href="actor/actor/display.do?actorId=${row.id}"><jstl:out value="${row.name}" /> <jstl:out value="${row.surname }" /> </a>
+		<a href="actor/actor/display.do?actorId=${row.id}"><jstl:out value="${mask:mask(row.name) }" /> <jstl:out value="${mask:mask(row.surname) }" /> </a>
 	</display:column>
 	
 	<security:authorize access="hasAnyRole('CHORBI')">

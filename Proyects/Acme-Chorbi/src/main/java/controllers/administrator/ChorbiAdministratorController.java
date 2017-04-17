@@ -1,3 +1,4 @@
+
 package controllers.administrator;
 
 import java.util.Collection;
@@ -9,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Chorbi;
 import services.ChorbiService;
+import domain.Chorbi;
 
 @Controller
 @RequestMapping("/chorbi/administrator")
@@ -18,41 +19,41 @@ public class ChorbiAdministratorController {
 
 	//Services
 
-		@Autowired
-		private ChorbiService	chorbiService;
+	@Autowired
+	private ChorbiService	chorbiService;
 
 
-		//Constructor
+	//Constructor
 
-		public ChorbiAdministratorController() {
-			super();
-		}
+	public ChorbiAdministratorController() {
+		super();
+	}
 
-		//Register
-		@RequestMapping(value = "/ban", method = RequestMethod.GET)
-		public ModelAndView register(@RequestParam int chorbiId) {
-			ModelAndView result;
+	//Register
+	@RequestMapping(value = "/ban", method = RequestMethod.GET)
+	public ModelAndView register(@RequestParam final int chorbiId) {
+		ModelAndView result;
 
-			chorbiService.banChorbi(chorbiId);
-			result = new ModelAndView("redirect:/chorbi/administrator/list.do");
+		this.chorbiService.banChorbi(chorbiId);
+		result = new ModelAndView("redirect:/chorbi/administrator/list.do");
 
-			return result;
-		}
-		
-		
-		//Listing
-		@RequestMapping(value = "/list", method = RequestMethod.GET)
-		public ModelAndView list(@RequestParam(required = false) String errorMessage) {
-			ModelAndView result;
+		return result;
+	}
 
-			Collection<Chorbi> chorbis;
+	//Listing
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam(required = false) final String errorMessage) {
+		ModelAndView result;
 
-			chorbis = chorbiService.findAll();
+		Collection<Chorbi> chorbis;
 
-			result = new ModelAndView("chorbi/list");
-			result.addObject("chorbis", chorbis);
+		chorbis = this.chorbiService.findAll();
 
-			return result;
-		}
-	
+		result = new ModelAndView("chorbi/list");
+		result.addObject("chorbis", chorbis);
+		result.addObject("requestURI", "chorbi/administrator/list.do");
+
+		return result;
+	}
+
 }

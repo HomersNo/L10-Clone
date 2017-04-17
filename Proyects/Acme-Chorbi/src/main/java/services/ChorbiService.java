@@ -19,6 +19,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Chorbi;
+import domain.SearchTemplate;
 import forms.RegisterChorbi;
 
 @Service
@@ -232,6 +233,11 @@ public class ChorbiService {
 		return this.chorbiRepository.findByCity(city);
 	}
 
+	public Collection<Chorbi> chorbiesPerCityAndCountry() {
+		final Collection<Chorbi> result = this.chorbiesPerCityAndCountry();
+		return result;
+	}
+
 	public void flush() {
 		this.chorbiRepository.flush();
 	}
@@ -245,5 +251,12 @@ public class ChorbiService {
 
 		return filtered;
 
+	}
+
+	public Collection<Chorbi> findAllLiking(final int chorbiId) {
+
+		Collection<Chorbi> result;
+		result = this.chorbiRepository.findAllLiking(chorbiId);
+		return result;
 	}
 }

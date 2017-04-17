@@ -21,10 +21,12 @@
 	<ul id="jMenu">
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
 		<security:authorize access="hasRole('ADMIN')">
-			<li><a class="fNiv"><spring:message	code="master.page.chorbi" /></a></li>
+			<li><a class="fNiv"><spring:message	code="master.page.chorbi" /></a>
 				<ul>
+					<li class="arrow"></li>
 					<li><a href="chorbi/administrator/list.do"><spring:message code="master.page.chorbi.list" /></a></li>
 				</ul>
+			</li>
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
 				<ul>
 					<li class="arrow"></li>
@@ -50,6 +52,7 @@
 					<li class="arrow"></li>
 					<li><a href="chorbi/chorbi/list.do"><spring:message code="master.page.chorbi.list" /></a></li>
 					<li><a href="likes/chorbi/list.do"><spring:message code="master.page.likes.list" /></a></li>
+					<li><a href="chorbi/chorbi/listLiking.do"><spring:message code="master.page.chorbi.liking" /></a></li>
 					<li><a href="searchTemplate/chorbi/edit.do"><spring:message code="master.page.search" /></a></li>
 				</ul>
 			</li>
