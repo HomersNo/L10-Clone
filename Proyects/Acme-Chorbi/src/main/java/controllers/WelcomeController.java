@@ -51,9 +51,11 @@ public class WelcomeController extends AbstractController {
 		SimpleDateFormat formatter;
 		String name1 = "guest";
 		String moment;
+		String banner;
 
 		formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		moment = formatter.format(new Date());
+		banner = this.scService.findRandomBanner();
 
 		final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -67,6 +69,7 @@ public class WelcomeController extends AbstractController {
 
 		result.addObject("name", name1);
 		result.addObject("moment", moment);
+		result.addObject("banner", banner);
 
 		return result;
 	}
