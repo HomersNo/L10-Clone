@@ -104,6 +104,26 @@ public class ChorbiChorbiController {
 		return result;
 	}
 
+	@RequestMapping(value = "/listLiking", method = RequestMethod.GET)
+	public ModelAndView listLiking(@RequestParam(required = false) final String errorMessage) {
+		ModelAndView result;
+
+		Collection<Chorbi> chorbis;
+		Collection<Likes> likes;
+		Chorbi principal;
+
+		principal = this.chorbiService.findByPrincipal();
+		chorbis = this.chorbiService.findAllLiking(principal.getId());
+		likes = this.likesService.findAllByPrincipal();
+
+		result = new ModelAndView("chorbi/list");
+		result.addObject("chorbis", chorbis);
+		result.addObject("likes", likes);
+		result.addObject("requestURI", "chorbi/chorbi/listLiking.do");
+
+		return result;
+	}
+
 	@RequestMapping(value = "/listFound", method = RequestMethod.GET)
 	public ModelAndView listFound(@RequestParam(required = false, defaultValue = "0") final int searchTemplateId) {
 
