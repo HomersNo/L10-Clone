@@ -19,6 +19,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Chorbi;
+import domain.SearchTemplate;
 import forms.RegisterChorbi;
 
 @Service

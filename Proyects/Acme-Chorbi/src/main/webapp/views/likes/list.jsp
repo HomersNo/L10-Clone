@@ -17,6 +17,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib uri="/WEB-INF/tags/functions" prefix="mask" %>
 
 <security:authentication property="principal" var ="loggedactor"/>
 
