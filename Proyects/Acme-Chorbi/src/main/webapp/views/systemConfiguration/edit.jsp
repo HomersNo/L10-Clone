@@ -19,25 +19,24 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="${requestURI}" modelAttribute="systemConfiguration">
+<form:form action="${requestURI}" modelAttribute="system">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
+	<form:hidden path="banners" />
 
-	<acme:textbox code="systemConfiguration.banners" path="banners"/>
 	<acme:textbox code="systemConfiguration.cacheTime" path="cacheTime"/>
 	
 	<br>
-	<jstl:if test="${admin.id != 0}">
 	<input type="submit" name="save"
 		value="<spring:message code="systemConfiguration.save" />" 
 		onclick="javascript: relativeRedir('welcome/index.do');" />&nbsp;
-	</jstl:if>
 
-<jstl:if test="${admin.id != 0}">
 	<input type="button" name="cancel"
 		value="<spring:message code="systemConfiguration.cancel" />"
 		onclick="location.href = 'welcome/index.do';" />&nbsp;
-</jstl:if>
+		
+		
 <br />
 </form:form>
+

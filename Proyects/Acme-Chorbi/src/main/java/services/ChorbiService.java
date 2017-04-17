@@ -323,4 +323,11 @@ public class ChorbiService {
 			return result.subList(0, 2);
 		}
 	}
+
+	public Collection<Chorbi> findAllLiking(final int chorbiId) {
+
+		Collection<Chorbi> result;
+		result = this.chorbiRepository.findAllLiking(chorbiId);
+		return result;
+	}
 }

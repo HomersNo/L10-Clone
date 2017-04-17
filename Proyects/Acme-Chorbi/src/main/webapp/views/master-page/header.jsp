@@ -52,6 +52,7 @@
 					<li class="arrow"></li>
 					<li><a href="chorbi/chorbi/list.do"><spring:message code="master.page.chorbi.list" /></a></li>
 					<li><a href="likes/chorbi/list.do"><spring:message code="master.page.likes.list" /></a></li>
+					<li><a href="chorbi/chorbi/listLiking.do"><spring:message code="master.page.chorbi.liking" /></a></li>
 					<li><a href="searchTemplate/chorbi/edit.do"><spring:message code="master.page.search" /></a></li>
 				</ul>
 			</li>

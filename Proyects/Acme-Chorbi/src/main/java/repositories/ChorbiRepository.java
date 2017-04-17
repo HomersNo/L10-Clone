@@ -77,9 +77,6 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	@Query("select count(c)*1.0/(select count(c)*1.0 from Chorbi c) from Chorbi c where c.relationshipType = 'FRIENDSHIP'")
 	Double ratioChorbiFriendship();
 
-	@Query("select l.chorbi from Likes l where l.liked.id = ?1")
-	Collection<Chorbi> findLikersOfChorbi(int likedId);
-
 	@Query("select c from Likes l right join l.liked c group by c order by count(l) ASC")
 	Collection<Chorbi> findChorbiesOrderByLikes();
 
@@ -88,4 +85,8 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 
 	@Query("select ch.sender from Chirp ch group by ch.recipient order by count(ch) DESC")
 	Collection<Chorbi> findChorbiesMoreChirpsReceived();
+
+	@Query("select l.chorbi from Likes l where l.liked.id=?1")
+	Collection<Chorbi> findAllLiking(int chorbiID);
+
 }

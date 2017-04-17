@@ -114,6 +114,7 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 
 		return result;
 	}
+
 	// Ancillary methods
 
 	protected ModelAndView createEditModelAndView(final SystemConfiguration system) {

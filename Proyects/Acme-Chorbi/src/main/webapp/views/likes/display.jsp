@@ -15,14 +15,15 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib uri="/WEB-INF/tags/functions" prefix="mask" %>
 
 <security:authentication property="principal" var ="loggedactor"/>
 <jstl:set var="likes" value="${likes}"/> 
 
 <h2><spring:message code="likes" /></h2>
-<p><spring:message code="likes.liked"/>: <jstl:out value="${likes.liked.name}" /> <jstl:out value="${likes.liked.surname}" /></p>
-<p><spring:message code="likes.moment"/>: <jstl:out value="${likes.moment}" /></p> 
-<p><spring:message code="likes.comment"/>: <jstl:out value="${likes.comment}" /></p> 
+<p><spring:message code="likes.liked"/>: <jstl:out value="${mask:mask(likes.liked.name) }" /> <jstl:out value="${likes.liked.surname}" /></p>
+<p><spring:message code="likes.moment"/>: <jstl:out value="${likes.moment }" /></p> 
+<p><spring:message code="likes.comment"/>: <jstl:out value="${mask:mask(likes.comment) }" /></p> 
 
 <br/>
 

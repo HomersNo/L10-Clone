@@ -1,3 +1,4 @@
+
 package controllers.chorbi;
 
 import java.util.Collection;
@@ -12,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import domain.Chorbi;
-import domain.Likes;
 import services.ChorbiService;
 import services.LikesService;
+import domain.Chorbi;
+import domain.Likes;
 
 @Controller
 @RequestMapping("/likes/chorbi")
@@ -23,124 +24,124 @@ public class LikesChorbiController {
 
 	//Services
 
-		@Autowired
-		private LikesService	likesService;
+	@Autowired
+	private LikesService	likesService;
 
-		@Autowired
-		private ChorbiService	chorbiService;
+	@Autowired
+	private ChorbiService	chorbiService;
 
 
-		//Constructor
+	//Constructor
 
-		public LikesChorbiController() {
-			super();
-		}
-		
-		//edit
-		
-		@RequestMapping(value = "/create", method = RequestMethod.GET)
-		public ModelAndView create(@RequestParam final int likedId) {
-			ModelAndView result;
-			Likes likes;
-			final Chorbi liked = chorbiService.findOne(likedId);
+	public LikesChorbiController() {
+		super();
+	}
 
-			likes = likesService.create(liked);
-			result = createEditModelAndView(likes);
-			
-			return result;
-		}
-		
-		//edit
-		
-		@RequestMapping(value = "/edit", method = RequestMethod.GET)
-		public ModelAndView edit(@RequestParam final int likesId) {
-			ModelAndView result;
-			Likes likes;
+	//edit
 
-			likes = likesService.findByOneToEdit(likesId);
-			result = createEditModelAndView(likes);
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public ModelAndView create(@RequestParam final int likedId) {
+		ModelAndView result;
+		Likes likes;
+		final Chorbi liked = this.chorbiService.findOne(likedId);
 
-			return result;
-		}
-		
-		@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-		public ModelAndView save(@Valid Likes likes, BindingResult binding) {
-			ModelAndView result;
+		likes = this.likesService.create(liked);
+		result = this.createEditModelAndView(likes);
 
-			if (binding.hasErrors()) {
-				result = createEditModelAndView(likes);
-			} else {
-				try {
-					likes = likesService.save(likes);
-					result = new ModelAndView("redirect:/likes/chorbi/list.do");
-				} catch (Throwable oops) {
-					result = createEditModelAndView(likes, "chorbi.commit.error");
-				}
+		return result;
+	}
+
+	//edit
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int likesId) {
+		ModelAndView result;
+		Likes likes;
+
+		likes = this.likesService.findByOneToEdit(likesId);
+		result = this.createEditModelAndView(likes);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid Likes likes, final BindingResult binding) {
+		ModelAndView result;
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(likes);
+		else
+			try {
+				likes = this.likesService.save(likes);
+				result = new ModelAndView("redirect:/likes/chorbi/list.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(likes, "chorbi.commit.error");
 			}
-			return result;
-		}
-		
-		@RequestMapping(value = "/delete", method = RequestMethod.GET)
-		public ModelAndView delete(@RequestParam final int likesId) {
-			ModelAndView result;
-			Likes likes;
+		return result;
+	}
 
-			likes = likesService.findOne(likesId);
-			likesService.delete(likes);
-			
-			result = new ModelAndView("redirect:/likes/chorbi/list.do");
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam final int likesId) {
+		ModelAndView result;
+		Likes likes;
 
-			return result;
-		}
-		
-		@RequestMapping(value = "/list", method = RequestMethod.GET)
-		public ModelAndView list(@RequestParam(required = false) String errorMessage) {
-			ModelAndView result;
-			
-			Collection<Likes> likes;
-			
-			likes = likesService.findAllByPrincipal();
+		likes = this.likesService.findOne(likesId);
+		this.likesService.delete(likes);
 
-			result = new ModelAndView("likes/list");
-			result.addObject("likes", likes);
+		result = new ModelAndView("redirect:/likes/chorbi/list.do");
 
-			return result;
-		}
-		
-		//Display		
-		@RequestMapping(value = "/display", method = RequestMethod.GET)
-		public ModelAndView display(@RequestParam final int likesId) {
-			ModelAndView result;
-			Likes likes;
-			
-			likes = likesService.findOne(likesId);
-			result = new ModelAndView("likes/display");
-			
-			result.addObject("likes", likes);
-			
-			return result;
-		}
-		
-		// Ancillary methods
-		
-		protected ModelAndView createEditModelAndView(Likes likes) {
-			ModelAndView result;
+		return result;
+	}
 
-			result = createEditModelAndView(likes, null);
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam(required = false) final String errorMessage) {
+		ModelAndView result;
 
-			return result;
-		}
-		protected ModelAndView createEditModelAndView(Likes likes, String message) {
-			ModelAndView result;
+		Collection<Likes> likes;
 
-			String requestURI = "likes/chorbi/edit.do";
+		likes = this.likesService.findAllByPrincipal();
 
-			result = new ModelAndView("likes/edit");
-			result.addObject("likes", likes);
-			result.addObject("message", message);
-			result.addObject("requestURI", requestURI);
+		result = new ModelAndView("likes/list");
+		result.addObject("likes", likes);
+		result.addObject("requestURI", "likes/chorbi/list.do");
 
-			return result;
-		}
-	
+		return result;
+	}
+
+	//Display		
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam final int likesId) {
+		ModelAndView result;
+		Likes likes;
+
+		likes = this.likesService.findOne(likesId);
+		result = new ModelAndView("likes/display");
+
+		result.addObject("likes", likes);
+
+		return result;
+	}
+
+	// Ancillary methods
+
+	protected ModelAndView createEditModelAndView(final Likes likes) {
+		ModelAndView result;
+
+		result = this.createEditModelAndView(likes, null);
+
+		return result;
+	}
+	protected ModelAndView createEditModelAndView(final Likes likes, final String message) {
+		ModelAndView result;
+
+		final String requestURI = "likes/chorbi/edit.do";
+
+		result = new ModelAndView("likes/edit");
+		result.addObject("likes", likes);
+		result.addObject("message", message);
+		result.addObject("requestURI", requestURI);
+
+		return result;
+	}
+
 }
