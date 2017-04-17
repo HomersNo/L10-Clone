@@ -1,7 +1,10 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import repositories.SystemConfigurationRepository;
 import domain.SystemConfiguration;
+import domain.Urrl;
 
 @Service
 @Transactional
@@ -67,4 +71,20 @@ public class SystemConfigurationService {
 		return systemConfiguration;
 	}
 
+	public String findRandomBanner() {
+
+		String result;
+		SystemConfiguration sc;
+		int randomNum;
+		final Random rn = new Random();
+		List<Urrl> banners;
+
+		sc = this.findMain();
+		randomNum = rn.nextInt(sc.getBanners().size());
+		banners = new ArrayList(sc.getBanners());
+
+		result = banners.get(randomNum).getLink();
+
+		return result;
+	}
 }
