@@ -97,7 +97,7 @@ public class SearchTemplateService {
 		Assert.isTrue(this.creditCardService.checkCCNumber(creditCard.getCreditCardNumber()) && this.creditCardService.expirationDate(creditCard));
 		Collection<Chorbi> filtered;
 		filtered = new ArrayList<Chorbi>();
-		filtered.addAll(this.chorbiService.findAll());
+		filtered.addAll(this.chorbiService.findAllNotBanned());
 
 		if (searchTemplate.getRelationshipType() != "")
 			filtered.retainAll(this.chorbiService.findByRelationshipType(searchTemplate.getRelationshipType()));
