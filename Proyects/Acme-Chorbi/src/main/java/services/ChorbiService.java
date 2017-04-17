@@ -2,11 +2,12 @@
 package services;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -65,9 +66,9 @@ public class ChorbiService {
 	public Chorbi save(final Chorbi chorbi) {
 		Assert.notNull(chorbi);
 		if (chorbi.getId() == 0) {
-			final Calendar calendar = Calendar.getInstance();
-			calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR - 18));
-			Assert.isTrue(calendar.getTime().after(chorbi.getBirthDate()), "Dear user, you must be over 18 to register");
+			final DateTime date = new DateTime().minusYears(18);
+			final DateTime birth = new DateTime(chorbi.getBirthDate());
+			Assert.isTrue(date.isAfter(birth) || date.isEqual(birth), "Dear user, you must be over 18 to register");
 		}
 		Chorbi result;
 
@@ -201,6 +202,12 @@ public class ChorbiService {
 		this.chorbiRepository.save(chorbi);
 	}
 
+	public Collection<Chorbi> findLikersOfChorbi(final int likedId) {
+		final Collection<Chorbi> result = this.findLikersOfChorbi(likedId);
+
+		return result;
+	}
+
 	public Collection<Chorbi> findByRelationshipType(final String relationshipType) {
 		return this.chorbiRepository.findByRelationshipType(relationshipType);
 	}
@@ -233,11 +240,6 @@ public class ChorbiService {
 		return this.chorbiRepository.findByCity(city);
 	}
 
-	public Collection<Chorbi> chorbiesPerCityAndCountry() {
-		final Collection<Chorbi> result = this.chorbiesPerCityAndCountry();
-		return result;
-	}
-
 	public void flush() {
 		this.chorbiRepository.flush();
 	}
@@ -250,7 +252,76 @@ public class ChorbiService {
 		filtered = st.getChorbies();
 
 		return filtered;
+	}
 
+	//Dashboard methods
+	// A listing with the number of chorbies per country and city.
+	public List<Object[]> chorbiesPerCity() {
+		final List<Object[]> result = this.chorbiRepository.chorbiesPerCity();
+
+		return result;
+	}
+
+	public List<Object[]> chorbiesPerCountry() {
+		final List<Object[]> result = this.chorbiRepository.chorbiesPerCountry();
+		return result;
+	}
+
+	//The minimum, the maximum, and the average ages of the chorbies
+	public Double findAvgChorbiesAge() {
+		final Double result = this.chorbiRepository.findAvgChorbiesAge();
+		return result;
+	}
+
+	public Integer[] findMinMaxChorbiesAge() {
+		final List<Integer> doubles = this.chorbiRepository.findListAgesOrderAsc();
+		final Collection<Integer> result = new ArrayList<Integer>();
+		result.add(doubles.get(0));
+		result.add(doubles.get(doubles.size() - 1));
+		return result.toArray(new Integer[0]);
+	}
+
+	//The ratios of chorbies who search for "activities", "friendship", and "love".
+	public Double ratioChorbiActivities() {
+		final Double result = this.chorbiRepository.ratioChorbiActivities();
+		return result;
+	}
+
+	public Double ratioChorbiFriendship() {
+		final Double result = this.chorbiRepository.ratioChorbiFriendship();
+		return result;
+	}
+
+	public Double ratioChorbiLove() {
+		final Double result = this.chorbiRepository.ratioChorbiLove();
+		return result;
+	}
+
+	// The list of chorbies, sorted by the number of likes they have got.
+	public Collection<Chorbi> findChorbiesOrderByLikes() {
+		final Collection<Chorbi> result = this.chorbiRepository.findChorbiesOrderByLikes();
+		return result;
+	}
+
+	//Coger solo los dos primeros en estas dos
+	public Collection<Chorbi> findChorbiesMoreChirpsSent() {
+		final Collection<Chorbi> chorbies = this.chorbiRepository.findChorbiesMoreChirpsSent();
+		if (chorbies.size() <= 3)
+			return chorbies;
+		else {
+			final List<Chorbi> result = new ArrayList<Chorbi>(chorbies);
+			return result.subList(0, 2);
+		}
+	}
+
+	public Collection<Chorbi> findChorbiesMoreChirpsReceived() {
+		final Collection<Chorbi> chorbies = this.chorbiRepository.findChorbiesMoreChirpsReceived();
+		if (chorbies.size() <= 3)
+			return chorbies;
+		else {
+			final List<Chorbi> result = new ArrayList<Chorbi>(chorbies);
+			return result.subList(0, 2);
+		}
 	}
 
 	public Collection<Chorbi> findAllLiking(final int chorbiId) {
