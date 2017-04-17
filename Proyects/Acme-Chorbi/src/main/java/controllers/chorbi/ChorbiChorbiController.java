@@ -32,7 +32,7 @@ public class ChorbiChorbiController {
 	private LikesService			likesService;
 
 	@Autowired
-	private SearchTemplateService	searchTemplateService;
+	private SearchTemplateService	stService;
 
 
 	//Constructor
@@ -99,6 +99,7 @@ public class ChorbiChorbiController {
 		result = new ModelAndView("chorbi/list");
 		result.addObject("chorbis", chorbis);
 		result.addObject("likes", likes);
+		result.addObject("requestURI", "chorbi/chorbi/list.do");
 
 		return result;
 	}
@@ -115,13 +116,14 @@ public class ChorbiChorbiController {
 			chorbies = this.chorbiService.findAllFound(searchTemplateId);
 		else {
 			principal = this.chorbiService.findByPrincipal();
-			chorbies = this.chorbiService.findAllFound(this.searchTemplateService.findSearchTemplateByChorbi(principal).getId());
+			chorbies = this.chorbiService.findAllFound(this.stService.findSearchTemplateByChorbi(principal).getId());
 		}
 		likes = this.likesService.findAllByPrincipal();
 
 		result = new ModelAndView("chorbi/list");
 		result.addObject("chorbis", chorbies);
 		result.addObject("likes", likes);
+		result.addObject("requestURI", "chorbi/chorbi/listFound.do");
 
 		return result;
 

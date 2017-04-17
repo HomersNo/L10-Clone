@@ -17,6 +17,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib uri="/WEB-INF/tags/functions" prefix="mask" %>
 
 
 <h1> ${folder.name}</h1>
@@ -36,13 +37,17 @@
 	<!-- Attributes -->
 	
 	<spring:message code="message.title" var="titleHeader" />
-	<display:column property="subject" title="${titleHeader}" sortable="true" />
+	<display:column title="${titleHeader}" sortable="true" >
+		${mask:mask(row.subject) }
+	</display:column>
 
 	<spring:message code="message.moment" var="momentHeader" />
 	<display:column property="moment" title="${momentHeader}" sortable="true" format="{0,date,dd/MM/yyyy HH:mm}" />
 
 	<spring:message code="message.body" var="bodyHeader" />
-	<display:column property="text" title="${bodyHeader}" sortable="false" />
+	<display:column title="${bodyHeader}" sortable="false" >
+		${mask:mask(row.text) }
+	</display:column>
 	
 	<spring:message code="message.attachment" var="attachmentHeader"/>
 	<display:column title="${attachmentHeader}">
@@ -55,7 +60,7 @@
 	
 	<spring:message code="message.sender" var="senderHeader"/>
 	<display:column title="${senderHeader}">
-		<a href="actor/actor/display.do?actorId=${row.sender.id}"> ${row.sender.name} ${row.sender.surname}</a>
+		<a href="actor/actor/display.do?actorId=${row.sender.id}"> ${mask:mask(row.sender.name) } ${mask:mask(row.sender.surname) }</a>
 	</display:column>
 	
 	
