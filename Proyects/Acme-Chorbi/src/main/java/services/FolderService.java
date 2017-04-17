@@ -101,4 +101,8 @@ public class FolderService {
 		return result;
 	}
 
+	public void flush() {
+		this.folderRepository.flush();
+	}
+
 }

@@ -81,6 +81,7 @@ public class ChorbiService {
 		Assert.isTrue(chorbiId != 0);
 		Chorbi chorbi;
 		chorbi = this.chorbiRepository.findOne(chorbiId);
+		Assert.notNull(chorbi);
 		return chorbi;
 	}
 
