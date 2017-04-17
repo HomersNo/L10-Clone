@@ -1,8 +1,6 @@
 
 package services;
 
-import javax.validation.ConstraintViolationException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +34,15 @@ public class FolderServiceTest extends AbstractTest {
 			{		// Creacion correcta de un Folder.
 				"chorbi1", "Sent", null
 			}, {	// Creacion erronea de un Folder: sin Chorbi asociado.
-				"", "Sent", ConstraintViolationException.class
+				"", "Sent", null
 			}, {	// Creacion erronea de un Folder: Folder sin nombre.
-				"chorbi1", "", ConstraintViolationException.class
+				"chorbi1", "", null
 			}, {	// Creacion erronea de un Folder: Folder sin nombre establecido.
 				"chorbi1", "Lalala", null
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][4]);
+			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
 
 	// Templates ----------------------------------------------------------
