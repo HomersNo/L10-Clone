@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ChorbiService;
 import services.LikesService;
+import services.SearchTemplateService;
 import domain.Chorbi;
 import domain.Likes;
 
@@ -25,10 +26,13 @@ public class ChorbiChorbiController {
 	//Services
 
 	@Autowired
-	private ChorbiService	chorbiService;
+	private ChorbiService			chorbiService;
 
 	@Autowired
-	private LikesService	likesService;
+	private LikesService			likesService;
+
+	@Autowired
+	private SearchTemplateService	searchTemplateService;
 
 
 	//Constructor
@@ -111,7 +115,7 @@ public class ChorbiChorbiController {
 			chorbies = this.chorbiService.findAllFound(searchTemplateId);
 		else {
 			principal = this.chorbiService.findByPrincipal();
-			chorbies = this.chorbiService.findAllFound(this.chorbiService.findSearchTemplateByChorbi(principal).getId());
+			chorbies = this.chorbiService.findAllFound(this.searchTemplateService.findSearchTemplateByChorbi(principal).getId());
 		}
 		likes = this.likesService.findAllByPrincipal();
 
