@@ -14,7 +14,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <div>
-	<img src="images/logo.png" alt="Sample Co., Inc." />
+	<img src="images/logo.png" alt="Acme Chorbies Co., Inc." /> <a href="?language=en">en</a> | <a href="?language=es">es</a>
 </div>
 
 <div>
@@ -31,7 +31,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="systemConfiguration/administrator/edit.do"><spring:message code="master.page.system" /></a></li>
-					<li><a href="systemCofiguration/administrator/dashboard.do"><spring:message code="master.page.dashboard" /></a></li>	
+					<li><a href="systemConfiguration/administrator/dashboard.do"><spring:message code="master.page.dashboard" /></a></li>	
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>				
 				</ul>
 			</li>
@@ -86,7 +86,4 @@
 	</ul>
 </div>
 
-<div>
-	<a href="?language=en">en</a> | <a href="?language=es">es</a>
-</div>
 
