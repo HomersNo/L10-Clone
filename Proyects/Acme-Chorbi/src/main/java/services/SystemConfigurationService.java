@@ -87,4 +87,54 @@ public class SystemConfigurationService {
 
 		return result;
 	}
+	//Dashboard queries
+
+	//The ratio of chorbies who have not registered a credit card or have regis-tered an invalid credit card.
+	public Double findRatioChorbiesWithoutCreditCard() {
+		final Double result = this.systemConfigurationRepository.findRatioChorbiesWithoutCreditCard();
+		return result;
+	}
+
+	//The minimum, the maximum, and the average number of likes per chorbi.
+	public Double averageLikesPerChorbi() {
+		final Double result = this.systemConfigurationRepository.averageLikesPerChorbi();
+		return result;
+	}
+
+	public Long[] minMaxLikesPerChorbi() {
+		final Collection<Long> result = new ArrayList<Long>();
+		final List<Long> doubles = this.systemConfigurationRepository.listNumberLikesPerChorbiASC();
+		result.add(doubles.get(0));
+		result.add(doubles.get(doubles.size() - 1));
+		return result.toArray(new Long[0]);
+	}
+
+	// The minimum, the maximum, and the average number of chirps that a chor-bi receives from other chorbies.
+	public Double averageChirpsToChorbi() {
+		final Double result = this.systemConfigurationRepository.averageChirpsToChorbi();
+		return result;
+	}
+
+	public Long[] minMaxChirpsToChorbi() {
+		final Collection<Long> result = new ArrayList<Long>();
+		final List<Long> doubles = this.systemConfigurationRepository.listNumberChirpsToChorbiASC();
+		result.add(doubles.get(0));
+		result.add(doubles.get(doubles.size() - 1));
+		return result.toArray(new Long[0]);
+	}
+
+	// The minimum, the maximum, and the average number of chirps that a chor-bi sends to other chorbies.
+	public Double averageChirpsFromChorbi() {
+		final Double result = this.systemConfigurationRepository.averageChirpsFromChorbi();
+		return result;
+	}
+
+	public Long[] minMaxChirpsFromChorbi() {
+		final Collection<Long> result = new ArrayList<Long>();
+		final List<Long> doubles = this.systemConfigurationRepository.listNumberChirpsFromChorbiASC();
+		result.add(doubles.get(0));
+		result.add(doubles.get(doubles.size() - 1));
+		return result.toArray(new Long[0]);
+	}
+
 }
