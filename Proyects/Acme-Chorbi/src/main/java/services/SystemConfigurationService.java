@@ -107,6 +107,11 @@ public class SystemConfigurationService {
 
 		return result;
 	}
+
+	public void flush() {
+		this.systemConfigurationRepository.flush();
+	}
+
 	//Dashboard queries
 
 	//The ratio of chorbies who have not registered a credit card or have regis-tered an invalid credit card.
