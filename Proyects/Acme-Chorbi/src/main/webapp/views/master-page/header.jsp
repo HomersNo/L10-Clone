@@ -14,7 +14,7 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <div>
-	<img src="images/logo.jpg" alt="Acme Chorbies Co., Inc." /> <a href="?language=en">en</a> | <a href="?language=es">es</a>
+	<a href="welcome/index.do"><img src="images/logo.jpg" height="200" alt="Acme Chorbies Co., Inc." /></a> <a href="?language=en">en</a> | <a href="?language=es">es</a>
 </div>
 
 <div>
