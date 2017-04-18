@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.FolderRepository;
-import domain.Actor;
 import domain.Chorbi;
 import domain.Folder;
 
@@ -72,9 +71,9 @@ public class FolderService {
 		Folder inbox;
 		Folder outbox;
 		inbox = this.create(actor);
-		inbox.setName("Inbox");
+		inbox.setName("Received");
 		outbox = this.create(actor);
-		outbox.setName("Outbox");
+		outbox.setName("Sent");
 		aux.add(outbox);
 		aux.add(inbox);
 		result = this.folderRepository.save(aux);
@@ -94,7 +93,7 @@ public class FolderService {
 		this.checkPrincipal(folder);
 	}
 
-	public Folder findSystemFolder(final Actor actor, final String name) {
+	public Folder findSystemFolder(final Chorbi actor, final String name) {
 		Folder result;
 		result = this.folderRepository.findSystemFolder(actor.getId(), name);
 		Assert.notNull(result);
