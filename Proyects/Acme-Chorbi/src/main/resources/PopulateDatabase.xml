@@ -60,7 +60,7 @@
 				</bean>
 			</list>
 		</property>
-		<property name="cacheTime" value="2017/03/31 12:00"/>
+		<property name="cacheTime" value="07/04/2017 12:00:00"/>
 	</bean>
 	
 </beans>

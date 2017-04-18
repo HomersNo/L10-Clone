@@ -37,8 +37,6 @@ public class FolderServiceTest extends AbstractTest {
 				"", "Sent", IllegalArgumentException.class
 			}, {	// Creacion erronea de un Folder: Folder sin nombre.
 				"chorbi1", "", IllegalArgumentException.class
-			}, {	// Creacion erronea de un Folder: Folder sin nombre establecido.
-				"chorbi1", "Lalala", IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
