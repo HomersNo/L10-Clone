@@ -72,7 +72,7 @@ public class SearchTemplateChorbiController extends AbstractController {
 					result.addObject("message", "searchTemplate.commit.ok");
 				} else {
 					this.searchTemplateService.save(searchTemplate);
-					result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?chorbiId=" + searchTemplate.getId());
+					result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?searchTemplateId=" + searchTemplate.getId());
 					result.addObject("message", "searchTemplate.commit.ok");
 				}
 

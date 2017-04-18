@@ -50,7 +50,7 @@
 				</a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="chorbi/chorbi/list.do"><spring:message code="master.page.chorbi.list" /></a></li>
+					<li><a href="chorbi/chorbi/listFound.do"><spring:message code="master.page.chorbi.list" /></a></li>
 					<li><a href="likes/chorbi/list.do"><spring:message code="master.page.likes.list" /></a></li>
 					<li><a href="chorbi/chorbi/listLiking.do"><spring:message code="master.page.chorbi.liking" /></a></li>
 					<li><a href="searchTemplate/chorbi/edit.do"><spring:message code="master.page.search" /></a></li>
@@ -76,7 +76,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="chorbi/chorbi/display.do"><spring:message code="master.page.chorbi.display" /></a></li>
-					<li><a href="actor/chorbi/edit.do"><spring:message code="master.page.chorbi.edit" /></a></li>
+					<li><a href="chorbi/chorbi/edit.do"><spring:message code="master.page.chorbi.edit" /></a></li>
 					<li><a href="creditCard/chorbi/edit.do"><spring:message code="master.page.credit" /></a></li>
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul>

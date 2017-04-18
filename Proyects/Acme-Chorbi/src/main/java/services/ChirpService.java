@@ -108,13 +108,13 @@ public class ChirpService {
 
 	public Chirp send(final Chirp message) {
 
-		Actor recipient;
+		Chorbi recipient;
 		Folder recipientFolder;
 		Folder senderFolder;
-		Actor sender;
+		Chorbi sender;
 
 		sender = this.chorbiService.findByPrincipal();
-		recipient = message.getRecipient();
+		recipient = (Chorbi) message.getRecipient();
 
 		recipientFolder = this.folderService.findSystemFolder(recipient, "Received");
 		senderFolder = this.folderService.findSystemFolder(sender, "Sent");
