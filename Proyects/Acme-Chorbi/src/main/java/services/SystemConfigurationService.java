@@ -101,7 +101,7 @@ public class SystemConfigurationService {
 
 		sc = this.findMain();
 		randomNum = rn.nextInt(sc.getBanners().size());
-		banners = new ArrayList(sc.getBanners());
+		banners = new ArrayList<Urrl>(sc.getBanners());
 
 		result = banners.get(randomNum).getLink();
 
@@ -129,8 +129,13 @@ public class SystemConfigurationService {
 	public Long[] minMaxLikesPerChorbi() {
 		final Collection<Long> result = new ArrayList<Long>();
 		final List<Long> doubles = this.systemConfigurationRepository.listNumberLikesPerChorbiASC();
-		result.add(doubles.get(0));
-		result.add(doubles.get(doubles.size() - 1));
+		if (doubles.isEmpty()) {
+			result.add((long) 0);
+			result.add((long) 0);
+		} else {
+			result.add(doubles.get(0));
+			result.add(doubles.get(doubles.size() - 1));
+		}
 		return result.toArray(new Long[0]);
 	}
 
@@ -143,8 +148,13 @@ public class SystemConfigurationService {
 	public Long[] minMaxChirpsToChorbi() {
 		final Collection<Long> result = new ArrayList<Long>();
 		final List<Long> doubles = this.systemConfigurationRepository.listNumberChirpsToChorbiASC();
-		result.add(doubles.get(0));
-		result.add(doubles.get(doubles.size() - 1));
+		if (doubles.isEmpty()) {
+			result.add((long) 0);
+			result.add((long) 0);
+		} else {
+			result.add(doubles.get(0));
+			result.add(doubles.get(doubles.size() - 1));
+		}
 		return result.toArray(new Long[0]);
 	}
 
@@ -157,8 +167,13 @@ public class SystemConfigurationService {
 	public Long[] minMaxChirpsFromChorbi() {
 		final Collection<Long> result = new ArrayList<Long>();
 		final List<Long> doubles = this.systemConfigurationRepository.listNumberChirpsFromChorbiASC();
-		result.add(doubles.get(0));
-		result.add(doubles.get(doubles.size() - 1));
+		if (doubles.isEmpty()) {
+			result.add((long) 0);
+			result.add((long) 0);
+		} else {
+			result.add(doubles.get(0));
+			result.add(doubles.get(doubles.size() - 1));
+		}
 		return result.toArray(new Long[0]);
 	}
 

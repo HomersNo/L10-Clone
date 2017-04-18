@@ -33,6 +33,7 @@
 		<spring:message code="searchTemplate.relationshipType" />:
 	</form:label>
 	<form:select path="relationshipType">
+				<form:option value=""><spring:message code="----" /></form:option>
                 <form:option value="ACTIVITIES"><spring:message code="searchTemplate.activities" /></form:option>
                 <form:option value="FRIENDSHIP"><spring:message code="searchTemplate.friendship" /></form:option>
                 <form:option value="LOVE"><spring:message code="searchTemplate.love" /></form:option>
@@ -45,6 +46,7 @@
 		<spring:message code="searchTemplate.genre" />:
 	</form:label>
 	<form:select path="genre">
+				<form:option value="">------</form:option>
                 <form:option value="MAN"><spring:message code="searchTemplate.man" /></form:option>
                 <form:option value="WOMAN"><spring:message code="searchTemplate.woman" /></form:option>
             </form:select>

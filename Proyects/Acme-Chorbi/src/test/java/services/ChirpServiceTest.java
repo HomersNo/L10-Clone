@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Actor;
 import domain.Chirp;
 import domain.Chorbi;
 import domain.Folder;
@@ -127,8 +126,8 @@ public class ChirpServiceTest extends AbstractTest {
 
 			this.chirpService.send(m);
 
-			final Actor sender = this.actorService.findByPrincipal();
-			final Actor recipient = m.getRecipient();
+			final Chorbi sender = this.chorbiService.findByPrincipal();
+			final Chorbi recipient = (Chorbi) m.getRecipient();
 
 			Assert.isTrue(m.getSender().equals(sender) && m.getRecipient().equals(recipient));
 
@@ -161,7 +160,7 @@ public class ChirpServiceTest extends AbstractTest {
 
 		try {
 			this.authenticate(username);
-			final Actor actor = this.actorService.findByPrincipal();
+			final Chorbi actor = this.chorbiService.findByPrincipal();
 			final Folder folder = this.folderService.findSystemFolder(actor, folderName);
 			this.chirpService.findAllByFolder(folder.getId());
 			this.unauthenticate();
