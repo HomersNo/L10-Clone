@@ -97,29 +97,31 @@ public class SearchTemplateService {
 		Assert.isTrue(this.creditCardService.checkCCNumber(creditCard.getCreditCardNumber()) && this.creditCardService.expirationDate(creditCard));
 		Collection<Chorbi> filtered;
 		filtered = new ArrayList<Chorbi>();
-		filtered.addAll(this.chorbiService.findAll());
+		filtered.addAll(this.chorbiService.findAllNotBanned());
 
-		if (searchTemplate.getRelationshipType() != "")
+		if (searchTemplate.getRelationshipType() != "" && searchTemplate.getRelationshipType() != null)
 			filtered.retainAll(this.chorbiService.findByRelationshipType(searchTemplate.getRelationshipType()));
 
 		if (searchTemplate.getAge() != null)
 			filtered.retainAll(this.chorbiService.findByAge(searchTemplate.getAge()));
 
-		filtered.retainAll(this.chorbiService.findByGenre(searchTemplate.getGenre()));
+		if (searchTemplate.getGenre() != "" && searchTemplate.getGenre() != null)
+			filtered.retainAll(this.chorbiService.findByGenre(searchTemplate.getGenre()));
 
-		if (searchTemplate.getKeyword() != "")
+		if (searchTemplate.getKeyword() != "" && searchTemplate.getKeyword() != null)
 			filtered.retainAll(this.chorbiService.findByKeyword(searchTemplate.getKeyword()));
 
-		if (searchTemplate.getCountry() != "")
+		if (searchTemplate.getCountry() != "" && searchTemplate.getCountry() != null)
 			filtered.retainAll(this.chorbiService.findByCountry(searchTemplate.getCountry()));
 
-		if (searchTemplate.getState() != "")
+		if (searchTemplate.getState() != "" && searchTemplate.getState() != null)
 			filtered.retainAll(this.chorbiService.findByState(searchTemplate.getState()));
 
-		if (searchTemplate.getProvince() != "")
+		if (searchTemplate.getProvince() != "" && searchTemplate.getProvince() != null)
 			filtered.retainAll(this.chorbiService.findByProvince(searchTemplate.getProvince()));
 
-		filtered.retainAll(this.chorbiService.findByCity(searchTemplate.getCity()));
+		if (searchTemplate.getCity() != "" && searchTemplate.getCity() != null)
+			filtered.retainAll(this.chorbiService.findByCity(searchTemplate.getCity()));
 
 		searchTemplate.setChorbies(filtered);
 
