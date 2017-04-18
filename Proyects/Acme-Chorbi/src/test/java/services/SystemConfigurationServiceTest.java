@@ -34,7 +34,7 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 	}
 
 	// Templates ----------------------------------------------------------
-	protected void templateDisplaying(final String username, final int chorbiId, final Class<?> expected) {
+	protected void templateModifyingCache(final String username, final int chorbiId, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
 		try {
