@@ -58,9 +58,13 @@
 			</jstl:choose>
 		</option>
 	</form:select>
-	
-	<acme:textbox code="chorbi.birthDate" path="birthDate"/>
-	
+	<div>
+	<form:label path="birthDate">
+			<spring:message code="chorbi.birthDate" />:
+		</form:label>
+		<form:input placeholder="dd/MM/yyyy" path="birthDate" />
+		<form:errors cssClass="error" path="birthDate" />
+	</div>
 	<form:select path="genre">
 		<option value="MAN" <jstl:if test="${registerChorbi.genre == 'MAN'}">selected = "selected"</jstl:if>>
 			<jstl:choose>

@@ -25,7 +25,12 @@
 	<form:hidden path="version" />
 	<form:hidden path="banners" />
 
-	<acme:textbox code="systemConfiguration.cacheTime" path="cacheTime"/>
+	<form:label path="cacheTime">
+		<spring:message code="systemConfiguration.cacheTime" />:
+	</form:label>
+	<form:input placeholder="HH:mm:ss" path="cacheTime" />
+	<form:errors cssClass="error" path="cacheTime" />
+	<br />
 	
 	<br>
 	<input type="submit" name="save"

@@ -2,10 +2,10 @@
 package services;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +19,7 @@ import security.UserAccount;
 import domain.Chorbi;
 import domain.CreditCard;
 import domain.SearchTemplate;
+import domain.SystemConfiguration;
 
 @Service
 @Transactional
@@ -36,6 +37,9 @@ public class SearchTemplateService {
 
 	@Autowired
 	private ChorbiService				chorbiService;
+
+	@Autowired
+	private SystemConfigurationService	scService;
 
 	@Autowired
 	private Validator					validator;
@@ -176,16 +180,10 @@ public class SearchTemplateService {
 	public Boolean checkCache(final SearchTemplate searchTemplate) {
 
 		Boolean res = true;
+		final SystemConfiguration system = this.scService.findMain();
+		final DateTime last = new DateTime(searchTemplate.getMoment());
+		final DateTime now = DateTime.now();
 
-		final Calendar cal = Calendar.getInstance();
-		final Calendar last = Calendar.getInstance();
-		Date now;
-		now = new Date(System.currentTimeMillis() - 3600 * 1000);
-		cal.setTime(now);
-		last.setTime(searchTemplate.getMoment());
-		final Date lastUpdateTime = last.getTime();
-		cal.add(Calendar.HOUR, -12);
-		final Date dateOneHourBack = cal.getTime();
 		final Chorbi principal = this.chorbiService.findByPrincipal();
 		final SearchTemplate chorbiTemplate = this.findSearchTemplateByChorbi(principal);
 		if (chorbiTemplate != null) {
@@ -233,7 +231,7 @@ public class SearchTemplateService {
 
 			final Boolean isEqual = relationshipType && age && genre && keyword && country && state && province && city;
 
-			if (dateOneHourBack.getTime() - lastUpdateTime.getTime() <= 3600000 * 12 && isEqual)
+			if (now.minus(system.getCacheTime().getTime()).isBefore(last) && isEqual)
 				res = true;
 			else
 				res = false;

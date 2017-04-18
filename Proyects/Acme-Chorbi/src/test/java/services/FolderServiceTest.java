@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Collection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,32 +31,26 @@ public class FolderServiceTest extends AbstractTest {
 
 	// Tests ---------------------------------------------------------------
 	@Test
-	public void driverCreation() {
+	public void driverInitFolder() {
 		final Object testingData[][] = {
-			{		// Creacion correcta de un Folder.
-				"chorbi1", "Sent", null
-			}, {	// Creacion erronea de un Folder: sin Chorbi asociado.
-				"", "Sent", null
-			}, {	// Creacion erronea de un Folder: Folder sin nombre.
-				"chorbi1", "", null
-			}, {	// Creacion erronea de un Folder: Folder sin nombre establecido.
-				"chorbi1", "Lalala", null
+			{		// Comprobacion correcta: username con sus folders.
+				"chorbi1", null
+			}, {	// Comprobacion erronea: username vacío.
+				"", IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+			this.templateInitFolder((String) testingData[i][0], (Class<?>) testingData[i][1]);
 	}
 
 	// Templates ----------------------------------------------------------
-	protected void templateCreation(final String username, final String name, final Class<?> expected) {
+	protected void templateInitFolder(final String username, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
 		try {
 			this.authenticate(username);
-			final Chorbi chorbi = this.chorbiService.findOne(this.extract("chorbi1"));
-			final Folder f = this.folderService.create(chorbi);
-			f.setName(name);
-			this.folderService.save(f);
+			final Chorbi chorbi = this.chorbiService.findOne(this.extract(username));
+			final Collection<Folder> init = this.folderService.initFolders(chorbi);
 			this.folderService.flush();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();

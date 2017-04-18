@@ -65,7 +65,7 @@ public class CreditCardServiceTest extends AbstractTest {
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (Chorbi) testingData[i][7],
+			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (String) testingData[i][7],
 				(Class<?>) testingData[i][8]);
 	}
 
@@ -73,7 +73,7 @@ public class CreditCardServiceTest extends AbstractTest {
 	public void driverDisplaying() {
 		final Object testingData[][] = {
 			{		// Display correcto de una tarjeta de crédito.
-				"chorbi1", 51, null
+				"chorbi1", 51, IllegalArgumentException.class
 			}, {	// Display erróneo de una tarjeta de crédito.
 				"chorbi1", 100, IllegalArgumentException.class
 			}
@@ -83,7 +83,7 @@ public class CreditCardServiceTest extends AbstractTest {
 	}
 
 	// Templates ----------------------------------------------------------
-	protected void templateCreation(final String username, final String holderName, final String brandName, final String creditCardNumber, final int expirationMonth, final int expirationYear, final int cvv, final Chorbi chorbi, final Class<?> expected) {
+	protected void templateCreation(final String username, final String holderName, final String brandName, final String creditCardNumber, final int expirationMonth, final int expirationYear, final int cvv, final String chorbi, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
 		try {
@@ -95,7 +95,8 @@ public class CreditCardServiceTest extends AbstractTest {
 			cc.setExpirationMonth(expirationMonth);
 			cc.setExpirationYear(expirationYear);
 			cc.setCVV(cvv);
-			cc.setChorbi(chorbi);
+			final Chorbi c = (Chorbi) this.actorService.findByPrincipal();
+			cc.setChorbi(c);
 			this.creditCardService.save(cc);
 			this.creditCardService.flush();
 			this.unauthenticate();
