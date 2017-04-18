@@ -37,6 +37,9 @@ public class ChorbiService {
 	private SearchTemplateService	searchTemplateService;
 
 	@Autowired
+	private FolderService			folderService;
+
+	@Autowired
 	private Validator				validator;
 
 
@@ -185,7 +188,7 @@ public class ChorbiService {
 		chorbi.getUserAccount().setPassword(pass);
 
 		result = this.chorbiRepository.save(chorbi);
-
+		this.folderService.initFolders(result);
 		return result;
 	}
 
