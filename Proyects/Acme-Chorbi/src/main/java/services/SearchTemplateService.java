@@ -231,7 +231,7 @@ public class SearchTemplateService {
 
 			final Boolean isEqual = relationshipType && age && genre && keyword && country && state && province && city;
 
-			if (now.minus(system.getCacheTime().getTime()).isAfter(last) && isEqual)
+			if (now.minus(system.getCacheTime().getTime()).isBefore(last) && isEqual)
 				res = true;
 			else
 				res = false;
