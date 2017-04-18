@@ -431,7 +431,7 @@ CREATE TABLE `systemconfiguration_banners` (
 
 LOCK TABLES `systemconfiguration_banners` WRITE;
 /*!40000 ALTER TABLE `systemconfiguration_banners` DISABLE KEYS */;
-INSERT INTO `systemconfiguration_banners` VALUES (6,'http://i.imgur.com/lDhkAcr.jpg'),(6,'http://i.imgur.com/hZkZS9z.jpg'),(6,'http://i.imgur.com/bP4ykEJ.jpg');
+INSERT INTO `systemconfiguration_banners` VALUES (6,'https://k60.kn3.net/F/5/7/E/3/0/21F.jpg'),(6,'https://k61.kn3.net/9/4/6/0/0/1/B85.jpg'),(6,'https://k60.kn3.net/A/3/1/8/2/7/740.jpg');
 /*!40000 ALTER TABLE `systemconfiguration_banners` ENABLE KEYS */;
 UNLOCK TABLES;
 
