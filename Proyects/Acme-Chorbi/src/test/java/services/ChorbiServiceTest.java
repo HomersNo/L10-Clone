@@ -39,10 +39,6 @@ public class ChorbiServiceTest extends AbstractTest {
 	Date					fechaFutura		= this.calendarFutura.getTime();
 
 
-	//	long					fechaValida	= Long.valueOf("610408800000");
-
-	//	long					fechaFutura	= Long.valueOf("1588716000000");
-
 	// Teoria pagina 107 y 108
 	// Tests ---------------------------------------------------------------
 	@Test
