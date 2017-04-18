@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.validation.ConstraintViolationException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,9 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 	// The SUT -------------------------------------------------------------
 	@Autowired
 	private SystemConfigurationService	sysConService;
+
+	@Autowired
+	private AdministratorService		adminService;
 
 
 	// Tests ---------------------------------------------------------------
@@ -57,33 +58,36 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 
 			final Object testingData[][] = {
 				{	// Modificación correcta: Caché correcta.
-					bannersFull, dateRight, null
+					"admin", bannersFull, dateRight, null
 				}, { // Modificacion erronea: Cache errónea.
-					bannersEmpty, dateWrong, ConstraintViolationException.class
+					"admin", bannersEmpty, dateWrong, IllegalArgumentException.class
 				}, { // Modificacion erronea: Banners vacíos.
-					bannersEmpty, dateRight, ConstraintViolationException.class
+					"admin", bannersEmpty, dateRight, IllegalArgumentException.class
 				}, { // Modificacion erronea: Banners con formato erroneo.
-					bannersWrong, dateRight, ConstraintViolationException.class
+					"admin", bannersWrong, dateRight, IllegalArgumentException.class
 				}, { // Modificacion erronea: Banners completo.
-					bannersFull, dateRight, ConstraintViolationException.class
+					"admin", bannersFull, dateRight, IllegalArgumentException.class
 				}
 			};
 			for (int i = 0; i < testingData.length; i++)
-				this.templateModifyingCache((Collection<Urrl>) testingData[i][0], (Date) testingData[i][1], (Class<?>) testingData[i][2]);
+				this.templateModifyingCache((String) testingData[i][0], (Collection<Urrl>) testingData[i][1], (Date) testingData[i][2], (Class<?>) testingData[i][3]);
 		} catch (final ParseException e) {
 			e.printStackTrace();
 		}
 	}
 	// Templates ----------------------------------------------------------
-	protected void templateModifyingCache(final Collection<Urrl> banners, final Date cacheTime, final Class<?> expected) {
+	protected void templateModifyingCache(final String username, final Collection<Urrl> banners, final Date cacheTime, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
 		try {
+			this.adminService.findByPrincipal();
+			this.authenticate(username);
 			final SystemConfiguration sc = this.sysConService.findMain();
 			sc.setBanners(banners);
 			sc.setCacheTime(cacheTime);
 			this.sysConService.save(sc);
 			this.sysConService.flush();
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
