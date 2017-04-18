@@ -37,38 +37,35 @@ public class CreditCardServiceTest extends AbstractTest {
 	public void driverCreation() {
 		final Object testingData[][] = {
 			{		// Creación correcta de una tarjeta de crédito.
-				"chorbi1", "holderName", "brandName", "1111333355557777", "04", "19", "321", "chorbi1", null
+				"chorbi4", "holderName", "VISA", "4662031000040705", 4, 19, 321, null
 			}, {	// Creación errónea de una tarjeta de crédito: nombre vacío.
-				"chorbi1", "", "brandName", "1111333355557777", "04", "19", "321", "chorbi1", ConstraintViolationException.class
+				"chorbi4", "", "VISA", "4662031000040705", 4, 19, 321, ConstraintViolationException.class
 			}, {	// Creación errónea de una tarjeta de crédito: marca vacía.
-				"chorbi1", "holderName", "", "1111333355557777", "04", "19", "321", "chorbi1", ConstraintViolationException.class
+				"chorbi4", "holderName", "", "4662031000040705", 4, 19, 321, ConstraintViolationException.class
 			}, {	// Creación errónea de una tarjeta de crédito: número vacío.
-				"chorbi1", "holderName", "brandName", "", "04", "19", "321", "chorbi1", ConstraintViolationException.class
+				"chorbi4", "holderName", "VISA", "", 4, 19, 321, ConstraintViolationException.class
 			}, {	// Creación errónea de una tarjeta de crédito: número con formato incorrecto.
-				"chorbi1", "holderName", "brandName", "111333355557777", "04", "19", "321", "chorbi1", ConstraintViolationException.class
-			}, {	// Creación errónea de una tarjeta de crédito: mes vacío.
-				"chorbi1", "holderName", "brandName", "1111333355557777", "", "19", "321", "chorbi1", ConstraintViolationException.class
+				"chorbi4", "holderName", "VISA", "4662031000040705", 4, 19, 321, ConstraintViolationException.class
 			}, {	// Creación errónea de una tarjeta de crédito: mes incorrecto.
-				"chorbi1", "holderName", "brandName", "1111333355557777", "15", "19", "321", "chorbi1", ConstraintViolationException.class
-			}, {	// Creación errónea de una tarjeta de crédito: año vacío.
-				"chorbi1", "holderName", "brandName", "1111333355557777", "04", "", "321", "chorbi1", ConstraintViolationException.class
+				"chorbi4", "holderName", "VISA", "4662031000040705", 15, 19, 321, ConstraintViolationException.class
 			}, {	// Creación errónea de una tarjeta de crédito: año incorrecto.
-				"chorbi1", "holderName", "brandName", "1111333355557777", "04", "234", "321", "chorbi1", ConstraintViolationException.class
-			}, {	// Creación errónea de una tarjeta de crédito: cvv vacío.
-				"chorbi1", "holderName", "brandName", "1111333355557777", "04", "19", "", "chorbi1", ConstraintViolationException.class
+				"chorbi4", "holderName", "VISA", "4662031000040705", 4, 234, 321, ConstraintViolationException.class
 			}, {	// Creación errónea de una tarjeta de crédito: cvv incorrecto.
-				"chorbi1", "holderName", "brandName", "1111333355557777", "04", "19", "3251", "chorbi1", ConstraintViolationException.class
-			}, {	// Creación errónea de una tarjeta de crédito: chorbi vacío.
-				"chorbi1", "holderName", "brandName", "1111333355557777", "04", "19", "321", "", ConstraintViolationException.class
+				"chorbi4", "holderName", "VISA", "4662031000040705", 4, 19, 3251, ConstraintViolationException.class
 			}, {	// Creación errónea de una tarjeta de crédito: chorbi incorrecto.
-				"chorbi1", "holderName", "brandName", "1111333355557777", "04", "19", "321", "chorbi41", ConstraintViolationException.class
+				"chorbi41", "holderName", "VISA", "4662031000040705", 4, 19, 321, IllegalArgumentException.class
+			}, {	// Creación errónea de una tarjeta de crédito: mes nulo.
+				"chorbi4", "holderName", "VISA", "4662031000040705", null, 19, 321, NullPointerException.class
+			}, {	// Creación errónea de una tarjeta de crédito: año nulo.
+				"chorbi4", "holderName", "VISA", "4662031000040705", 4, null, 321, NullPointerException.class
+			}, {	// Creación errónea de una tarjeta de crédito: cvv nulo.
+				"chorbi4", "holderName", "VISA", "4662031000040705", 4, 19, null, NullPointerException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (int) testingData[i][5], (int) testingData[i][6], (Chorbi) testingData[i][7],
-				(Class<?>) testingData[i][8]);
+			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Integer) testingData[i][4], (Integer) testingData[i][5], (Integer) testingData[i][6],
+				(Class<?>) testingData[i][7]);
 	}
-
 	@Test
 	public void driverDisplaying() {
 		final Object testingData[][] = {
@@ -83,7 +80,7 @@ public class CreditCardServiceTest extends AbstractTest {
 	}
 
 	// Templates ----------------------------------------------------------
-	protected void templateCreation(final String username, final String holderName, final String brandName, final String creditCardNumber, final int expirationMonth, final int expirationYear, final int cvv, final Chorbi chorbi, final Class<?> expected) {
+	protected void templateCreation(final String username, final String holderName, final String brandName, final String creditCardNumber, final Integer expirationMonth, final Integer expirationYear, final Integer cvv, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
 		try {
@@ -95,7 +92,8 @@ public class CreditCardServiceTest extends AbstractTest {
 			cc.setExpirationMonth(expirationMonth);
 			cc.setExpirationYear(expirationYear);
 			cc.setCVV(cvv);
-			cc.setChorbi(chorbi);
+			final Chorbi c = (Chorbi) this.actorService.findByPrincipal();
+			cc.setChorbi(c);
 			this.creditCardService.save(cc);
 			this.creditCardService.flush();
 			this.unauthenticate();
@@ -111,6 +109,7 @@ public class CreditCardServiceTest extends AbstractTest {
 		try {
 			this.authenticate(username);
 			final CreditCard cc = this.creditCardService.findOne(creditCardId);
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}

@@ -18,17 +18,6 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<jstl:if test="${cookie.language.value == null}">
-	<jstl:set value="true" var="inEnglish" />
-</jstl:if>
-
-<jstl:if test="${cookie.language.value == 'es'}">
-	<jstl:set value="false" var="inEnglish" />
-</jstl:if>
-
-<jstl:if test="${cookie.language.value == 'en'}">
-	<jstl:set value="true" var="inEnglish" />
-</jstl:if>
 
 <form:form action="${requestURI}" modelAttribute="chorbi">
 
@@ -55,59 +44,28 @@
 	
 	<form:select path="relationshipType">
 		<option value="ACTIVITIES" <jstl:if test="${chorbi.relationshipType == 'ACTIVITIES'}">selected = "selected"</jstl:if>>
-			<jstl:choose>
-				<jstl:when test="${inEnglish}">
-					ACTIVITIES
-				</jstl:when>
-				<jstl:otherwise>
-					ACTIVIDADES
-				</jstl:otherwise>
-			</jstl:choose>
+			<spring:message code="chorbi.activities" />
 		</option>
 		<option value="FRIENDSHIP" <jstl:if test="${chorbi.relationshipType == 'FRIENDSHIP'}">selected = "selected"</jstl:if>>
-			<jstl:choose>
-				<jstl:when test="${inEnglish}" >
-					FRIENDSHIP
-				</jstl:when>
-				<jstl:otherwise>
-					AMISTAD
-				</jstl:otherwise>
-			</jstl:choose>
+			<spring:message code="chorbi.friendship" />
 		</option>
 		<option value="LOVE" <jstl:if test="${chorbi.relationshipType == 'LOVE'}">selected = "selected"</jstl:if>>
-			<jstl:choose>
-				<jstl:when test="${inEnglish}" >
-					LOVE
-				</jstl:when>
-				<jstl:otherwise>
-					AMOR
-				</jstl:otherwise>
-			</jstl:choose>
+			<spring:message code="chorbi.love" />
 		</option>
 	</form:select>
-	
-	<acme:textbox code="chorbi.birthDate" path="birthDate"/>
-	
+	<div>
+	<form:label path="birthDate">
+			<spring:message code="chorbi.birthDate" />:
+		</form:label>
+		<form:input placeholder="dd/MM/yyyy" path="birthDate" />
+		<form:errors cssClass="error" path="birthDate" />
+	</div>
 	<form:select path="genre">
 		<option value="MAN" <jstl:if test="${chorbi.genre == 'MAN'}">selected = "selected"</jstl:if>>
-			<jstl:choose>
-				<jstl:when test="${inEnglish}">
-					MAN
-				</jstl:when>
-				<jstl:otherwise>
-					HOMBRE
-				</jstl:otherwise>
-			</jstl:choose>
+			<spring:message code="chorbi.man" />
 		</option>
 		<option value="WOMAN" <jstl:if test="${chorbi.genre == 'WOMAN'}">selected = "selected"</jstl:if>>
-			<jstl:choose>
-				<jstl:when test="${inEnglish}">
-					WOMAN
-				</jstl:when>
-				<jstl:otherwise>
-					MUJER
-				</jstl:otherwise>
-			</jstl:choose>
+			<spring:message code="chorbi.woman" />
 		</option>
 	</form:select>
 	

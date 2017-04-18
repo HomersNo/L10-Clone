@@ -1,8 +1,12 @@
 
 package services;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -10,6 +14,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import repositories.SystemConfigurationRepository;
 import domain.SystemConfiguration;
@@ -55,6 +60,21 @@ public class SystemConfigurationService {
 	public SystemConfiguration save(final SystemConfiguration systemConfiguration) {
 		this.adminService.checkAdministrator();
 		SystemConfiguration saved;
+
+		Date time1;
+		try {
+			time1 = new SimpleDateFormat("HH:mm:ss").parse("12:00:00");
+
+			final Calendar calendar1 = Calendar.getInstance();
+			calendar1.setTime(time1);
+
+			final Calendar calendar2 = Calendar.getInstance();
+			calendar2.setTime(systemConfiguration.getCacheTime());
+
+			Assert.isTrue(calendar1.before(calendar2));
+		} catch (final ParseException e) {
+
+		}
 		saved = this.systemConfigurationRepository.save(systemConfiguration);
 		return saved;
 	}
@@ -81,12 +101,17 @@ public class SystemConfigurationService {
 
 		sc = this.findMain();
 		randomNum = rn.nextInt(sc.getBanners().size());
-		banners = new ArrayList(sc.getBanners());
+		banners = new ArrayList<Urrl>(sc.getBanners());
 
 		result = banners.get(randomNum).getLink();
 
 		return result;
 	}
+
+	public void flush() {
+		this.systemConfigurationRepository.flush();
+	}
+
 	//Dashboard queries
 
 	//The ratio of chorbies who have not registered a credit card or have regis-tered an invalid credit card.

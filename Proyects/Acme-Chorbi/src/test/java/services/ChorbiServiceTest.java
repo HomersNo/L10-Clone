@@ -39,10 +39,6 @@ public class ChorbiServiceTest extends AbstractTest {
 	Date					fechaFutura		= this.calendarFutura.getTime();
 
 
-	//	long					fechaValida	= Long.valueOf("610408800000");
-
-	//	long					fechaFutura	= Long.valueOf("1588716000000");
-
 	// Teoria pagina 107 y 108
 	// Tests ---------------------------------------------------------------
 	@Test
@@ -90,6 +86,7 @@ public class ChorbiServiceTest extends AbstractTest {
 				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", this.fechaValida, "WMAN", false, "Country", "state", "province", "city", ConstraintViolationException.class
 			}, {	// Creación errónea de un Customer: ciudad vacía.
 				"", "correcto", "correcto", "correcto", "correcto@bien.com", "1234", "http://www.edurne.com", "descripcion", "LOVE", this.fechaValida, "WOMAN", false, "Country", "state", "province", "", ConstraintViolationException.class
+
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
@@ -97,7 +94,6 @@ public class ChorbiServiceTest extends AbstractTest {
 				(String) testingData[i][7], (String) testingData[i][8], (Date) testingData[i][9], (String) testingData[i][10], (Boolean) testingData[i][11], (String) testingData[i][12], (String) testingData[i][13], (String) testingData[i][14],
 				(String) testingData[i][15], (Class<?>) testingData[i][16]);
 	}
-
 	@Test
 	public void driverDisplaying() {
 		final Object testingData[][] = {
