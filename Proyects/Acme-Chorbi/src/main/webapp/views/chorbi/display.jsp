@@ -15,32 +15,34 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+<%@taglib uri="/WEB-INF/tags/functions" prefix="mask" %>
+
+
 
 <security:authentication property="principal" var ="loggedactor"/>
 <jstl:set var="likes" value="${chorbi}"/> 
-
 <h2><spring:message code="chorbi" /></h2>
-<p><spring:message code="chorbi.name"/>: <jstl:out value="${chorbi.name}" /></p> 
-<p><spring:message code="chorbi.surname"/>: <jstl:out value="${chorbi.surname}" /></p> 
-<jstl:if test="${chorbi.id == principal.id }">
+<p><spring:message code="chorbi.name"/>: <jstl:out value="${mask:mask(chorbi.name) }" /></p> 
+<p><spring:message code="chorbi.surname"/>: <jstl:out value="${mask:mask(chorbi.surname) }" /></p> 
+<jstl:if test="${chorbi.userAccount.id == loggedactor.id }">
 	<p><spring:message code="chorbi.email"/>: <jstl:out value="${chorbi.email}" /></p> 
-	<p><spring:message code="chorbi.phoneNumber"/>: <jstl:out value="${chorbi.phone}" /></p> 
+	<p><spring:message code="chorbi.phoneNumber"/>: <jstl:out value="${chorbi.phoneNumber}" /></p> 
 </jstl:if>
 <security:authorize access="hasRole('ADMIN')">
 	<p><spring:message code="chorbi.email"/>: <jstl:out value="${chorbi.email}" /></p> 
-	<p><spring:message code="chorbi.phoneNumber"/>: <jstl:out value="${chorbi.phone}" /></p> 
+	<p><spring:message code="chorbi.phoneNumber"/>: <jstl:out value="${chorbi.phoneNumber}" /></p> 
 </security:authorize>
 
 <img src="<jstl:out value='${chorbi.picture}'/>"  width="300"> 
 
-<p><spring:message code="chorbi.description"/>: <jstl:out value="${chorbi.description}" /></p> 
-<p><spring:message code="chorbi.relationshipType"/>: <jstl:out value="${chorbi.relationshipType}" /></p> 
+<p><spring:message code="chorbi.description"/>: <jstl:out value="${mask:mask(chorbi.description) }" /></p> 
+<p><spring:message code="chorbi.relationshipType"/>: <jstl:out value="${mask:mask(chorbi.relationshipType)}" /></p> 
 <p><spring:message code="chorbi.birthDate"/>: <jstl:out value="${chorbi.birthDate}" /></p> 
 <p><spring:message code="chorbi.genre"/>: <jstl:out value="${chorbi.genre}" /></p>  
-<p><spring:message code="chorbi.country"/>: <jstl:out value="${chorbi.country}" /></p> 
-<p><spring:message code="chorbi.state"/>: <jstl:out value="${chorbi.state}" /></p>  
-<p><spring:message code="chorbi.province"/>: <jstl:out value="${chorbi.province}" /></p> 
-<p><spring:message code="chorbi.city"/>: <jstl:out value="${chorbi.city}" /></p> 
+<p><spring:message code="chorbi.country"/>: <jstl:out value="${mask:mask(chorbi.country) }" /></p> 
+<p><spring:message code="chorbi.state"/>: <jstl:out value="${mask:mask(chorbi.state) }" /></p>  
+<p><spring:message code="chorbi.province"/>: <jstl:out value="${mask:mask(chorbi.province) }" /></p> 
+<p><spring:message code="chorbi.city"/>: <jstl:out value="${mask:mask(chorbi.city) }" /></p> 
 
 
 <br/>
@@ -59,5 +61,7 @@
 </security:authorize>
 
 <br/>
+
+
 
 
