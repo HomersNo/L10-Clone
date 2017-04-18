@@ -1,7 +1,12 @@
 
 package services;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,5 +19,38 @@ import utilities.AbstractTest;
 })
 @Transactional
 public class SystemConfigurationServiceTest extends AbstractTest {
+
+	// The SUT -------------------------------------------------------------
+	@Autowired
+	private SystemConfigurationService	sysConService;
+	SimpleDateFormat					sdf			= new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+	String								dateWrong	= "31-08-1982 10:20:56";
+	String								dateRight	= "31-08-2018 10:20:56";
+
+
+	// Tests ---------------------------------------------------------------
+	@Test
+	public void driverModifyingCache() {
+		final Object testingData[][] = {
+			
+			{, null}//modificación correcta de system.
+			{
+			
+		};
+		for (int i = 0; i < testingData.length; i++)
+			;
+	}
+	// Templates ----------------------------------------------------------
+	protected void templateModifyingCache(final Date cacheTime, final Class<?> expected) {
+		Class<?> caught;
+		caught = null;
+		try {
+			this.authenticate(username);
+			//			final Chorbi c = this.chorbiService.findOne(chorbiId);
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expected, caught);
+	}
 
 }

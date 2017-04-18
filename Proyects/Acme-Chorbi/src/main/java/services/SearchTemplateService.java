@@ -44,6 +44,9 @@ public class SearchTemplateService {
 	@Autowired
 	private Validator					validator;
 
+	@Autowired
+	private SystemConfigurationService	scService;
+
 
 	// Constructors -----------------------------------------------------------
 
