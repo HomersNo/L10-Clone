@@ -44,7 +44,7 @@ public class SystemConfiguration extends DomainEntity {
 	}
 
 	@Past
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.TIME)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getCacheTime() {
 		return this.cacheTime;
