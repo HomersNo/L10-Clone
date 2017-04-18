@@ -101,7 +101,7 @@ public class SystemConfigurationService {
 
 		sc = this.findMain();
 		randomNum = rn.nextInt(sc.getBanners().size());
-		banners = new ArrayList(sc.getBanners());
+		banners = new ArrayList<Urrl>(sc.getBanners());
 
 		result = banners.get(randomNum).getLink();
 
