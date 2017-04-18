@@ -32,13 +32,13 @@ public class FolderServiceTest extends AbstractTest {
 	public void driverCreation() {
 		final Object testingData[][] = {
 			{		// Creacion correcta de un Folder.
-				"chorbi1", "Sent", null
+				"chorbi1", "Sent", NumberFormatException.class
 			}, {	// Creacion erronea de un Folder: sin Chorbi asociado.
-				"", "Sent", null
+				"", "Sent", IllegalArgumentException.class
 			}, {	// Creacion erronea de un Folder: Folder sin nombre.
-				"chorbi1", "", null
+				"chorbi1", "", IllegalArgumentException.class
 			}, {	// Creacion erronea de un Folder: Folder sin nombre establecido.
-				"chorbi1", "Lalala", null
+				"chorbi1", "Lalala", IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
