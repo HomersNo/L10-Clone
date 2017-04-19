@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ChorbiService;
+import services.CreditCardService;
 import services.LikesService;
 import services.SearchTemplateService;
 import domain.Chorbi;
+import domain.CreditCard;
 import domain.Likes;
+import domain.SearchTemplate;
 
 @Controller
 @RequestMapping("/chorbi/chorbi")
@@ -30,6 +33,9 @@ public class ChorbiChorbiController {
 
 	@Autowired
 	private LikesService			likesService;
+
+	@Autowired
+	private CreditCardService		creditCardService;
 
 	@Autowired
 	private SearchTemplateService	stService;
@@ -86,24 +92,6 @@ public class ChorbiChorbiController {
 		return result;
 	}
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) final String errorMessage) {
-		ModelAndView result;
-
-		Collection<Chorbi> chorbis;
-		Collection<Likes> likes;
-
-		chorbis = this.chorbiService.findAllNotBanned();
-		likes = this.likesService.findAllByPrincipal();
-
-		result = new ModelAndView("chorbi/list");
-		result.addObject("chorbis", chorbis);
-		result.addObject("likes", likes);
-		result.addObject("requestURI", "chorbi/chorbi/list.do");
-
-		return result;
-	}
-
 	@RequestMapping(value = "/listLiking", method = RequestMethod.GET)
 	public ModelAndView listLiking(@RequestParam(required = false) final String errorMessage) {
 		ModelAndView result;
@@ -130,25 +118,43 @@ public class ChorbiChorbiController {
 		ModelAndView result;
 		Collection<Chorbi> chorbies;
 		Collection<Likes> likes;
-		Chorbi principal;
+		final Chorbi principal = this.chorbiService.findByPrincipal();
+		final CreditCard credit = this.creditCardService.findByPrincipal();
+		if (credit != null) {
+			if (this.creditCardService.checkCCNumber(credit.getCreditCardNumber()) && this.creditCardService.expirationDate(credit)) {
+				if (searchTemplateId == 0) {
+					final SearchTemplate search = this.stService.findSearchTemplateByChorbi(principal);
+					if (search == null)
+						result = new ModelAndView("redirect:/searchTemplate/chorbi/create.do");
+					else {
+						chorbies = this.chorbiService.findAllFound(search.getId());
+						chorbies.remove(principal);
+						likes = this.likesService.findAllByPrincipal();
+						result = new ModelAndView("chorbi/list");
+						result.addObject("chorbis", chorbies);
+						result.addObject("likes", likes);
+						result.addObject("requestURI", "chorbi/chorbi/listFound.do");
+					}
+				} else {
 
-		if (searchTemplateId != 0)
-			chorbies = this.chorbiService.findAllFound(searchTemplateId);
-		else {
-			principal = this.chorbiService.findByPrincipal();
-			chorbies = this.chorbiService.findAllFound(this.stService.findSearchTemplateByChorbi(principal).getId());
-		}
-		likes = this.likesService.findAllByPrincipal();
+					chorbies = this.chorbiService.findAllFound(searchTemplateId);
+					chorbies.remove(principal);
+					likes = this.likesService.findAllByPrincipal();
+					result = new ModelAndView("chorbi/list");
+					result.addObject("chorbis", chorbies);
+					result.addObject("likes", likes);
+					result.addObject("requestURI", "chorbi/chorbi/listFound.do");
+				}
 
-		result = new ModelAndView("chorbi/list");
-		result.addObject("chorbis", chorbies);
-		result.addObject("likes", likes);
-		result.addObject("requestURI", "chorbi/chorbi/listFound.do");
+			} else
+				result = new ModelAndView("redirect:/creditCard/chorbi/edit.do");
+
+		} else
+			result = new ModelAndView("redirect:/creditCard/chorbi/edit.do");
 
 		return result;
 
 	}
-
 	// Ancillary methods
 
 	protected ModelAndView createEditModelAndView(final Chorbi chorbi) {

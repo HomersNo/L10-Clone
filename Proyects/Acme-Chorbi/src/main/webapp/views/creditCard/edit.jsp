@@ -30,8 +30,21 @@
 		<form:hidden path="chorbi" />
    	 	<acme:textbox code="creditCard.holder.name" path="holderName"/>
     
-		<acme:textbox code="creditCard.brand.name" path="brandName"/>
-	
+		<div>
+			<form:label path="brandName">
+				<spring:message code="creditCard.brand.name" />
+			</form:label>	
+			<form:select path="brandName">		
+				<form:option value="VISA" label="Visa" />
+				<form:option value="MASTERCARD" label="MasterCard" />
+				<form:option value="DISCOVER" label="Discover" />
+				<form:option value="DINNERS" label="Dinners" />
+				<form:option value="AMEX" label="Amex" />
+			</form:select>
+			<form:errors path="brandName" cssClass="error" />
+		</div>
+		
+		
 		<acme:textbox code="creditCard.number" path="creditCardNumber"/>
 	
 		<acme:textbox code="creditCard.expiration.month" path="expirationMonth"/>
