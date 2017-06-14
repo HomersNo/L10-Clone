@@ -109,7 +109,4 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	@Query("select e.registered from Event e where e.id=?1")
 	List<Chorbi> findChorbiesRegisteredEvent(int eventId, Pageable pageRequest);
 
-	@Query("select l.liked from Likes l group by l.liked order by avg(l.stars) DESC")
-	Collection<Chorbi> findChorbiesOrderedByAvgStars();
-
 }

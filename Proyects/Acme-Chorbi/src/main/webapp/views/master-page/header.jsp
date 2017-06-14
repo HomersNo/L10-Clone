@@ -28,7 +28,6 @@
 						<li><a href="chorbi/list.do"><spring:message code="master.page.chorbi.list" /></a></li>
 						<security:authorize access="hasRole('ADMIN')">
 							<li><a href="chorbi/administrator/list.do"><spring:message code="master.page.chorbi.admin.list" /></a></li>
-							<li><a href="chorbi/administrator/sumFee.do"><spring:message code="master.page.chorbi.admin.sumFee" /></a></li>
 						</security:authorize>
 						<security:authorize access="hasRole('CHORBI')">
 							<li><a href="likes/chorbi/list.do"><spring:message code="master.page.likes.list" /></a></li>
@@ -38,22 +37,7 @@
 				</ul>
 			</li>
 		</security:authorize>
-		<li><a class="fNiv"><spring:message	code="master.page.events" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<security:authorize access="hasRole('MANAGER')">
-						<li><a href="event/_manager/list.do"><spring:message code="master.page.event.manager.list" /></a></li>
-						<li><a href="event/_manager/create.do"><spring:message code="master.page.event.manager.create" /></a></li>
-						<li><a href="chirp/_manager/broadcast.do"><spring:message code="master.page.manager.broadcast"/></a></li>
-					</security:authorize>
-					<li><a href="event/list.do"><spring:message code="master.page.events.all" /></a></li>
-					<li><a href="event/listInminent.do"><spring:message code="master.page.events.imminent" /></a></li>
-					<security:authorize access="hasRole('CHORBI')">
-						<li><a href="event/chorbi/list.do"><spring:message code="master.page.events.chorbi.list" /></a></li>
-					</security:authorize>
-									
-				</ul>
-		</li>
+		
 		
 		
 		<security:authorize access="hasRole('ADMIN')">
@@ -73,8 +57,7 @@
 			<li><a class="fNiv"><spring:message	code="master.page.register" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="chorbi/register.do"><spring:message code="master.page.as.chorbi" /></a></li>
-					<li><a href="_manager/register.do"><spring:message code="master.page.as.manager" /></a></li>				
+					<li><a href="chorbi/register.do"><spring:message code="master.page.as.chorbi" /></a></li>			
 				</ul>
 			</li>
 		</security:authorize>
@@ -109,24 +92,7 @@
 			
 		</security:authorize>
 		
-		<security:authorize access="hasRole('MANAGER')">
-			
-			
-			<li>
-				<a class="fNiv"> 
-					<spring:message code="master.page.profile" /> 
-			        (<security:authentication property="principal.username" />)
-				</a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="_manager/_manager/display.do"><spring:message code="master.page.manager.display" /></a></li>
-					<li><a href="_manager/_manager/edit.do"><spring:message code="master.page.manager.edit" /></a></li>
-					<li><a href="creditCard/_manager/edit.do"><spring:message code="master.page.manager.credit" /></a></li>
-					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
-				</ul>
-			</li>
-			
-		</security:authorize>
+		
 	</ul>
 </div>
 

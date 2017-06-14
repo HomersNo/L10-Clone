@@ -32,20 +32,6 @@
 	<form:errors cssClass="error" path="cacheTime" />
 	<br />
 	
-	<form:label path="feeManager">
-		<spring:message code="systemConfiguration.manager" />:
-	</form:label>
-	<form:input type="number" path="feeManager" />
-	<form:errors cssClass="error" path="feeManager" />
-	<br />
-	
-	<form:label path="feeChorbi">
-		<spring:message code="systemConfiguration.chorbi" />:
-	</form:label>
-	<form:input type="number" path="feeChorbi" />
-	<form:errors cssClass="error" path="feeChorbi" />
-	<br />
-	
 
 	<input type="submit" name="save"
 		value="<spring:message code="systemConfiguration.save" />" 

@@ -21,7 +21,6 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Chorbi;
-import domain.SystemConfiguration;
 import forms.RegisterChorbi;
 
 @Service
@@ -257,12 +256,6 @@ public class ChorbiService {
 		return filtered;
 	}
 
-	public void sumFee(final Chorbi chorbi) {
-		final SystemConfiguration sc = this.systemConfigurationService.findMain();
-		chorbi.setCumulatedFee(chorbi.getCumulatedFee() + sc.getFeeChorbi());
-		this.save(chorbi);
-	}
-
 	//Dashboard methods
 	// A listing with the number of chorbies per country and city.
 	public List<Object[]> chorbiesPerCity() {
@@ -361,13 +354,6 @@ public class ChorbiService {
 		List<Chorbi> result;
 		result = this.chorbiRepository.findChorbiesRegisteredEvent(eventId, pageRequest);
 
-		return result;
-	}
-
-	// The list of chorbies, sorted by the average number of stars that they've got.
-	public Collection<Chorbi> findChorbiesOrderedByAvgStars() {
-		Collection<Chorbi> result;
-		result = this.chorbiRepository.findChorbiesOrderedByAvgStars();
 		return result;
 	}
 

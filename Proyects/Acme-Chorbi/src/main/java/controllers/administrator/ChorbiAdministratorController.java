@@ -57,20 +57,5 @@ public class ChorbiAdministratorController {
 	}
 
 	//Sum Fees
-	@RequestMapping(value = "/sumFee", method = RequestMethod.GET)
-	public ModelAndView sumFee() {
-		ModelAndView result;
-
-		Collection<Chorbi> chorbis;
-
-		chorbis = this.chorbiService.findAllNotBanned();
-		for (final Chorbi c : chorbis)
-			this.chorbiService.sumFee(c);
-		result = new ModelAndView("chorbi/list");
-		result.addObject("chorbis", chorbis);
-		result.addObject("requestURI", "chorbi/administrator/list.do");
-
-		return result;
-	}
 
 }

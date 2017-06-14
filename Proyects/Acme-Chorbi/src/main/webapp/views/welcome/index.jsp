@@ -16,7 +16,9 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib uri="/WEB-INF/tags/functions" prefix="mask" %>
-<img src="${banner }" alt="${banner }" height="150"/>
+<jstl:if test="${banner!=null }">
+	<img src="${banner }" alt="${banner }" height="150"/>
+</jstl:if>
 
 <p><spring:message code="welcome.greeting.prefix" /> ${name}<spring:message code="welcome.greeting.suffix" /></p>
 

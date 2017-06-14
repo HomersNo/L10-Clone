@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Chorbi;
@@ -131,18 +130,6 @@ public class ChorbiServiceTest extends AbstractTest {
 
 	//	- An actor who is authenticated as an administrator must be able to:
 	//		o Run a process to update the total monthly fees that the chorbies would have to pay. Recall that chorbies must not be aware of the simulation.
-	@Test
-	public void driverSumFee() {
-		final Object testingData[][] = {
-			{		// Suma correcta de la cuota a un chorbi. 
-				"chorbi3", null
-			}, {	// Fallo al intentar sumar a fee a algo que no es un chorbi.
-				"event1", IllegalArgumentException.class
-			}
-		};
-		for (int i = 0; i < testingData.length; i++)
-			this.templateSumFee((String) testingData[i][0], (Class<?>) testingData[i][1]);
-	}
 
 	//	- An actor who is authenticated as an administrator must be able to:
 	//		o Ban a chorbi, that is, to disable his or her account.
@@ -209,19 +196,6 @@ public class ChorbiServiceTest extends AbstractTest {
 		try {
 			this.authenticate(username);
 			final Collection<Chorbi> chorbis = this.chorbiService.findAllLikingMe(this.extract(chorbiId));
-		} catch (final Throwable oops) {
-			caught = oops.getClass();
-		}
-		this.checkExceptions(expected, caught);
-	}
-
-	protected void templateSumFee(final String chorbiId, final Class<?> expected) {
-		Class<?> caught;
-		caught = null;
-		try {
-			final Double feeAnterior = this.chorbiService.findOne(this.extract(chorbiId)).getCumulatedFee();
-			this.chorbiService.sumFee(this.chorbiService.findOne(this.extract(chorbiId)));
-			Assert.isTrue(feeAnterior < this.chorbiService.findOne(this.extract(chorbiId)).getCumulatedFee());
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}

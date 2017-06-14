@@ -92,18 +92,19 @@ public class SystemConfigurationService {
 
 	public String findRandomBanner() {
 
-		String result;
+		String result = null;
 		SystemConfiguration sc;
 		int randomNum;
 		final Random rn = new Random();
 		List<String> banners;
 
 		sc = this.findMain();
-		randomNum = rn.nextInt(sc.getBanners().size());
 		banners = new ArrayList<String>(sc.getBanners());
+		if (banners != null && !banners.isEmpty()) {
+			randomNum = rn.nextInt(sc.getBanners().size());
 
-		result = banners.get(randomNum);
-
+			result = banners.get(randomNum);
+		}
 		return result;
 	}
 
@@ -179,10 +180,5 @@ public class SystemConfigurationService {
 	//Dashboard 2.0
 
 	// The minimum, the maximum, and the average number of stars per chorbi.
-	public Object[] minMaxAvgStars() {
-		Object[] result;
-		result = this.systemConfigurationRepository.minMaxAvgStars();
-		return result;
-	}
 
 }

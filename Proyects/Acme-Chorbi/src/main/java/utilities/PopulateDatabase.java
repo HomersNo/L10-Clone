@@ -42,7 +42,6 @@ public class PopulateDatabase {
 		EclipseConsole.fix();
 		LogManager.getLogger("org.hibernate").setLevel(Level.OFF);
 		databaseUtil = null;
-
 		try {
 			System.out.println("PopulateDatabase 1.9");
 			System.out.println("--------------------");
@@ -74,7 +73,6 @@ public class PopulateDatabase {
 			}
 		}
 	}
-
 	protected static List<Entry<String, Object>> sort(final DatabaseUtil databaseUtil, final Map<String, Object> entityMap) {
 		LinkedList<Entry<String, Object>> result;
 		LinkedList<Entry<String, Object>> cache;
