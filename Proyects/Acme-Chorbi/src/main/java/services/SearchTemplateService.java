@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,6 @@ import security.UserAccount;
 import domain.Chorbi;
 import domain.CreditCard;
 import domain.SearchTemplate;
-import domain.SystemConfiguration;
 
 @Service
 @Transactional
@@ -100,32 +98,9 @@ public class SearchTemplateService {
 		Assert.notNull(creditCard);
 		Assert.isTrue(this.creditCardService.checkCCNumber(creditCard.getCreditCardNumber()) && this.creditCardService.expirationDate(creditCard));
 		Collection<Chorbi> filtered;
-		filtered = new ArrayList<Chorbi>();
-		filtered.addAll(this.chorbiService.findAllNotBanned());
 
-		if (searchTemplate.getRelationshipType() != "" && searchTemplate.getRelationshipType() != null)
-			filtered.retainAll(this.chorbiService.findByRelationshipType(searchTemplate.getRelationshipType()));
-
-		if (searchTemplate.getAge() != null)
-			filtered.retainAll(this.chorbiService.findByAge(searchTemplate.getAge()));
-
-		if (searchTemplate.getGenre() != "" && searchTemplate.getGenre() != null)
-			filtered.retainAll(this.chorbiService.findByGenre(searchTemplate.getGenre()));
-
-		if (searchTemplate.getKeyword() != "" && searchTemplate.getKeyword() != null)
-			filtered.retainAll(this.chorbiService.findByKeyword(searchTemplate.getKeyword()));
-
-		if (searchTemplate.getCountry() != "" && searchTemplate.getCountry() != null)
-			filtered.retainAll(this.chorbiService.findByCountry(searchTemplate.getCountry()));
-
-		if (searchTemplate.getState() != "" && searchTemplate.getState() != null)
-			filtered.retainAll(this.chorbiService.findByState(searchTemplate.getState()));
-
-		if (searchTemplate.getProvince() != "" && searchTemplate.getProvince() != null)
-			filtered.retainAll(this.chorbiService.findByProvince(searchTemplate.getProvince()));
-
-		if (searchTemplate.getCity() != "" && searchTemplate.getCity() != null)
-			filtered.retainAll(this.chorbiService.findByCity(searchTemplate.getCity()));
+		filtered = this.chorbiService.search(searchTemplate.getRelationshipType(), searchTemplate.getGenre(), searchTemplate.getCountry(), searchTemplate.getState(), searchTemplate.getProvince(), searchTemplate.getCity(), searchTemplate.getAge(),
+			searchTemplate.getKeyword());
 
 		searchTemplate.setChorbies(filtered);
 
@@ -146,32 +121,26 @@ public class SearchTemplateService {
 		return result;
 	}
 
-	/**
-	 * @param searchTemplate
-	 * @param binding
-	 * @return
-	 */
 	public SearchTemplate reconstruct(final SearchTemplate searchTemplate, final BindingResult binding) {
 		SearchTemplate result;
-
-		if (searchTemplate.getId() == 0)
+		final Chorbi principal = this.chorbiService.findByPrincipal();
+		if (searchTemplate.getId() == 0) {
 			result = searchTemplate;
-		else {
+			result.setChorbi(principal);
+		} else {
 			result = this.searchTemplateRepository.findOne(searchTemplate.getId());
 
-			result.setChorbies(searchTemplate.getChorbies());
 			result.setAge(searchTemplate.getAge());
 			result.setKeyword(searchTemplate.getKeyword());
-			result.setChorbi(searchTemplate.getChorbi());
 			result.setCity(searchTemplate.getCity());
 			result.setCountry(searchTemplate.getCountry());
 			result.setGenre(searchTemplate.getGenre());
-			result.setMoment(searchTemplate.getMoment());
 			result.setProvince(searchTemplate.getProvince());
 			result.setRelationshipType(searchTemplate.getRelationshipType());
 			result.setState(searchTemplate.getState());
 
 			this.validator.validate(result, binding);
+
 		}
 
 		return result;
@@ -180,9 +149,6 @@ public class SearchTemplateService {
 	public Boolean checkCache(final SearchTemplate searchTemplate) {
 
 		Boolean res = true;
-		final SystemConfiguration system = this.scService.findMain();
-		final DateTime last = new DateTime(searchTemplate.getMoment());
-		final DateTime now = DateTime.now();
 
 		final Chorbi principal = this.chorbiService.findByPrincipal();
 		final SearchTemplate chorbiTemplate = this.findSearchTemplateByChorbi(principal);
@@ -205,36 +171,48 @@ public class SearchTemplateService {
 			province = true;
 			city = true;
 
-			if (searchTemplate.getRelationshipType() != "" && searchTemplate.getRelationshipType() != null)
+			if (searchTemplate.getRelationshipType() != null)
+				relationshipType = searchTemplate.getRelationshipType().equals(searchTemplate.getRelationshipType());
+			else if (chorbiTemplate.getRelationshipType() != null)
 				relationshipType = chorbiTemplate.getRelationshipType().equals(searchTemplate.getRelationshipType());
 
 			if (searchTemplate.getAge() != null)
+				age = searchTemplate.getAge().equals(searchTemplate.getAge());
+			else if (chorbiTemplate.getAge() != null)
 				age = chorbiTemplate.getAge().equals(searchTemplate.getAge());
 
-			if (searchTemplate.getGenre() != "" && searchTemplate.getGenre() != null)
+			if (searchTemplate.getGenre() != null)
+				genre = searchTemplate.getGenre().equals(searchTemplate.getGenre());
+			else if (chorbiTemplate.getGenre() != null)
 				genre = chorbiTemplate.getGenre().equals(searchTemplate.getGenre());
 
-			if (searchTemplate.getKeyword() != "" && searchTemplate.getKeyword() != null)
+			if (searchTemplate.getKeyword() != null)
+				keyword = searchTemplate.getKeyword().equals(searchTemplate.getKeyword());
+			else if (chorbiTemplate.getKeyword() != null)
 				keyword = chorbiTemplate.getKeyword().equals(searchTemplate.getKeyword());
 
-			if (searchTemplate.getCountry() != "" && searchTemplate.getCountry() != null)
+			if (searchTemplate.getCountry() != null)
+				country = searchTemplate.getCountry().equals(searchTemplate.getCountry());
+			else if (chorbiTemplate.getCountry() != null)
 				country = chorbiTemplate.getCountry().equals(searchTemplate.getCountry());
 
-			if (searchTemplate.getState() != "" && searchTemplate.getState() != null)
+			if (searchTemplate.getState() != null)
+				state = searchTemplate.getState().equals(searchTemplate.getState());
+			else if (chorbiTemplate.getState() != null)
 				state = chorbiTemplate.getState().equals(searchTemplate.getState());
 
-			if (searchTemplate.getProvince() != "" && searchTemplate.getProvince() != null)
+			if (searchTemplate.getProvince() != null)
+				province = searchTemplate.getProvince().equals(searchTemplate.getProvince());
+			else if (chorbiTemplate.getProvince() != null)
 				province = chorbiTemplate.getProvince().equals(searchTemplate.getProvince());
 
-			if (searchTemplate.getCity() != "" && searchTemplate.getCity() != null)
+			if (searchTemplate.getCity() != null)
+				city = searchTemplate.getCity().equals(searchTemplate.getCity());
+			else if (chorbiTemplate.getCity() != null)
 				city = chorbiTemplate.getCity().equals(searchTemplate.getCity());
 
-			final Boolean isEqual = relationshipType && age && genre && keyword && country && state && province && city;
+			res = relationshipType && age && genre && keyword && country && state && province && city;
 
-			if (now.minus(system.getCacheTime().getTime()).isBefore(last) && isEqual)
-				res = true;
-			else
-				res = false;
 		} else
 			res = false;
 

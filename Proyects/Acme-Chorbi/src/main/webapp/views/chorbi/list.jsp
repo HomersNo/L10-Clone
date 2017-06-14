@@ -37,6 +37,10 @@
 		</jstl:choose>
 		</a>
 	</display:column>
+	<spring:message code="chorbi.fee" var ="feeHeader"/>
+	<display:column title="${feeHeader }">
+		<jstl:out value="${row.cumulatedFee }"/>
+	</display:column>
 		
 </security:authorize>
 
@@ -64,11 +68,10 @@
 	<security:authorize access="hasAnyRole('CHORBI')">
 		<spring:message code="chorbi.like" var="likeHeader" />
 		<display:column title="${likeHeader}">
-		<jstl:forEach items="${likes}" var="likes">
 			<jstl:choose>
-				<jstl:when test="${row.id == likes.liked.id}">
-					<a href="likes/chorbi/delete.do?likesId=${likes.id}">
-		 			<spring:message code="chorbi.dislike" />
+				<jstl:when test="${likes.contains(row)}">
+					<a href="likes/chorbi/delete.do?likesId=${row.id}">
+		 			<spring:message code="chorbi.unlike" />
 		 			</a>
 				</jstl:when>
 				<jstl:otherwise>
@@ -77,7 +80,6 @@
 		 			</a>
 				</jstl:otherwise>
 			</jstl:choose>
-		</jstl:forEach>
 		</display:column>
 	</security:authorize>
 	

@@ -32,7 +32,21 @@
 	<form:errors cssClass="error" path="cacheTime" />
 	<br />
 	
-	<br>
+	<form:label path="feeManager">
+		<spring:message code="systemConfiguration.manager" />:
+	</form:label>
+	<form:input type="number" path="feeManager" />
+	<form:errors cssClass="error" path="feeManager" />
+	<br />
+	
+	<form:label path="feeChorbi">
+		<spring:message code="systemConfiguration.chorbi" />:
+	</form:label>
+	<form:input type="number" path="feeChorbi" />
+	<form:errors cssClass="error" path="feeChorbi" />
+	<br />
+	
+
 	<input type="submit" name="save"
 		value="<spring:message code="systemConfiguration.save" />" 
 		onclick="javascript: relativeRedir('welcome/index.do');" />&nbsp;
@@ -44,4 +58,28 @@
 		
 <br />
 </form:form>
+
+<br>
+<form:form action="systemConfiguration/administrator/banners.do" modelAttribute="addPicture">
+
+	<form:hidden path="id" value="${system.id}"/>
+
+	<acme:textbox code="systemConfiguration.banners"  path="picture"/>
+	
+	<input type="submit" name="save"
+		value="<spring:message code="systemConfiguration.addPicture" />"  />&nbsp;
+		
+		
+<br />
+</form:form>
+
+<ul>
+	<jstl:forEach var="row" varStatus="i" items="${system.banners}">
+	
+		<li><img src="${row }" height="70"/>
+		<a href="systemConfiguration/administrator/deletePicture.do?picture=${row}">X</a>
+	
+    </jstl:forEach>
+</ul>
+
 

@@ -3,8 +3,6 @@ package controllers.chorbi;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -19,7 +17,6 @@ import services.LikesService;
 import services.SearchTemplateService;
 import domain.Chorbi;
 import domain.CreditCard;
-import domain.Likes;
 import domain.SearchTemplate;
 
 @Controller
@@ -75,49 +72,51 @@ public class ChorbiChorbiController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Chorbi editChorbi, final BindingResult binding) {
+	public ModelAndView save(final Chorbi editChorbi, final BindingResult binding) {
 		ModelAndView result;
 		Chorbi chorbi;
 
-		chorbi = this.chorbiService.reconstruct(editChorbi, binding);
+		chorbi = editChorbi;
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(editChorbi);
 		else
 			try {
-				chorbi = this.chorbiService.register(chorbi);
-				result = new ModelAndView("redirect:/chorbi/chorbi/edit.do?chorbiId=" + chorbi.getId());
+				chorbi = this.chorbiService.save(chorbi);
+				result = new ModelAndView("redirect:/chorbi/chorbi/display.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(editChorbi, "chorbi.commit.error");
 			}
+
 		return result;
 	}
-
 	@RequestMapping(value = "/listLiking", method = RequestMethod.GET)
 	public ModelAndView listLiking(@RequestParam(required = false) final String errorMessage) {
 		ModelAndView result;
 
 		Collection<Chorbi> chorbis;
-		Collection<Likes> likes;
-		Chorbi principal;
+		Collection<Chorbi> likes;
+		final Chorbi principal = this.chorbiService.findByPrincipal();
+		final CreditCard credit = this.creditCardService.findByPrincipal();
+		if (credit != null && this.creditCardService.checkCCNumber(credit.getCreditCardNumber()) && this.creditCardService.expirationDate(credit)) {
 
-		principal = this.chorbiService.findByPrincipal();
-		chorbis = this.chorbiService.findAllLiking(principal.getId());
-		likes = this.likesService.findAllByPrincipal();
+			chorbis = this.chorbiService.findAllLikingMe(principal.getId());
+			likes = this.chorbiService.findAllLiked(principal.getId());
 
-		result = new ModelAndView("chorbi/list");
-		result.addObject("chorbis", chorbis);
-		result.addObject("likes", likes);
-		result.addObject("requestURI", "chorbi/chorbi/listLiking.do");
+			result = new ModelAndView("chorbi/list");
+			result.addObject("chorbis", chorbis);
+			result.addObject("likes", likes);
+			result.addObject("requestURI", "chorbi/chorbi/listLiking.do");
+		} else
+			result = new ModelAndView("redirect:/creditCard/chorbi/edit.do");
 
 		return result;
 	}
-
 	@RequestMapping(value = "/listFound", method = RequestMethod.GET)
 	public ModelAndView listFound(@RequestParam(required = false, defaultValue = "0") final int searchTemplateId) {
 
 		ModelAndView result;
 		Collection<Chorbi> chorbies;
-		Collection<Likes> likes;
+		Collection<Chorbi> likes;
 		final Chorbi principal = this.chorbiService.findByPrincipal();
 		final CreditCard credit = this.creditCardService.findByPrincipal();
 		if (credit != null) {
@@ -129,7 +128,7 @@ public class ChorbiChorbiController {
 					else {
 						chorbies = this.chorbiService.findAllFound(search.getId());
 						chorbies.remove(principal);
-						likes = this.likesService.findAllByPrincipal();
+						likes = this.chorbiService.findAllLiked(principal.getId());
 						result = new ModelAndView("chorbi/list");
 						result.addObject("chorbis", chorbies);
 						result.addObject("likes", likes);
@@ -139,7 +138,7 @@ public class ChorbiChorbiController {
 
 					chorbies = this.chorbiService.findAllFound(searchTemplateId);
 					chorbies.remove(principal);
-					likes = this.likesService.findAllByPrincipal();
+					likes = this.chorbiService.findAllLiked(principal.getId());
 					result = new ModelAndView("chorbi/list");
 					result.addObject("chorbis", chorbies);
 					result.addObject("likes", likes);

@@ -37,6 +37,9 @@
 		<bean class="converters.CreditCardToStringConverter" />
 		<bean class="converters.StringToCreditCardConverter" />
 		
+		<bean class="converters.CreditHolderToStringConverter" />
+		<bean class="converters.StringToCreditHolderConverter" />
+		
 		<bean class="converters.FolderToStringConverter" />
 		<bean class="converters.StringToFolderConverter" />
 		
@@ -52,8 +55,13 @@
 		<bean class="converters.UserAccountToStringConverter" />
 		<bean class="converters.StringToUserAccountConverter" />
 		
-		<bean class="converters.UrrlToStringConverter" />
-		<bean class="converters.StringToUrrlConverter" />
+		<bean class="converters.EventToStringConverter" />
+		<bean class="converters.StringToEventConverter" />
+		
+		
+		<bean class="converters.ManagerToStringConverter" />
+		<bean class="converters.StringToManagerConverter" />
+		
 		
 	</util:list>
 	

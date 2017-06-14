@@ -18,7 +18,6 @@ import org.springframework.util.Assert;
 
 import repositories.SystemConfigurationRepository;
 import domain.SystemConfiguration;
-import domain.Urrl;
 
 @Service
 @Transactional
@@ -71,7 +70,7 @@ public class SystemConfigurationService {
 			final Calendar calendar2 = Calendar.getInstance();
 			calendar2.setTime(systemConfiguration.getCacheTime());
 
-			Assert.isTrue(calendar1.before(calendar2));
+			Assert.isTrue(calendar1.before(calendar2) || calendar1.equals(calendar2));
 		} catch (final ParseException e) {
 
 		}
@@ -97,13 +96,13 @@ public class SystemConfigurationService {
 		SystemConfiguration sc;
 		int randomNum;
 		final Random rn = new Random();
-		List<Urrl> banners;
+		List<String> banners;
 
 		sc = this.findMain();
 		randomNum = rn.nextInt(sc.getBanners().size());
-		banners = new ArrayList<Urrl>(sc.getBanners());
+		banners = new ArrayList<String>(sc.getBanners());
 
-		result = banners.get(randomNum).getLink();
+		result = banners.get(randomNum);
 
 		return result;
 	}
@@ -175,6 +174,15 @@ public class SystemConfigurationService {
 			result.add(doubles.get(doubles.size() - 1));
 		}
 		return result.toArray(new Long[0]);
+	}
+
+	//Dashboard 2.0
+
+	// The minimum, the maximum, and the average number of stars per chorbi.
+	public Object[] minMaxAvgStars() {
+		Object[] result;
+		result = this.systemConfigurationRepository.minMaxAvgStars();
+		return result;
 	}
 
 }

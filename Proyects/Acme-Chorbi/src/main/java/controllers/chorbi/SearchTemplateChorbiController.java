@@ -1,8 +1,7 @@
 
 package controllers.chorbi;
 
-import javax.validation.Valid;
-
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,9 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ChorbiService;
 import services.SearchTemplateService;
+import services.SystemConfigurationService;
 import controllers.AbstractController;
 import domain.Chorbi;
 import domain.SearchTemplate;
+import domain.SystemConfiguration;
 
 @Controller
 @RequestMapping("/searchTemplate/chorbi")
@@ -22,10 +23,13 @@ public class SearchTemplateChorbiController extends AbstractController {
 
 	//Services --------------------
 	@Autowired
-	private SearchTemplateService	searchTemplateService;
+	private SearchTemplateService		searchTemplateService;
 
 	@Autowired
-	private ChorbiService			chorbiService;
+	private ChorbiService				chorbiService;
+
+	@Autowired
+	private SystemConfigurationService	scService;
 
 
 	//Constructor -----------------
@@ -58,27 +62,42 @@ public class SearchTemplateChorbiController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid SearchTemplate searchTemplate, final BindingResult binding) {
+	public ModelAndView save(final SearchTemplate searchTemplate, final BindingResult binding) {
 		ModelAndView result;
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(searchTemplate);
-		else
-			try {
-				searchTemplate = this.searchTemplateService.reconstruct(searchTemplate, binding);
-				if (binding.hasErrors())
-					result = this.createEditModelAndView(searchTemplate);
-				if (this.searchTemplateService.checkCache(searchTemplate)) {
-					result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?searchTemplateId=" + searchTemplate.getId());
-					result.addObject("message", "searchTemplate.commit.ok");
-				} else {
-					this.searchTemplateService.save(searchTemplate);
-					result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?searchTemplateId=" + searchTemplate.getId());
-					result.addObject("message", "searchTemplate.commit.ok");
-				}
+		Boolean sameFields;
 
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(searchTemplate, "searchTemplate.commit.error");
-			}
+		SearchTemplate search;
+		try {
+			sameFields = this.searchTemplateService.checkCache(searchTemplate);
+			search = this.searchTemplateService.reconstruct(searchTemplate, binding);
+
+			final SystemConfiguration system = this.scService.findMain();
+			final DateTime last = new DateTime(search.getMoment());
+			final DateTime now = DateTime.now();
+
+			if (binding.hasErrors())
+				result = this.createEditModelAndView(searchTemplate);
+			else
+				try {
+
+					if (now.minus(system.getCacheTime().getTime()).isBefore(last) && sameFields) {
+						result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?searchTemplateId=" + search.getId());
+						result.addObject("message", "searchTemplate.commit.ok");
+					} else
+						try {
+							final SearchTemplate searched = this.searchTemplateService.save(search);
+							result = new ModelAndView("redirect:/chorbi/chorbi/listFound.do?searchTemplateId=" + search.getId());
+							result.addObject("message", "searchTemplate.commit.ok");
+						} catch (NullPointerException | IllegalArgumentException e) {
+							result = new ModelAndView("redirect:/creditCard/chorbi/edit.do");
+						}
+
+				} catch (final Throwable oops) {
+					result = this.createEditModelAndView(searchTemplate, "searchTemplate.commit.error");
+				}
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(searchTemplate, "searchTemplate.commit.error");
+		}
 
 		return result;
 

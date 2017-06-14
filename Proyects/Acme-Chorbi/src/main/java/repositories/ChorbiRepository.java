@@ -13,6 +13,7 @@ package repositories;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -32,8 +33,14 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	@Query("Select c from Chorbi c where floor(datediff(Current_date, c.birthDate)/365) = ?1")
 	Collection<Chorbi> findByAge(Integer age);
 
+	@Query("Select c from Chorbi c where (?1 = '' OR ?1=null OR c.relationshipType = ?1) AND (?2 = '' OR ?2=null OR c.genre = ?2) AND (?3 = '' OR ?3=null OR c.country like %?3%) AND (?4 = '' OR ?4=null OR c.state like %?4%) AND (?5 = '' OR ?5=null OR c.province like %?5%) AND (?6 = '' OR ?6=null OR c.city like %?6%) AND (?7=null OR floor(datediff(Current_date, c.birthDate)/365) = ?7) AND (?8 = '' OR ?8=null OR c.name like %?8% OR c.surname like %?8% OR c.description like %?8%)")
+	Collection<Chorbi> search(String relationshipType, String genre, String country, String state, String province, String city, Integer age, String keyword);
+
 	@Query("Select c from Chorbi c where c.name like %?1% OR c.surname like %?1% OR c.description like %?1%")
 	Collection<Chorbi> findByKeyword(String keyword);
+
+	@Query("select st.chorbies from SearchTemplate st where st.id = ?1")
+	Collection<Chorbi> findAllFound(int id);
 
 	@Query("Select c from Chorbi c where c.country = ?1")
 	Collection<Chorbi> findByCountry(String country);
@@ -55,6 +62,11 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 
 	@Query("Select c from Chorbi c where c.banned = false")
 	Collection<Chorbi> findAllNotBanned();
+
+	@Query("select l.liked from Likes l where l.chorbi.id = ?1")
+	Collection<Chorbi> findAllLiked(int chorbiId);
+
+	//Dashboard queries
 
 	@Query("select new list(count(c) as count, c.city as city) from Chorbi c group by c.city")
 	List<Object[]> chorbiesPerCity();
@@ -88,5 +100,16 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 
 	@Query("select l.chorbi from Likes l where l.liked.id=?1")
 	Collection<Chorbi> findAllLiking(int chorbiID);
+
+	// Chorbi 2.0
+
+	@Query("select c from Event e right join e.registered c group by c order by count(e) DESC")
+	Collection<Chorbi> findChorbiesOrderedByEvents();
+
+	@Query("select e.registered from Event e where e.id=?1")
+	List<Chorbi> findChorbiesRegisteredEvent(int eventId, Pageable pageRequest);
+
+	@Query("select l.liked from Likes l group by l.liked order by avg(l.stars) DESC")
+	Collection<Chorbi> findChorbiesOrderedByAvgStars();
 
 }

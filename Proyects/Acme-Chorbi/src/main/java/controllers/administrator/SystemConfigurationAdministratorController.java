@@ -9,15 +9,20 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ChorbiService;
+import services.ManagerService;
 import services.SystemConfigurationService;
 import controllers.AbstractController;
 import domain.Chorbi;
+import domain.Manager;
 import domain.SystemConfiguration;
+import forms.AddPicture;
 
 @Controller
 @RequestMapping("/systemConfiguration/administrator")
@@ -30,6 +35,9 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 
 	@Autowired
 	private ChorbiService				chorbiService;
+
+	@Autowired
+	private ManagerService				managerService;
 
 
 	//Contructor
@@ -49,10 +57,26 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 		return result;
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final SystemConfiguration system, final BindingResult binding) {
+	@RequestMapping(value = "/deletePicture", method = RequestMethod.GET)
+	public ModelAndView deletePicture(@RequestParam final String picture) {
 		ModelAndView result;
-		final SystemConfiguration sc;
+		SystemConfiguration system;
+		Collection<String> banners;
+
+		system = this.scService.findMain();
+		banners = system.getBanners();
+		banners.remove(picture);
+		system.setBanners(banners);
+		system = this.scService.save(system);
+		result = this.createEditModelAndView(system);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@ModelAttribute("system") @Valid final SystemConfiguration system, final BindingResult binding) {
+		ModelAndView result;
+		SystemConfiguration sc;
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(system);
 		else
@@ -60,7 +84,7 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 				sc = this.scService.save(system);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(system, "system.commit.error");
+				result = this.createEditModelAndView(system, "systemConfiguration.commit.error");
 			}
 		return result;
 	}
@@ -88,6 +112,12 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 		final Long[] minMaxReceived = this.scService.minMaxChirpsToChorbi();
 		final Collection<Chorbi> actorWithMoreSentMessages = this.chorbiService.findChorbiesMoreChirpsSent();
 		final Collection<Chorbi> actorWithMoreReceivedMessages = this.chorbiService.findChorbiesMoreChirpsReceived();
+		final Collection<Manager> managerWithMoreEvents = this.managerService.findManagersOrderByEvent();
+		final Collection<Manager> managerWithFee = this.managerService.findAll();
+		final Collection<Chorbi> chorbiWithMoreEvents = this.chorbiService.findChorbiesOrderedByEvents();
+		final Collection<Chorbi> chorbiWithFee = this.chorbiService.findAll();
+		final Object[] minMaxAvgStars = this.scService.minMaxAvgStars();
+		final Collection<Chorbi> chorbiWithMoreStars = this.chorbiService.findChorbiesOrderedByAvgStars();
 
 		result.addObject("cities", cities);
 		result.addObject("countries", countries);
@@ -110,8 +140,39 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 		result.addObject("maxReceivedMessagesPerActor", minMaxReceived[1]);
 		result.addObject("actorWithMoreSentMessages", actorWithMoreSentMessages);
 		result.addObject("actorWithMoreReceivedMessages", actorWithMoreReceivedMessages);
-		result.addObject("requestURI", "systemConfiguration/dashboard.do");
+		result.addObject("managerWithMoreEvents", managerWithMoreEvents);
+		result.addObject("managerWithFee", managerWithFee);
+		result.addObject("chorbiWithMoreEvents", chorbiWithMoreEvents);
+		result.addObject("chorbiWithFee", chorbiWithFee);
+		result.addObject("minStarsPerActor", minMaxAvgStars[0]);
+		result.addObject("avgStarsPerActor", minMaxAvgStars[1]);
+		result.addObject("maxStarsPerActor", minMaxAvgStars[2]);
+		result.addObject("chorbiWithMoreStars", chorbiWithMoreStars);
+		result.addObject("requestURI", "systemConfiguration/administrator/dashboard.do");
 
+		return result;
+	}
+
+	@RequestMapping(value = "/banners", method = RequestMethod.POST, params = "save")
+	public ModelAndView addPicture(@Valid final AddPicture addPicture, final BindingResult binding) {
+		ModelAndView result;
+		SystemConfiguration sc;
+		Collection<String> banners;
+
+		sc = this.scService.findMain();
+		banners = sc.getBanners();
+
+		if (binding.hasErrors())
+			result = this.createEditPictureModelAndView(addPicture);
+		else
+			try {
+				banners.add(addPicture.getPicture());
+				sc.setBanners(banners);
+				sc = this.scService.save(sc);
+				result = new ModelAndView("redirect:/systemConfiguration/administrator/edit.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(sc, "systemConfiguration.commit.error");
+			}
 		return result;
 	}
 
@@ -128,11 +189,34 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 		ModelAndView result;
 
 		final String requestURI = "systemConfiguration/administrator/edit.do";
+		final AddPicture addPicture = new AddPicture();
 
 		result = new ModelAndView("systemConfiguration/edit");
 		result.addObject("system", system);
 		result.addObject("message", message);
 		result.addObject("requestURI", requestURI);
+		result.addObject("addPicture", addPicture);
+
+		return result;
+	}
+	protected ModelAndView createEditPictureModelAndView(final AddPicture addPicture) {
+		ModelAndView result;
+
+		result = this.createEditPictureModelAndView(addPicture, null);
+
+		return result;
+	}
+	protected ModelAndView createEditPictureModelAndView(final AddPicture addPicture, final String message) {
+		ModelAndView result;
+
+		final String requestURI = "systemConfiguration/administrator/edit.do";
+		final SystemConfiguration system = this.scService.findMain();
+
+		result = new ModelAndView("systemConfiguration/edit");
+		result.addObject("system", system);
+		result.addObject("message", message);
+		result.addObject("requestURI", requestURI);
+		result.addObject("addPicture", addPicture);
 
 		return result;
 	}

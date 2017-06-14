@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -20,7 +21,7 @@ import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Chorbi;
-import domain.SearchTemplate;
+import domain.SystemConfiguration;
 import forms.RegisterChorbi;
 
 @Service
@@ -28,19 +29,22 @@ import forms.RegisterChorbi;
 public class ChorbiService {
 
 	@Autowired
-	private ChorbiRepository		chorbiRepository;
+	private ChorbiRepository			chorbiRepository;
 
 	@Autowired
-	private AdministratorService	administratorService;
+	private AdministratorService		administratorService;
 
 	@Autowired
-	private SearchTemplateService	searchTemplateService;
+	private SearchTemplateService		searchTemplateService;
 
 	@Autowired
-	private FolderService			folderService;
+	private FolderService				folderService;
 
 	@Autowired
-	private Validator				validator;
+	private Validator					validator;
+
+	@Autowired
+	private SystemConfigurationService	systemConfigurationService;
 
 
 	public ChorbiService() {
@@ -68,11 +72,10 @@ public class ChorbiService {
 
 	public Chorbi save(final Chorbi chorbi) {
 		Assert.notNull(chorbi);
-		if (chorbi.getId() == 0) {
-			final DateTime date = new DateTime().minusYears(18);
-			final DateTime birth = new DateTime(chorbi.getBirthDate());
-			Assert.isTrue(date.isAfter(birth) || date.isEqual(birth), "Dear user, you must be over 18 to register");
-		}
+
+		final DateTime date = new DateTime().minusYears(18);
+		final DateTime birth = new DateTime(chorbi.getBirthDate());
+		Assert.isTrue(date.isAfter(birth) || date.isEqual(birth), "Dear user, you must be over 18 to register");
 		Chorbi result;
 
 		result = this.chorbiRepository.save(chorbi);
@@ -154,8 +157,6 @@ public class ChorbiService {
 			result.setRelationshipType(chorbi.getRelationshipType());
 			result.setState(chorbi.getState());
 			result.setSurname(chorbi.getSurname());
-
-			result.getUserAccount().setPassword(chorbi.getUserAccount().getPassword());
 
 			this.validator.validate(result, binding);
 		}
@@ -251,11 +252,15 @@ public class ChorbiService {
 	public Collection<Chorbi> findAllFound(final int searchTemplateId) {
 
 		Collection<Chorbi> filtered;
-		final SearchTemplate st = this.searchTemplateService.findOne(searchTemplateId);
-
-		filtered = st.getChorbies();
+		filtered = this.chorbiRepository.findAllFound(searchTemplateId);
 
 		return filtered;
+	}
+
+	public void sumFee(final Chorbi chorbi) {
+		final SystemConfiguration sc = this.systemConfigurationService.findMain();
+		chorbi.setCumulatedFee(chorbi.getCumulatedFee() + sc.getFeeChorbi());
+		this.save(chorbi);
 	}
 
 	//Dashboard methods
@@ -328,10 +333,47 @@ public class ChorbiService {
 		}
 	}
 
-	public Collection<Chorbi> findAllLiking(final int chorbiId) {
+	public Collection<Chorbi> findAllLikingMe(final int chorbiId) {
 
 		Collection<Chorbi> result;
+		Assert.isTrue(this.chorbiRepository.exists(chorbiId));
 		result = this.chorbiRepository.findAllLiking(chorbiId);
 		return result;
+	}
+
+	public Collection<Chorbi> findAllLiked(final int chorbiId) {
+		Collection<Chorbi> result;
+		result = this.chorbiRepository.findAllLiked(chorbiId);
+		return result;
+	}
+
+	// Dashboard 2.0
+
+	// A listing of chorbies sorted by the number of events to which they have registered.
+	public Collection<Chorbi> findChorbiesOrderedByEvents() {
+		Collection<Chorbi> result;
+		result = this.chorbiRepository.findChorbiesOrderedByEvents();
+		return result;
+	}
+
+	public List<Chorbi> findChorbiesRegisteredEvent(final int eventId, final Pageable pageRequest) {
+
+		List<Chorbi> result;
+		result = this.chorbiRepository.findChorbiesRegisteredEvent(eventId, pageRequest);
+
+		return result;
+	}
+
+	// The list of chorbies, sorted by the average number of stars that they've got.
+	public Collection<Chorbi> findChorbiesOrderedByAvgStars() {
+		Collection<Chorbi> result;
+		result = this.chorbiRepository.findChorbiesOrderedByAvgStars();
+		return result;
+	}
+
+	public Collection<Chorbi> search(final String relationshipType, final String genre, final String country, final String state, final String province, final String city, final Integer age, final String keyword) {
+		Collection<Chorbi> found;
+		found = this.chorbiRepository.search(relationshipType, genre, country, state, province, city, age, keyword);
+		return found;
 	}
 }
