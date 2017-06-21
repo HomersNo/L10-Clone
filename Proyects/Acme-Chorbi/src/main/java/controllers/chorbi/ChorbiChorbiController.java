@@ -72,17 +72,21 @@ public class ChorbiChorbiController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final Chorbi editChorbi, final BindingResult binding) {
+	public ModelAndView save(Chorbi editChorbi, final BindingResult binding) {
 		ModelAndView result;
 		Chorbi chorbi;
 
-		chorbi = editChorbi;
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(editChorbi);
 		else
 			try {
-				chorbi = this.chorbiService.save(chorbi);
-				result = new ModelAndView("redirect:/chorbi/chorbi/display.do");
+				editChorbi = this.chorbiService.reconstruct(editChorbi, binding);
+				if (binding.hasErrors())
+					result = this.createEditModelAndView(editChorbi);
+				else {
+					chorbi = this.chorbiService.save(editChorbi);
+					result = new ModelAndView("redirect:/chorbi/chorbi/display.do");
+				}
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(editChorbi, "chorbi.commit.error");
 			}
