@@ -1,7 +1,10 @@
+
 package forms;
 
 import java.util.Date;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -9,18 +12,20 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class RegisterChorbi {
-	
-	public RegisterChorbi(){
+
+	public RegisterChorbi() {
 		super();
 	}
-	
+
+
 	private String	name;
 	private String	surname;
 	private String	email;
 	private String	phoneNumber;
-	
+
 	private String	picture;
 	private String	description;
 	private String	relationshipType;
@@ -30,11 +35,12 @@ public class RegisterChorbi {
 	private String	state;
 	private String	province;
 	private String	city;
-	
-	private String username;
-	private String password;
-	
-	private boolean accept;
+
+	private String	username;
+	private String	password;
+
+	private boolean	accept;
+
 
 	@NotBlank
 	public String getName() {
@@ -68,7 +74,7 @@ public class RegisterChorbi {
 	public void setPhoneNumber(final String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	
+
 	@NotBlank
 	@URL
 	public String getPicture() {
@@ -77,7 +83,7 @@ public class RegisterChorbi {
 	public void setPicture(final String picture) {
 		this.picture = picture;
 	}
-	
+
 	@NotBlank
 	public String getDescription() {
 		return this.description;
@@ -85,7 +91,7 @@ public class RegisterChorbi {
 	public void setDescription(final String description) {
 		this.description = description;
 	}
-	
+
 	@NotBlank
 	@Pattern(regexp = "^ACTIVITIES|FRIENDSHIP|LOVE$")
 	public String getRelationshipType() {
@@ -94,15 +100,17 @@ public class RegisterChorbi {
 	public void setRelationshipType(final String relationshipType) {
 		this.relationshipType = relationshipType;
 	}
-	
+
 	@Past
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public Date getBirthDate() {
 		return this.birthDate;
 	}
 	public void setBirthDate(final Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	
+
 	@NotBlank
 	@Pattern(regexp = "^MAN|WOMAN$")
 	public String getGenre() {
@@ -111,28 +119,28 @@ public class RegisterChorbi {
 	public void setGenre(final String genre) {
 		this.genre = genre;
 	}
-	
+
 	public String getCountry() {
 		return this.country;
 	}
 	public void setCountry(final String country) {
 		this.country = country;
 	}
-	
+
 	public String getState() {
 		return this.state;
 	}
 	public void setState(final String state) {
 		this.state = state;
 	}
-	
+
 	public String getProvince() {
 		return this.province;
 	}
 	public void setProvince(final String province) {
 		this.province = province;
 	}
-	
+
 	@NotBlank
 	public String getCity() {
 		return this.city;
@@ -140,7 +148,7 @@ public class RegisterChorbi {
 	public void setCity(final String city) {
 		this.city = city;
 	}
-	
+
 	@Size(min = 5, max = 32)
 	public String getUsername() {
 		return this.username;
@@ -158,14 +166,12 @@ public class RegisterChorbi {
 	public void setPassword(final String password) {
 		this.password = password;
 	}
-	
+
 	public boolean isAccept() {
-		return accept;
+		return this.accept;
 	}
-	public void setAccept(boolean accept) {
+	public void setAccept(final boolean accept) {
 		this.accept = accept;
 	}
-	
-	
-	
+
 }

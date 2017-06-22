@@ -187,6 +187,10 @@ public class ChorbiService {
 		// Creamos una nueva cuenta y le pasamos los parametros.
 		chorbi.getUserAccount().setPassword(pass);
 
+		final DateTime date = new DateTime().minusYears(18);
+		final DateTime birth = new DateTime(chorbi.getBirthDate());
+		Assert.isTrue(date.isAfter(birth) || date.isEqual(birth), "Dear user, you must be over 18 to register");
+
 		result = this.chorbiRepository.save(chorbi);
 		this.folderService.initFolders(result);
 		return result;
