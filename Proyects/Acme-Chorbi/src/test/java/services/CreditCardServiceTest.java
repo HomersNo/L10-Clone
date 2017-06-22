@@ -72,7 +72,7 @@ public class CreditCardServiceTest extends AbstractTest {
 			{		// Display correcto de una tarjeta de crédito del chorbi logeado.
 				"chorbi1", "creditCard1", null
 			}, {	// Display erróneo de una tarjeta de crédito inexistente.
-				"chorbi1", "event1", IllegalArgumentException.class
+				"chorbi1", "chorbi3", IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)

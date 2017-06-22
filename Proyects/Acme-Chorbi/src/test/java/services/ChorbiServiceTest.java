@@ -100,11 +100,11 @@ public class ChorbiServiceTest extends AbstractTest {
 			}, {	// Display correcto de un chorbi distinto al que está logueado.
 				"chorbi1", "chorbi2", null
 			}, {	// Display erróneo de un chorbi que no existe con uno logueado.
-				"chorbi1", "event1", IllegalArgumentException.class
+				"chorbi1", "admin", IllegalArgumentException.class
 			}, {	// Display correcto de un chorbi, sin estar logueado en el sistema.
 				null, "chorbi1", null
 			}, {	// Display erróneo de un chorbi que no existe sin estar logueado.
-				null, "event1", IllegalArgumentException.class
+				null, "admin", IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
@@ -121,7 +121,7 @@ public class ChorbiServiceTest extends AbstractTest {
 			}, {	// Listado correcto de los me gusta de un chorbi sin estar logueado.
 				null, "chorbi1", null
 			}, {	// Display erróneo de los me gusta de un chorbi inexistente.
-				"chorbi3", "event1", IllegalArgumentException.class
+				"chorbi3", "admin", IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
@@ -139,7 +139,7 @@ public class ChorbiServiceTest extends AbstractTest {
 			{		// Baneo (no se muestra en el listar normal de chorbis) y desbaneo correcto de un chorbi. 
 				"chorbi3", null
 			}, {	// Fallo al banear algo que no es un chorbi.
-				"event1", NullPointerException.class
+				"admin", NullPointerException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
