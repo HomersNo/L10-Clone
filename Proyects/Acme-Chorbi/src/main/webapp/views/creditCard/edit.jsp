@@ -86,5 +86,3 @@
 	<input type="button" name="back"
 		value="<spring:message code="creditCard.back" />"
 			onclick="location.href = ('welcome/index.do');" />
-	
-	
