@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -67,6 +68,8 @@ public class SearchTemplate extends DomainEntity {
 	public void setGenre(final String genre) {
 		this.genre = genre;
 	}
+
+	@SafeHtml
 	public String getKeyword() {
 		return this.keyword;
 	}
@@ -82,18 +85,24 @@ public class SearchTemplate extends DomainEntity {
 	public void setMoment(final Date moment) {
 		this.moment = moment;
 	}
+
+	@SafeHtml
 	public String getCountry() {
 		return this.country;
 	}
 	public void setCountry(final String country) {
 		this.country = country;
 	}
+
+	@SafeHtml
 	public String getState() {
 		return this.state;
 	}
 	public void setState(final String state) {
 		this.state = state;
 	}
+
+	@SafeHtml
 	public String getProvince() {
 		return this.province;
 	}
@@ -101,6 +110,7 @@ public class SearchTemplate extends DomainEntity {
 		this.province = province;
 	}
 
+	@SafeHtml
 	public String getCity() {
 		return this.city;
 	}

@@ -6,6 +6,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 @Entity
 @Access(AccessType.PROPERTY)
@@ -25,6 +26,7 @@ public class Manager extends CreditHolder {
 
 
 	@NotBlank
+	@SafeHtml
 	public String getCompanyName() {
 		return this.companyName;
 	}
@@ -32,6 +34,7 @@ public class Manager extends CreditHolder {
 		this.companyName = companyName;
 	}
 	@NotBlank
+	@SafeHtml
 	public String getVATNumber() {
 		return this.VATNumber;
 	}

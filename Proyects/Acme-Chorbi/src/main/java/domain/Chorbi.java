@@ -14,6 +14,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -55,6 +56,7 @@ public class Chorbi extends CreditHolder {
 		this.picture = picture;
 	}
 	@NotBlank
+	@SafeHtml
 	public String getDescription() {
 		return this.description;
 	}
@@ -78,6 +80,7 @@ public class Chorbi extends CreditHolder {
 	public void setBirthDate(final Date birthDate) {
 		this.birthDate = birthDate;
 	}
+
 	@NotBlank
 	@Pattern(regexp = "^MAN|WOMAN$")
 	public String getGenre() {
@@ -92,18 +95,21 @@ public class Chorbi extends CreditHolder {
 	public void setBanned(final Boolean banned) {
 		this.banned = banned;
 	}
+	@SafeHtml
 	public String getCountry() {
 		return this.country;
 	}
 	public void setCountry(final String country) {
 		this.country = country;
 	}
+	@SafeHtml
 	public String getState() {
 		return this.state;
 	}
 	public void setState(final String state) {
 		this.state = state;
 	}
+	@SafeHtml
 	public String getProvince() {
 		return this.province;
 	}
@@ -111,6 +117,7 @@ public class Chorbi extends CreditHolder {
 		this.province = province;
 	}
 	@NotBlank
+	@SafeHtml
 	public String getCity() {
 		return this.city;
 	}

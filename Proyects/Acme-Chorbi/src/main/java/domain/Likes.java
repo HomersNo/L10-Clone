@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -47,6 +48,7 @@ public class Likes extends DomainEntity {
 		this.moment = moment;
 	}
 
+	@SafeHtml
 	public String getComment() {
 		return this.comment;
 	}
